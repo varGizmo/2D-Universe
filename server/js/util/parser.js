@@ -1,22 +1,23 @@
 /* global module */
 
-let _ = require("underscore"),
-  NPCData = require("../../data/npcs"),
-  ItemData = require("../../data/items"),
-  MobData = require("../../data/mobs"),
-  AbilityData = require("../../data/abilities"),
-  ShopsData = require("../../data/shops"),
-  Mobs = require("./mobs"),
-  NPCs = require("./npcs"),
-  Items = require("./items"),
-  Abilities = require("./abilities"),
-  Shops = require("./shops"),
-  Formulas = require("./formulas"),
-  Constants = require("./constants");
+const path = require("path");
+const _ = require("underscore");
+const NPCData = require("../../data/npcs");
+const ItemData = require("../../data/items");
+const MobData = require("../../data/mobs");
+const AbilityData = require("../../data/abilities");
+const ShopsData = require("../../data/shops");
+const Mobs = require("./mobs");
+const NPCs = require("./npcs");
+const Items = require("./items");
+const Abilities = require("./abilities");
+const Shops = require("./shops");
+const Formulas = require("./formulas");
+const Constants = require("./constants");
 
 class Parser {
   constructor() {
-    let self = this;
+    const self = this;
 
     self.loadMobData();
     self.loadNPCData();
@@ -60,7 +61,7 @@ class Parser {
     });
 
     Mobs.Plugins = require("../util/plugins")(
-      __dirname + "/../../data/combat/"
+      path.join(__dirname, "/../../data/combat/")
     );
 
     log.info("Finished loading " + mobCounter + " mobs.");
@@ -123,7 +124,7 @@ class Parser {
     });
 
     Items.Plugins = require("../util/plugins")(
-      __dirname + "/../../data/items/"
+      path.join(__dirname, "/../../data/items/")
     );
 
     log.info("Finished loading " + itemCounter + " items.");
@@ -181,7 +182,9 @@ class Parser {
     Formulas.LevelExp[0] = 0;
 
     for (let i = 1; i < Constants.MAX_LEVEL; i++) {
-      let points = Math.floor(0.25 * Math.floor(i + 300 * Math.pow(2, i / 7)));
+      const points = Math.floor(
+        0.25 * Math.floor(i + 300 * Math.pow(2, i / 7))
+      );
       Formulas.LevelExp[i] = points + Formulas.LevelExp[i - 1];
     }
   }

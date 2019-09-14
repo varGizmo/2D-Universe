@@ -1,7 +1,7 @@
 /* global module */
 
-let bcrypt = require("bcrypt"),
-  config = require("../../../config");
+const bcrypt = require("bcrypt");
+const config = require("../../../config");
 
 class Creator {
   constructor(database) {
@@ -9,17 +9,17 @@ class Creator {
   }
 
   save(player) {
-    let self = this;
+    const self = this;
 
     self.database.getDatabase(function(database) {
-      let playerData = database.collection("player_data"),
-        playerEquipment = database.collection("player_equipment"),
-        playerQuests = database.collection("player_quests"),
-        playerAchievements = database.collection("player_achievements"),
-        playerBank = database.collection("player_bank"),
-        playerRegions = database.collection("player_regions"),
-        playerAbilities = database.collection("player_abilities"),
-        playerInventory = database.collection("player_inventory");
+      const playerData = database.collection("player_data");
+      const playerEquipment = database.collection("player_equipment");
+      const playerQuests = database.collection("player_quests");
+      const playerAchievements = database.collection("player_achievements");
+      const playerBank = database.collection("player_bank");
+      const playerRegions = database.collection("player_regions");
+      const playerAbilities = database.collection("player_abilities");
+      const playerInventory = database.collection("player_inventory");
 
       self.savePlayerData(playerData, player);
       self.savePlayerEquipment(playerEquipment, player);
@@ -47,10 +47,11 @@ class Creator {
         function(error, result) {
           if (error) throw error;
 
-          if (result)
+          if (result) {
             log.debug(
               "Player " + player.username + " data has been saved successfully."
             );
+          }
         }
       );
     });
@@ -68,12 +69,13 @@ class Creator {
       function(error, result) {
         if (error) throw error;
 
-        if (result)
+        if (result) {
           log.debug(
             "Player " +
               player.username +
               " equipment data has been saved successfully."
           );
+        }
       }
     );
   }
@@ -90,12 +92,13 @@ class Creator {
       function(error, result) {
         if (error) throw error;
 
-        if (result)
+        if (result) {
           log.debug(
             "Player " +
               player.username +
               " quest data has been saved successfully."
           );
+        }
       }
     );
   }
@@ -112,12 +115,13 @@ class Creator {
       function(error, result) {
         if (error) throw error;
 
-        if (result)
+        if (result) {
           log.debug(
             "Player " +
               player.username +
               " achievement data has been saved successfully."
           );
+        }
       }
     );
   }
@@ -134,12 +138,13 @@ class Creator {
       function(error, result) {
         if (error) throw error;
 
-        if (result)
+        if (result) {
           log.debug(
             "Player " +
               player.username +
               " bank data has been saved successfully."
           );
+        }
       }
     );
   }
@@ -161,12 +166,13 @@ class Creator {
       function(error, result) {
         if (error) throw error;
 
-        if (result)
+        if (result) {
           log.debug(
             "Player " +
               player.username +
               " regions data has been saved successfully."
           );
+        }
       }
     );
   }
@@ -183,12 +189,13 @@ class Creator {
       function(error, result) {
         if (error) throw error;
 
-        if (result)
+        if (result) {
           log.debug(
             "Player " +
               player.username +
               " abilities data has been saved successfully."
           );
+        }
       }
     );
   }
@@ -205,12 +212,13 @@ class Creator {
       function(error, result) {
         if (error) throw error;
 
-        if (result)
+        if (result) {
           log.debug(
             "Player " +
               player.username +
               " inventory data has been saved successfully."
           );
+        }
       }
     );
   }
@@ -294,7 +302,7 @@ class Creator {
    */
 
   static getFullData(player) {
-    let position = player.getSpawn();
+    const position = player.getSpawn();
 
     return {
       username: player.username,

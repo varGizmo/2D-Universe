@@ -8,7 +8,7 @@ define(function() {
 
   return Class.extend({
     init: function(name, string, count, ability, abilityLevel) {
-      let self = this;
+      const self = this;
 
       self.name = name;
       self.string = string;
@@ -42,7 +42,7 @@ define(function() {
     },
 
     update: function(name, string, count, ability, abilityLevel) {
-      let self = this;
+      const self = this;
 
       self.name = name;
       self.string = string;

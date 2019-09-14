@@ -2,7 +2,7 @@
 
 class Area {
   constructor(id, x, y, width, height) {
-    let self = this;
+    const self = this;
 
     self.id = id;
 
@@ -31,7 +31,7 @@ class Area {
   }
 
   addEntity(entity) {
-    let self = this;
+    const self = this;
 
     if (self.entities.indexOf(entity) > 0) return;
 
@@ -42,8 +42,8 @@ class Area {
   }
 
   removeEntity(entity) {
-    let self = this,
-      index = self.entities.indexOf(entity);
+    const self = this;
+    const index = self.entities.indexOf(entity);
 
     if (index > -1) self.entities.splice(index, 1);
 

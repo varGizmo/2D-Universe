@@ -1,4 +1,4 @@
-let mapData = {
+const mapData = {
   width: 600,
   height: 600,
   collisions: [],
@@ -1856,51 +1856,51 @@ let mapData = {
   ],
   blocking: [],
   animated: {
-    "1236": { d: 200, l: 5 },
-    "1237": { l: 4 },
-    "1411": { l: 7 },
-    "1418": { d: 200, l: 3 },
-    "1428": { l: 8 },
-    "1906": { l: 8 },
-    "1914": { l: 7 },
-    "2781": { l: 3 },
-    "3931": { l: 7 },
-    "3948": { l: 8 },
-    "5049": { d: 500, l: 2 },
-    "5051": { d: 500, l: 2 },
-    "5053": { d: 500, l: 2 },
-    "5209": { l: 4 },
-    "5229": { l: 4 },
-    "5249": { l: 4 },
-    "5269": { l: 4 },
-    "5285": { d: 700, l: 8 },
-    "5305": { d: 700, l: 8 },
-    "5313": { l: 8 },
-    "5325": { d: 700, l: 8 },
-    "5333": { l: 8 },
-    "5341": { d: 500, l: 2 },
-    "5343": { d: 500, l: 2 },
-    "5345": { d: 700, l: 8 },
-    "5361": { d: 500, l: 2 },
-    "5363": { d: 500, l: 2 },
-    "5381": { d: 500, l: 2 },
-    "5383": { d: 500, l: 2 },
-    "5750": { l: 11 },
-    "7541": { l: 10 },
-    "7561": { l: 10 },
-    "7581": { l: 10 },
-    "7601": { l: 10 },
-    "7621": { l: 10 },
-    "7641": { l: 10 },
-    "9301": { l: 10 },
-    "9933": { l: 4 },
-    "9937": { l: 4 },
-    "9953": { l: 4 },
-    "9957": { l: 4 },
-    "9973": { l: 4 },
-    "9977": { l: 4 },
-    "9993": { l: 4 },
-    "9997": { l: 4 }
+    1236: { d: 200, l: 5 },
+    1237: { l: 4 },
+    1411: { l: 7 },
+    1418: { d: 200, l: 3 },
+    1428: { l: 8 },
+    1906: { l: 8 },
+    1914: { l: 7 },
+    2781: { l: 3 },
+    3931: { l: 7 },
+    3948: { l: 8 },
+    5049: { d: 500, l: 2 },
+    5051: { d: 500, l: 2 },
+    5053: { d: 500, l: 2 },
+    5209: { l: 4 },
+    5229: { l: 4 },
+    5249: { l: 4 },
+    5269: { l: 4 },
+    5285: { d: 700, l: 8 },
+    5305: { d: 700, l: 8 },
+    5313: { l: 8 },
+    5325: { d: 700, l: 8 },
+    5333: { l: 8 },
+    5341: { d: 500, l: 2 },
+    5343: { d: 500, l: 2 },
+    5345: { d: 700, l: 8 },
+    5361: { d: 500, l: 2 },
+    5363: { d: 500, l: 2 },
+    5381: { d: 500, l: 2 },
+    5383: { d: 500, l: 2 },
+    5750: { l: 11 },
+    7541: { l: 10 },
+    7561: { l: 10 },
+    7581: { l: 10 },
+    7601: { l: 10 },
+    7621: { l: 10 },
+    7641: { l: 10 },
+    9301: { l: 10 },
+    9933: { l: 4 },
+    9937: { l: 4 },
+    9953: { l: 4 },
+    9957: { l: 4 },
+    9973: { l: 4 },
+    9977: { l: 4 },
+    9993: { l: 4 },
+    9997: { l: 4 }
   },
   tilesets: [
     {
@@ -1912,61 +1912,61 @@ let mapData = {
     }
   ],
   animations: {
-    "1": [
+    1: [
       { duration: 150, tileID: 1 },
       { duration: 150, tileID: 2 },
       { duration: 150, tileID: 3 }
     ],
-    "241": [
+    241: [
       { duration: 150, tileID: 241 },
       { duration: 150, tileID: 242 },
       { duration: 150, tileID: 243 }
     ],
-    "606": [
+    606: [
       { duration: 450, tileID: 606 },
       { duration: 450, tileID: 607 },
       { duration: 450, tileID: 608 }
     ],
-    "626": [{ duration: 450, tileID: 626 }, { duration: 450, tileID: 627 }],
-    "646": [{ duration: 450, tileID: 646 }, { duration: 450, tileID: 647 }],
-    "706": [
+    626: [{ duration: 450, tileID: 626 }, { duration: 450, tileID: 627 }],
+    646: [{ duration: 450, tileID: 646 }, { duration: 450, tileID: 647 }],
+    706: [
       { duration: 150, tileID: 706 },
       { duration: 150, tileID: 707 },
       { duration: 150, tileID: 708 },
       { duration: 150, tileID: 709 }
     ],
-    "726": [
+    726: [
       { duration: 150, tileID: 726 },
       { duration: 150, tileID: 727 },
       { duration: 150, tileID: 728 },
       { duration: 150, tileID: 729 }
     ],
-    "748": [{ duration: 250, tileID: 748 }, { duration: 250, tileID: 749 }],
-    "1001": [
+    748: [{ duration: 250, tileID: 748 }, { duration: 250, tileID: 749 }],
+    1001: [
       { duration: 250, tileID: 1001 },
       { duration: 250, tileID: 1002 },
       { duration: 250, tileID: 1003 },
       { duration: 250, tileID: 1004 }
     ],
-    "1021": [
+    1021: [
       { duration: 250, tileID: 1021 },
       { duration: 250, tileID: 1022 },
       { duration: 250, tileID: 1023 },
       { duration: 250, tileID: 1024 }
     ],
-    "1041": [
+    1041: [
       { duration: 250, tileID: 1041 },
       { duration: 250, tileID: 1042 },
       { duration: 250, tileID: 1043 },
       { duration: 250, tileID: 1044 }
     ],
-    "1061": [
+    1061: [
       { duration: 250, tileID: 1061 },
       { duration: 250, tileID: 1062 },
       { duration: 250, tileID: 1063 },
       { duration: 250, tileID: 1064 }
     ],
-    "1251": [
+    1251: [
       { duration: 150, tileID: 1251 },
       { duration: 150, tileID: 1252 },
       { duration: 150, tileID: 1253 },
@@ -1974,13 +1974,13 @@ let mapData = {
       { duration: 150, tileID: 1255 },
       { duration: 150, tileID: 1256 }
     ],
-    "1257": [
+    1257: [
       { duration: 150, tileID: 1257 },
       { duration: 150, tileID: 1258 },
       { duration: 150, tileID: 1259 },
       { duration: 150, tileID: 1260 }
     ],
-    "1271": [
+    1271: [
       { duration: 150, tileID: 1271 },
       { duration: 150, tileID: 1272 },
       { duration: 150, tileID: 1273 },
@@ -1988,25 +1988,25 @@ let mapData = {
       { duration: 150, tileID: 1275 },
       { duration: 150, tileID: 1276 }
     ],
-    "1291": [
+    1291: [
       { duration: 150, tileID: 1291 },
       { duration: 150, tileID: 1292 },
       { duration: 150, tileID: 1293 },
       { duration: 150, tileID: 1294 }
     ],
-    "1311": [
+    1311: [
       { duration: 150, tileID: 1311 },
       { duration: 150, tileID: 1312 },
       { duration: 150, tileID: 1313 },
       { duration: 150, tileID: 1314 }
     ],
-    "1331": [
+    1331: [
       { duration: 150, tileID: 1331 },
       { duration: 150, tileID: 1332 },
       { duration: 150, tileID: 1333 },
       { duration: 150, tileID: 1334 }
     ],
-    "1401": [
+    1401: [
       { duration: 150, tileID: 1401 },
       { duration: 150, tileID: 1402 },
       { duration: 150, tileID: 1403 },
@@ -2025,7 +2025,7 @@ let mapData = {
       { duration: 150, tileID: 1416 },
       { duration: 150, tileID: 1417 }
     ],
-    "1421": [
+    1421: [
       { duration: 150, tileID: 1421 },
       { duration: 150, tileID: 1422 },
       { duration: 150, tileID: 1423 },
@@ -2042,17 +2042,17 @@ let mapData = {
       { duration: 150, tileID: 1434 },
       { duration: 150, tileID: 1435 }
     ],
-    "1501": [
+    1501: [
       { duration: 150, tileID: 1501 },
       { duration: 150, tileID: 1502 },
       { duration: 150, tileID: 1503 }
     ],
-    "1521": [
+    1521: [
       { duration: 150, tileID: 1521 },
       { duration: 150, tileID: 1522 },
       { duration: 150, tileID: 1523 }
     ],
-    "1586": [
+    1586: [
       { duration: 150, tileID: 1586 },
       { duration: 150, tileID: 1587 },
       { duration: 150, tileID: 1588 },
@@ -2060,22 +2060,22 @@ let mapData = {
       { duration: 150, tileID: 1590 },
       { duration: 150, tileID: 1591 }
     ],
-    "1721": [
+    1721: [
       { duration: 150, tileID: 1721 },
       { duration: 150, tileID: 1722 },
       { duration: 150, tileID: 1723 }
     ],
-    "1741": [
+    1741: [
       { duration: 150, tileID: 1741 },
       { duration: 150, tileID: 1742 },
       { duration: 150, tileID: 1743 }
     ],
-    "1747": [
+    1747: [
       { duration: 150, tileID: 1747 },
       { duration: 150, tileID: 1748 },
       { duration: 150, tileID: 1749 }
     ],
-    "1781": [
+    1781: [
       { duration: 150, tileID: 1781 },
       { duration: 150, tileID: 1782 },
       { duration: 150, tileID: 1783 },
@@ -2096,7 +2096,7 @@ let mapData = {
       { duration: 150, tileID: 1798 },
       { duration: 150, tileID: 1799 }
     ],
-    "1801": [
+    1801: [
       { duration: 150, tileID: 1801 },
       { duration: 150, tileID: 1802 },
       { duration: 150, tileID: 1803 },
@@ -2117,7 +2117,7 @@ let mapData = {
       { duration: 150, tileID: 1818 },
       { duration: 150, tileID: 1819 }
     ],
-    "1921": [
+    1921: [
       { duration: 150, tileID: 1921 },
       { duration: 150, tileID: 1922 },
       { duration: 150, tileID: 1923 },
@@ -2134,85 +2134,85 @@ let mapData = {
       { duration: 150, tileID: 1934 },
       { duration: 150, tileID: 1935 }
     ],
-    "2521": [
+    2521: [
       { duration: 150, tileID: 2521 },
       { duration: 150, tileID: 2522 },
       { duration: 150, tileID: 2523 }
     ],
-    "2761": [
+    2761: [
       { duration: 150, tileID: 2761 },
       { duration: 150, tileID: 2762 },
       { duration: 150, tileID: 2763 }
     ],
-    "3126": [
+    3126: [
       { duration: 450, tileID: 3126 },
       { duration: 450, tileID: 3127 },
       { duration: 450, tileID: 3128 }
     ],
-    "3146": [{ duration: 450, tileID: 3146 }, { duration: 450, tileID: 3147 }],
-    "3166": [{ duration: 450, tileID: 3166 }, { duration: 450, tileID: 3167 }],
-    "3226": [
+    3146: [{ duration: 450, tileID: 3146 }, { duration: 450, tileID: 3147 }],
+    3166: [{ duration: 450, tileID: 3166 }, { duration: 450, tileID: 3167 }],
+    3226: [
       { duration: 150, tileID: 3226 },
       { duration: 150, tileID: 3227 },
       { duration: 150, tileID: 3228 },
       { duration: 150, tileID: 3229 }
     ],
-    "3246": [
+    3246: [
       { duration: 150, tileID: 3246 },
       { duration: 150, tileID: 3247 },
       { duration: 150, tileID: 3248 },
       { duration: 150, tileID: 3249 }
     ],
-    "3268": [{ duration: 150, tileID: 3268 }, { duration: 150, tileID: 3269 }],
-    "3521": [
+    3268: [{ duration: 150, tileID: 3268 }, { duration: 150, tileID: 3269 }],
+    3521: [
       { duration: 150, tileID: 3521 },
       { duration: 150, tileID: 3522 },
       { duration: 150, tileID: 3523 },
       { duration: 150, tileID: 3524 }
     ],
-    "3541": [
+    3541: [
       { duration: 150, tileID: 3541 },
       { duration: 150, tileID: 3542 },
       { duration: 150, tileID: 3543 },
       { duration: 150, tileID: 3544 }
     ],
-    "3561": [
+    3561: [
       { duration: 150, tileID: 3561 },
       { duration: 150, tileID: 3562 },
       { duration: 150, tileID: 3563 },
       { duration: 150, tileID: 3564 }
     ],
-    "3581": [
+    3581: [
       { duration: 150, tileID: 3581 },
       { duration: 150, tileID: 3582 },
       { duration: 150, tileID: 3583 },
       { duration: 150, tileID: 3584 }
     ],
-    "3777": [
+    3777: [
       { duration: 150, tileID: 3777 },
       { duration: 150, tileID: 3778 },
       { duration: 150, tileID: 3779 },
       { duration: 150, tileID: 3780 }
     ],
-    "3811": [
+    3811: [
       { duration: 150, tileID: 3811 },
       { duration: 150, tileID: 3812 },
       { duration: 150, tileID: 3813 },
       { duration: 150, tileID: 3814 }
     ],
-    "3831": [
+    3831: [
       { duration: 150, tileID: 3831 },
       { duration: 150, tileID: 3832 },
       { duration: 150, tileID: 3833 },
       { duration: 150, tileID: 3834 }
     ],
-    "3851": [
+    3851: [
       { duration: 150, tileID: 3851 },
       { duration: 150, tileID: 3852 },
       { duration: 150, tileID: 3853 },
       { duration: 150, tileID: 3854 }
     ],
-    "3921": [
+    3921: [
       { duration: 150, tileID: 3921 },
       { duration: 150, tileID: 3922 },
       { duration: 150, tileID: 3923 },
@@ -2231,7 +2231,7 @@ let mapData = {
       { duration: 150, tileID: 3936 },
       { duration: 150, tileID: 3937 }
     ],
-    "3941": [
+    3941: [
       { duration: 150, tileID: 3941 },
       { duration: 150, tileID: 3942 },
       { duration: 150, tileID: 3943 },
@@ -2248,17 +2248,17 @@ let mapData = {
       { duration: 150, tileID: 3954 },
       { duration: 150, tileID: 3955 }
     ],
-    "4021": [
+    4021: [
       { duration: 150, tileID: 4021 },
       { duration: 150, tileID: 4022 },
       { duration: 150, tileID: 4023 }
     ],
-    "4041": [
+    4041: [
       { duration: 150, tileID: 4041 },
       { duration: 150, tileID: 4042 },
       { duration: 150, tileID: 4043 }
     ],
-    "4106": [
+    4106: [
       { duration: 150, tileID: 4106 },
       { duration: 150, tileID: 4107 },
       { duration: 150, tileID: 4108 },
@@ -2266,22 +2266,22 @@ let mapData = {
       { duration: 150, tileID: 4110 },
       { duration: 150, tileID: 4111 }
     ],
-    "4241": [
+    4241: [
       { duration: 150, tileID: 4241 },
       { duration: 150, tileID: 4242 },
       { duration: 150, tileID: 4243 }
     ],
-    "4261": [
+    4261: [
       { duration: 150, tileID: 4261 },
       { duration: 150, tileID: 4262 },
       { duration: 150, tileID: 4263 }
     ],
-    "4267": [
+    4267: [
       { duration: 150, tileID: 4267 },
       { duration: 150, tileID: 4268 },
       { duration: 150, tileID: 4269 }
     ],
-    "4301": [
+    4301: [
       { duration: 150, tileID: 4301 },
       { duration: 150, tileID: 4302 },
       { duration: 150, tileID: 4303 },
@@ -2302,7 +2302,7 @@ let mapData = {
       { duration: 150, tileID: 4318 },
       { duration: 150, tileID: 4319 }
     ],
-    "4321": [
+    4321: [
       { duration: 150, tileID: 4321 },
       { duration: 150, tileID: 4322 },
       { duration: 150, tileID: 4323 },
@@ -2323,7 +2323,7 @@ let mapData = {
       { duration: 150, tileID: 4338 },
       { duration: 150, tileID: 4339 }
     ],
-    "4441": [
+    4441: [
       { duration: 150, tileID: 4441 },
       { duration: 150, tileID: 4442 },
       { duration: 150, tileID: 4443 },
@@ -2340,19 +2340,19 @@ let mapData = {
       { duration: 150, tileID: 4454 },
       { duration: 150, tileID: 4455 }
     ],
-    "9334": [
+    9334: [
       { duration: 150, tileID: 9334 },
       { duration: 150, tileID: 9335 },
       { duration: 150, tileID: 9336 },
       { duration: 150, tileID: 9337 }
     ],
-    "9354": [
+    9354: [
       { duration: 150, tileID: 9354 },
       { duration: 150, tileID: 9355 },
       { duration: 150, tileID: 9356 },
       { duration: 150, tileID: 9357 }
     ],
-    "9374": [
+    9374: [
       { duration: 150, tileID: 9374 },
       { duration: 150, tileID: 9375 },
       { duration: 150, tileID: 9376 },

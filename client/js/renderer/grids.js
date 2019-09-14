@@ -3,7 +3,7 @@
 define(function() {
   return Class.extend({
     init: function(map) {
-      let self = this;
+      const self = this;
 
       self.map = map;
 
@@ -16,7 +16,7 @@ define(function() {
     },
 
     load: function() {
-      let self = this;
+      const self = this;
 
       for (let i = 0; i < self.map.height; i++) {
         self.renderingGrid[i] = [];
@@ -36,19 +36,19 @@ define(function() {
     },
 
     checkPathingGrid: function(player, xRadius, yRadius) {
-      let self = this;
+      const self = this;
 
       for (let y = player.gridY - yRadius; y < player.gridY + yRadius; y++)
-        for (let x = player.gridX - xRadius; x < player.gridX + xRadius; x++)
-          if (
-            !self.map.isColliding(x, y) &&
+      { for (let x = player.gridX - xRadius; x < player.gridX + xRadius; x++)
+      { if (
+        !self.map.isColliding(x, y) &&
             _.size(self.entityGrid[y][x] === 0)
-          )
-            self.removeFromPathingGrid(x, y);
+      )
+      { self.removeFromPathingGrid(x, y); } } }
     },
 
     resetPathingGrid: function() {
-      let self = this;
+      const self = this;
 
       self.pathingGrid = [];
 
@@ -56,15 +56,15 @@ define(function() {
         self.pathingGrid[i] = [];
 
         for (let j = 0; j < self.map.width; j++)
-          self.pathingGrid[i][j] = self.map.grid[i][j];
+        { self.pathingGrid[i][j] = self.map.grid[i][j]; }
       }
     },
 
     addToRenderingGrid: function(entity, x, y) {
-      let self = this;
+      const self = this;
 
       if (!self.map.isOutOfBounds(x, y))
-        self.renderingGrid[y][x][entity.id] = entity;
+      { self.renderingGrid[y][x][entity.id] = entity; }
     },
 
     addToPathingGrid: function(x, y) {
@@ -72,27 +72,27 @@ define(function() {
     },
 
     addToEntityGrid: function(entity, x, y) {
-      let self = this;
+      const self = this;
 
       if (entity && self.entityGrid[y][x])
-        self.entityGrid[y][x][entity.id] = entity;
+      { self.entityGrid[y][x][entity.id] = entity; }
     },
 
     addToItemGrid: function(item, x, y) {
-      let self = this;
+      const self = this;
 
       if (item && self.itemGrid[y][x]) self.itemGrid[y][x][item.id] = item;
     },
 
     removeFromRenderingGrid: function(entity, x, y) {
-      let self = this;
+      const self = this;
 
       if (
         entity &&
         self.renderingGrid[y][x] &&
         entity.id in self.renderingGrid[y][x]
       )
-        delete self.renderingGrid[y][x][entity.id];
+      { delete self.renderingGrid[y][x][entity.id]; }
     },
 
     removeFromPathingGrid: function(x, y) {
@@ -104,21 +104,21 @@ define(function() {
     },
 
     removeFromEntityGrid: function(entity, x, y) {
-      let self = this;
+      const self = this;
 
       if (entity && self.entityGrid[y][x] && entity.id in self.entityGrid[y][x])
-        delete self.entityGrid[y][x][entity.id];
+      { delete self.entityGrid[y][x][entity.id]; }
     },
 
     removeFromItemGrid: function(item, x, y) {
-      let self = this;
+      const self = this;
 
       if (item && self.itemGrid[y][x][item.id])
-        delete self.itemGrid[y][x][item.id];
+      { delete self.itemGrid[y][x][item.id]; }
     },
 
     removeEntity: function(entity) {
-      let self = this;
+      const self = this;
 
       if (entity) {
         self.removeFromEntityGrid(entity, entity.gridX, entity.gridY);

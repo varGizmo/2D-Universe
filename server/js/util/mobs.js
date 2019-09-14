@@ -1,6 +1,6 @@
 /* global module */
 
-let Mobs = {};
+const Mobs = {};
 
 Mobs.Properties = {};
 Mobs.Ids = {};
@@ -33,8 +33,9 @@ Mobs.hasCombatPlugin = function(id) {
 };
 
 Mobs.isNewCombatPlugin = function(id) {
-  if (id in Mobs.Ids && Mobs.Ids[id].combatPlugin in Mobs.Plugins)
+  if (id in Mobs.Ids && Mobs.Ids[id].combatPlugin in Mobs.Plugins) {
     return Mobs.Plugins[Mobs.Ids[id].combatPlugin];
+  }
 };
 
 module.exports = Mobs;

@@ -1,7 +1,7 @@
 define(["jquery"], function($) {
   return Class.extend({
     init: function(game, intrface) {
-      let self = this;
+      const self = this;
 
       self.game = game;
       self.interface = intrface;
@@ -30,21 +30,21 @@ define(["jquery"], function($) {
     },
 
     resize: function() {
-      let self = this;
+      const self = this;
 
       self.load();
     },
 
     load: function() {
-      let self = this,
-        list = self.getSlots(),
-        inventoryList = self.interface.bank.getInventoryList();
+      const self = this;
+      const list = self.getSlots();
+      const inventoryList = self.interface.bank.getInventoryList();
 
       list.empty();
 
       for (let i = 0; i < self.getInventorySize(); i++) {
-        let item = $(inventoryList[i]).clone(),
-          slot = item.find("#bankInventorySlot" + i);
+        const item = $(inventoryList[i]).clone();
+        const slot = item.find("#bankInventorySlot" + i);
 
         slot.click(function(event) {
           self.select(event);
@@ -63,8 +63,8 @@ define(["jquery"], function($) {
     },
 
     add: function(type, index) {
-      let self = this,
-        image = self.getSlot(index).find("#inventoryImage" + index);
+      const self = this;
+      const image = self.getSlot(index).find("#inventoryImage" + index);
 
       switch (type) {
         case "item":
@@ -74,7 +74,7 @@ define(["jquery"], function($) {
           );
 
           if (self.game.app.isMobile())
-            self.selectedItem.css("background-size", "600%");
+          { self.selectedItem.css("background-size", "600%"); }
 
           break;
 
@@ -85,9 +85,9 @@ define(["jquery"], function($) {
           );
 
           if (self.game.app.isMobile())
-            self.selectedShards.css("background-size", "600%");
+          { self.selectedShards.css("background-size", "600%"); }
 
-          let count = self.getItemSlot(index).count;
+          const count = self.getItemSlot(index).count;
 
           if (count > 1) self.shardsCount.text(count);
 
@@ -103,10 +103,10 @@ define(["jquery"], function($) {
     },
 
     moveBack: function(type, index) {
-      let self = this,
-        image = self.getSlot(index).find("#inventoryImage" + index),
-        itemCount = self.getSlot(index).find("#inventoryItemCount" + index),
-        count = self.getItemSlot(index).count;
+      const self = this;
+      const image = self.getSlot(index).find("#inventoryImage" + index);
+      const itemCount = self.getSlot(index).find("#inventoryItemCount" + index);
+      const count = self.getItemSlot(index).count;
 
       switch (type) {
         case "item":
@@ -164,14 +164,14 @@ define(["jquery"], function($) {
     },
 
     display: function() {
-      let self = this;
+      const self = this;
 
       self.body.fadeIn("fast");
       self.load();
     },
 
     hide: function() {
-      let self = this;
+      const self = this;
 
       self.selectedItem.css("background-image", "");
       self.selectedShards.css("background-image", "");

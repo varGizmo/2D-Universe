@@ -1,12 +1,12 @@
 /* global module */
 
-let _ = require("underscore"),
-  Area = require("../area"),
-  map = require("../../../data/map/world_server");
+const _ = require("underscore");
+const Area = require("../area");
+const map = require("../../../data/map/world_server");
 
 class CameraAreas {
   constructor() {
-    let self = this;
+    const self = this;
 
     self.cameraAreas = [];
 
@@ -14,11 +14,11 @@ class CameraAreas {
   }
 
   load() {
-    let self = this,
-      list = map.cameraAreas;
+    const self = this;
+    const list = map.cameraAreas;
 
     _.each(list, function(o) {
-      let cameraArea = new Area(o.id, o.x, o.y, o.width, o.height);
+      const cameraArea = new Area(o.id, o.x, o.y, o.width, o.height);
 
       cameraArea.type = o.type;
 

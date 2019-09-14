@@ -2,14 +2,14 @@
 
 class Points {
   constructor(points, maxPoints) {
-    let self = this;
+    const self = this;
 
     self.points = points;
     self.maxPoints = maxPoints;
   }
 
   heal(amount) {
-    let self = this;
+    const self = this;
 
     self.setPoints(self.points + amount);
 
@@ -25,7 +25,7 @@ class Points {
   }
 
   setPoints(points) {
-    let self = this;
+    const self = this;
 
     self.points = points;
 

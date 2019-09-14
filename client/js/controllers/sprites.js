@@ -10,7 +10,7 @@ define(["../entity/sprite", "../entity/animation"], function(
 
   return Class.extend({
     init: function(renderer) {
-      let self = this;
+      const self = this;
 
       self.renderer = renderer;
 
@@ -26,7 +26,7 @@ define(["../entity/sprite", "../entity/animation"], function(
     },
 
     load: function(spriteData) {
-      let self = this;
+      const self = this;
 
       _.each(spriteData, function(sprite) {
         self.sprites[sprite.id] = new Sprite(
@@ -41,14 +41,14 @@ define(["../entity/sprite", "../entity/animation"], function(
     },
 
     loadAnimations: function() {
-      let self = this;
+      const self = this;
 
       self.sparksAnimation = new Animation("idle_down", 6, 0, 16, 16);
       self.sparksAnimation.setSpeed(120);
     },
 
     updateSprites: function() {
-      let self = this;
+      const self = this;
 
       _.each(self.sprites, function(sprite) {
         sprite.update(self.renderer.getDrawingScale());

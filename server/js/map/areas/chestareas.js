@@ -1,12 +1,12 @@
 /* global module */
 
-let _ = require("underscore"),
-  Area = require("../area"),
-  map = require("../../../data/map/world_server");
+const _ = require("underscore");
+const Area = require("../area");
+const map = require("../../../data/map/world_server");
 
 class ChestAreas {
   constructor(world) {
-    let self = this;
+    const self = this;
 
     self.world = world;
 
@@ -16,10 +16,10 @@ class ChestAreas {
   }
 
   load() {
-    let self = this;
+    const self = this;
 
     _.each(map.chestAreas, function(m) {
-      let chestArea = new Area(m.id, m.x, m.y, m.width, m.height);
+      const chestArea = new Area(m.id, m.x, m.y, m.width, m.height);
 
       chestArea.maxEntities = m.entities;
       chestArea.items = m.i;
@@ -50,7 +50,7 @@ class ChestAreas {
   }
 
   removeChest(chestArea) {
-    let self = this;
+    const self = this;
 
     if (!chestArea.chest) return;
 

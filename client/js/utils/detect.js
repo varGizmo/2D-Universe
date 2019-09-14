@@ -55,9 +55,9 @@ Detect.userAgentContains = function(string) {
 };
 
 Detect.isTablet = function(screenWidth) {
-  let userAgent = navigator.userAgent.toLowerCase(),
-    isAppleTablet = /ipad/i.test(userAgent),
-    isAndroidTablet = /android/i.test(userAgent);
+  const userAgent = navigator.userAgent.toLowerCase();
+  const isAppleTablet = /ipad/i.test(userAgent);
+  const isAndroidTablet = /android/i.test(userAgent);
 
   return (isAppleTablet || isAndroidTablet) && screenWidth >= 640;
 };
@@ -68,8 +68,8 @@ Detect.iOSVersion = function() {
     // https://msdn.microsoft.com/en-us/library/hh869301(v=vs.85).aspx
     return "";
   }
-  let match = navigator.appVersion.match(/OS (\d+)_(\d+)_?(\d+)?/),
-    version;
+  const match = navigator.appVersion.match(/OS (\d+)_(\d+)_?(\d+)?/);
+  let version;
 
   if (match !== undefined && match !== null) {
     version = [
@@ -84,8 +84,8 @@ Detect.iOSVersion = function() {
 };
 
 Detect.androidVersion = function() {
-  let userAgent = navigator.userAgent.split("Android"),
-    version;
+  const userAgent = navigator.userAgent.split("Android");
+  let version;
 
   if (userAgent.length > 1) version = userAgent[1].split(";")[0];
 
@@ -97,7 +97,7 @@ Detect.supportsWebGL = function() {
 };
 
 Detect.isAppleDevice = function() {
-  let devices = [
+  const devices = [
     "iPad Simulator",
     "iPhone Simulator",
     "iPod Simulator",
@@ -106,9 +106,9 @@ Detect.isAppleDevice = function() {
     "iPod"
   ];
 
-  if (!!navigator.platform)
-    while (devices.length)
-      if ((navigator.platform = devices.pop())) return true;
+  if (navigator.platform)
+  { while (devices.length)
+  { if ((navigator.platform = devices.pop())) return true; } }
 
   return false;
 };

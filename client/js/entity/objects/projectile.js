@@ -1,7 +1,7 @@
 define(["../entity"], function(Entity) {
   return Entity.extend({
     init: function(id, kind, owner) {
-      let self = this;
+      const self = this;
 
       self._super(id, kind);
 
@@ -44,7 +44,7 @@ define(["../entity"], function(Entity) {
     },
 
     setStart: function(x, y) {
-      let self = this;
+      const self = this;
 
       self.setGridPosition(Math.floor(x / 16), Math.floor(y / 16));
 
@@ -53,7 +53,7 @@ define(["../entity"], function(Entity) {
     },
 
     setDestination: function(x, y) {
-      let self = this;
+      const self = this;
 
       self.static = true;
 
@@ -64,7 +64,7 @@ define(["../entity"], function(Entity) {
     },
 
     setTarget: function(target) {
-      let self = this;
+      const self = this;
 
       if (!target) return;
 
@@ -86,13 +86,13 @@ define(["../entity"], function(Entity) {
     },
 
     getSpeed: function() {
-      let self = this;
+      const self = this;
 
       return 1;
     },
 
     updateTarget: function(x, y) {
-      let self = this;
+      const self = this;
 
       self.destX = x;
       self.destY = y;

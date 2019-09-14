@@ -1,12 +1,12 @@
-let cls = require("../../server/js/lib/class"),
-  Player = require("../../server/js/game/entity/character/player/player"),
-  Creator = require("../../server/js/database/creator"),
-  Utils = require("../../server/js/util/utils"),
-  _ = require("underscore");
+const cls = require("../../server/js/lib/class");
+const Player = require("../../server/js/game/entity/character/player/player");
+const Creator = require("../../server/js/database/creator");
+const Utils = require("../../server/js/util/utils");
+const _ = require("underscore");
 
 module.exports = Bot = cls.Class.extend({
   init: function(world, count) {
-    let self = this;
+    const self = this;
 
     self.world = world;
     self.count = count;
@@ -19,15 +19,15 @@ module.exports = Bot = cls.Class.extend({
   },
 
   load: function() {
-    let self = this;
+    const self = this;
 
     for (let i = 0; i < self.count; i++) {
-      let connection = {
-          id: i,
-          listen: function() {},
-          onClose: function() {}
-        },
-        player = new Player(self.world, self.world.database, connection, -1);
+      const connection = {
+        id: i,
+        listen: function() {},
+        onClose: function() {}
+      };
+      const player = new Player(self.world, self.world.database, connection, -1);
 
       self.world.addPlayer(player);
 

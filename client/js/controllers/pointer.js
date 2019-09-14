@@ -1,7 +1,7 @@
 define(["jquery", "../renderer/pointers/pointer"], function($, Pointer) {
   return Class.extend({
     init: function(game) {
-      let self = this;
+      const self = this;
 
       self.game = game;
       self.pointers = {};
@@ -12,11 +12,11 @@ define(["jquery", "../renderer/pointers/pointer"], function($, Pointer) {
     },
 
     create: function(id, type) {
-      let self = this;
+      const self = this;
 
       if (id in self.pointers) return;
 
-      let element = $('<div id="' + id + '" class="pointer"></div>');
+      const element = $("<div id=\"" + id + "\" class=\"pointer\"></div>");
 
       self.setSize(element);
 
@@ -26,16 +26,16 @@ define(["jquery", "../renderer/pointers/pointer"], function($, Pointer) {
     },
 
     resize: function() {
-      let self = this;
+      const self = this;
 
       _.each(self.pointers, function(pointer) {
         switch (pointer.type) {
           case Modules.Pointers.Relative:
-            let scale = self.getScale(),
-              x = pointer.x,
-              y = pointer.y,
-              offsetX = 0,
-              offsetY = 0;
+            const scale = self.getScale();
+            const x = pointer.x;
+            const y = pointer.y;
+            let offsetX = 0;
+            let offsetY = 0;
 
             if (scale === 1) {
               offsetX = pointer.element.width() / 2 + 5;
@@ -51,7 +51,7 @@ define(["jquery", "../renderer/pointers/pointer"], function($, Pointer) {
     },
 
     setSize: function(element) {
-      let self = this;
+      const self = this;
 
       self.updateScale();
 
@@ -61,12 +61,12 @@ define(["jquery", "../renderer/pointers/pointer"], function($, Pointer) {
         margin: "inherit",
         "margin-top": "-" + 6 * self.scale + "px",
         top: 10 * self.scale + "px",
-        background: 'url("img/' + self.scale + '/pointer.png")'
+        background: "url(\"img/" + self.scale + "/pointer.png\")"
       });
     },
 
     clean: function() {
-      let self = this;
+      const self = this;
 
       _.each(self.pointers, function(pointer) {
         pointer.destroy();
@@ -76,23 +76,23 @@ define(["jquery", "../renderer/pointers/pointer"], function($, Pointer) {
     },
 
     destroy: function(pointer) {
-      let self = this;
+      const self = this;
 
       delete self.pointers[pointer.id];
       pointer.destroy();
     },
 
     set: function(pointer, posX, posY) {
-      let self = this;
+      const self = this;
 
       self.updateScale();
       self.updateCamera();
 
-      let tileSize = 16 * self.scale,
-        x = (posX - self.camera.x) * self.scale,
-        width = parseInt(pointer.element.css("width") + 24),
-        offset = width / 2 - tileSize / 2,
-        y;
+      const tileSize = 16 * self.scale;
+      const x = (posX - self.camera.x) * self.scale;
+      const width = parseInt(pointer.element.css("width") + 24);
+      const offset = width / 2 - tileSize / 2;
+      let y;
 
       y = (posY - self.camera.y) * self.scale - tileSize;
 
@@ -101,8 +101,8 @@ define(["jquery", "../renderer/pointers/pointer"], function($, Pointer) {
     },
 
     setToEntity: function(entity) {
-      let self = this,
-        pointer = self.get(entity.id);
+      const self = this;
+      const pointer = self.get(entity.id);
 
       if (!pointer) return;
 
@@ -110,8 +110,8 @@ define(["jquery", "../renderer/pointers/pointer"], function($, Pointer) {
     },
 
     setToPosition: function(id, x, y) {
-      let self = this,
-        pointer = self.get(id);
+      const self = this;
+      const pointer = self.get(id);
 
       if (!pointer) return;
 
@@ -121,14 +121,14 @@ define(["jquery", "../renderer/pointers/pointer"], function($, Pointer) {
     },
 
     setRelative: function(id, x, y) {
-      let self = this,
-        pointer = self.get(id);
+      const self = this;
+      const pointer = self.get(id);
 
       if (!pointer) return;
 
-      let scale = self.getScale(),
-        offsetX = 0,
-        offsetY = 0;
+      const scale = self.getScale();
+      let offsetX = 0;
+      let offsetY = 0;
 
       /**
        * Must be set in accordance to the lowest scale.
@@ -146,12 +146,12 @@ define(["jquery", "../renderer/pointers/pointer"], function($, Pointer) {
     },
 
     update: function() {
-      let self = this;
+      const self = this;
 
       _.each(self.pointers, function(pointer) {
         switch (pointer.type) {
           case Modules.Pointers.Entity:
-            let entity = self.game.entities.get(pointer.id);
+            const entity = self.game.entities.get(pointer.id);
 
             if (entity) self.setToEntity(entity);
             else self.destroy(pointer);
@@ -160,7 +160,7 @@ define(["jquery", "../renderer/pointers/pointer"], function($, Pointer) {
 
           case Modules.Pointers.Position:
             if (pointer.x !== -1 && pointer.y !== -1)
-              self.set(pointer, pointer.x, pointer.y);
+            { self.set(pointer, pointer.x, pointer.y); }
 
             break;
         }
@@ -168,7 +168,7 @@ define(["jquery", "../renderer/pointers/pointer"], function($, Pointer) {
     },
 
     get: function(id) {
-      let self = this;
+      const self = this;
 
       if (id in self.pointers) return self.pointers[id];
 

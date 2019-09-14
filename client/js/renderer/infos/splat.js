@@ -3,7 +3,7 @@
 define(function() {
   return Class.extend({
     init: function(id, type, text, x, y, statique) {
-      let self = this;
+      const self = this;
 
       self.id = id;
       self.type = type;
@@ -30,7 +30,7 @@ define(function() {
     },
 
     tick: function() {
-      let self = this;
+      const self = this;
 
       if (!self.statique) self.y -= 1;
 
@@ -40,7 +40,7 @@ define(function() {
     },
 
     update: function(time) {
-      let self = this;
+      const self = this;
 
       if (time - self.lastTime > self.speed) {
         self.lastTime = time;
@@ -49,7 +49,7 @@ define(function() {
     },
 
     destroy: function() {
-      let self = this;
+      const self = this;
 
       if (self.destroyCallback) self.destroyCallback(self.id);
     },

@@ -1,7 +1,7 @@
 define(["./slot"], function(Slot) {
   return Class.extend({
     init: function(size) {
-      let self = this;
+      const self = this;
 
       self.size = size;
 
@@ -11,7 +11,7 @@ define(["./slot"], function(Slot) {
     },
 
     setSlot: function(index, info) {
-      let self = this;
+      const self = this;
 
       /**
        * We receive information from the server here,
@@ -30,7 +30,7 @@ define(["./slot"], function(Slot) {
     },
 
     getEmptySlot: function() {
-      let self = this;
+      const self = this;
 
       for (let i = 0; i < self.slots; i++) if (!self.slots[i].string) return i;
 
@@ -38,7 +38,7 @@ define(["./slot"], function(Slot) {
     },
 
     getImageFormat: function(scale, name) {
-      return 'url("img/' + scale + "/item-" + name + '.png")';
+      return "url(\"img/" + scale + "/item-" + name + ".png\")";
     }
   });
 });

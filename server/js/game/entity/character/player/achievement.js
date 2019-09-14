@@ -1,13 +1,13 @@
 /* global module */
 
-let Data = require("../../../../../data/achievements"),
-  Messages = require("../../../../network/messages"),
-  Packets = require("../../../../network/packets"),
-  Modules = require("../../../../util/modules");
+const Data = require("../../../../../data/achievements");
+const Messages = require("../../../../network/messages");
+const Packets = require("../../../../network/packets");
+const Modules = require("../../../../util/modules");
 
 class Achievement {
   constructor(id, player) {
-    let self = this;
+    const self = this;
 
     self.id = id;
     self.player = player;
@@ -23,7 +23,7 @@ class Achievement {
   }
 
   step() {
-    let self = this;
+    const self = this;
 
     if (self.isThreshold()) return;
 
@@ -43,7 +43,7 @@ class Achievement {
   }
 
   converse(npc) {
-    let self = this;
+    const self = this;
 
     if (self.isThreshold() || self.hasItem()) self.finish(npc);
     else {
@@ -56,14 +56,15 @@ class Achievement {
         })
       );
 
-      if (!self.isStarted() && npc.talkIndex > self.data.text.length)
+      if (!self.isStarted() && npc.talkIndex > self.data.text.length) {
         self.step();
+      }
     }
   }
 
   finish(npc) {
-    let self = this,
-      rewardType = self.data.rewardType;
+    const self = this;
+    const rewardType = self.data.rewardType;
 
     switch (rewardType) {
       case Modules.Achievements.Rewards.Item:
@@ -110,7 +111,7 @@ class Achievement {
   }
 
   hasItem() {
-    let self = this;
+    const self = this;
 
     if (
       self.data.type === Modules.Achievements.Type.Scavenge &&

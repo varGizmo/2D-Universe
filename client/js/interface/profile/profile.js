@@ -9,7 +9,7 @@ define([
 ], function($, State, Ability, Settings, Quest) {
   return Class.extend({
     init: function(game) {
-      let self = this;
+      const self = this;
 
       self.game = game;
 
@@ -27,7 +27,7 @@ define([
     },
 
     load: function() {
-      let self = this;
+      const self = this;
 
       self.button.click(function() {
         self.game.interface.hideAll();
@@ -51,7 +51,7 @@ define([
 
       self.next.click(function() {
         if (self.activeIndex + 1 < self.pages.length)
-          self.setPage(self.activeIndex + 1);
+        { self.setPage(self.activeIndex + 1); }
         else self.next.removeClass("enabled");
       });
 
@@ -70,11 +70,11 @@ define([
       self.activePage = self.state;
 
       if (self.activeIndex === 0 && self.activeIndex !== self.pages.length)
-        self.next.addClass("enabled");
+      { self.next.addClass("enabled"); }
     },
 
     update: function() {
-      let self = this;
+      const self = this;
 
       _.each(self.pages, function(page) {
         page.update();
@@ -82,7 +82,7 @@ define([
     },
 
     resize: function() {
-      let self = this;
+      const self = this;
 
       _.each(self.pages, function(page) {
         page.resize();
@@ -90,8 +90,8 @@ define([
     },
 
     setPage: function(index) {
-      let self = this,
-        page = self.pages[index];
+      const self = this;
+      const page = self.pages[index];
 
       self.clear();
 
@@ -101,7 +101,7 @@ define([
       self.activeIndex = index;
 
       if (self.activeIndex + 1 === self.pages.length)
-        self.next.removeClass("enabled");
+      { self.next.removeClass("enabled"); }
       else if (self.activeIndex === 0) self.previous.removeClass("enabled");
       else {
         self.previous.addClass("enabled");
@@ -112,14 +112,14 @@ define([
     },
 
     show: function() {
-      let self = this;
+      const self = this;
 
       self.body.fadeIn("slow");
       self.button.addClass("active");
     },
 
     hide: function() {
-      let self = this;
+      const self = this;
 
       self.body.fadeOut("fast");
       self.button.removeClass("active");
@@ -132,7 +132,7 @@ define([
     },
 
     clear: function() {
-      let self = this;
+      const self = this;
 
       if (self.activePage) self.activePage.hide();
     },

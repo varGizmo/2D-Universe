@@ -1,19 +1,19 @@
 /* global module */
 
-let Item = require("../../js/game/entity/objects/item.js"),
-  Utils = require("../../js/util/utils"),
-  Items = require("../../js/util/items");
+const Item = require("../../js/game/entity/objects/item.js");
+const Utils = require("../../js/util/utils");
+const Items = require("../../js/util/items");
 
 class Flask extends Item {
   constructor(id, instance, x, y) {
     super(id, instance, x, y);
 
-    let self = this;
+    const self = this;
 
     self.healAmount = 0;
     self.manaAmount = 0;
 
-    let customData = Items.getCustomData(id);
+    const customData = Items.getCustomData(id);
 
     if (customData) {
       self.healAmount = customData.healAmount ? customData.healAmount : 0;
@@ -22,7 +22,7 @@ class Flask extends Item {
   }
 
   onUse(character) {
-    let self = this;
+    const self = this;
 
     if (self.healAmount) character.healHitPoints(self.healAmount);
 

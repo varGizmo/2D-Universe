@@ -1,14 +1,14 @@
-let World = require("../game/world"),
-  Messages = require("./messages"),
-  Packets = require("./packets"),
-  Player = require("../game/entity/character/player/player"),
-  Utils = require("../util/utils"),
-  config = require("../../config"),
-  _ = require("underscore");
+const World = require("../game/world");
+const Messages = require("./messages");
+const Packets = require("./packets");
+const Player = require("../game/entity/character/player/player");
+const Utils = require("../util/utils");
+const config = require("../../config");
+const _ = require("underscore");
 
 class Network {
   constructor(world) {
-    let self = this;
+    const self = this;
 
     self.world = world;
     self.database = world.database;
@@ -24,7 +24,7 @@ class Network {
   }
 
   load() {
-    let self = this;
+    const self = this;
 
     self.world.onPlayerConnection(function(connection) {
       self.handlePlayerConnection(connection);
@@ -35,16 +35,15 @@ class Network {
     });
   }
 
+  /**
+   * This parses through the packet pool and sends them
+   */
   parsePackets() {
-    let self = this;
+    const self = this;
 
-    /**
-     * This parses through the packet pool and sends them
-     */
-
-    for (let id in self.packets) {
+    for (const id in self.packets) {
       if (self.packets[id].length > 0 && self.packets.hasOwnProperty(id)) {
-        let conn = self.socket.getConnection(id);
+        const conn = self.socket.getConnection(id);
 
         if (conn) {
           conn.send(self.packets[id]);
@@ -56,10 +55,11 @@ class Network {
   }
 
   handlePlayerConnection(connection) {
-    let self = this,
-      clientId = Utils.generateClientId(),
-      player = new Player(self.world, self.database, connection, clientId),
-      timeDifference = new Date().getTime() - self.getSocketTime(connection);
+    const self = this;
+    const clientId = Utils.generateClientId();
+    const player = new Player(self.world, self.database, connection, clientId);
+    const timeDifference =
+      new Date().getTime() - self.getSocketTime(connection);
 
     if (!config.debug && timeDifference - self.differenceThreshold < 5000) {
       connection.sendUTF8("toofast");
@@ -98,9 +98,8 @@ class Network {
   /**
    * Broadcast a message to everyone in the world.
    */
-
   pushBroadcast(message) {
-    let self = this;
+    const self = this;
 
     _.each(self.packets, function(packet) {
       packet.push(message.serialize());
@@ -110,9 +109,8 @@ class Network {
   /**
    * Broadcast a message to everyone with exceptions.
    */
-
   pushSelectively(message, ignores) {
-    let self = this;
+    const self = this;
 
     _.each(self.packets, function(packet) {
       if (ignores.indexOf(packet.id) < 0) packet.push(message.serialize());
@@ -122,18 +120,17 @@ class Network {
   /**
    * Push a message to a single player.
    */
-
   pushToPlayer(player, message) {
-    if (player && player.instance in this.packets)
+    if (player && player.instance in this.packets) {
       this.packets[player.instance].push(message.serialize());
+    }
   }
 
   /**
    * Specify an array of player instances to send message to
    */
-
   pushToPlayers(players, message) {
-    let self = this;
+    const self = this;
 
     _.each(players, function(playerInstance) {
       self.pushToPlayer(
@@ -146,19 +143,19 @@ class Network {
   /**
    * Send a message to the region the player is currently in.
    */
-
   pushToRegion(regionId, message, ignoreId) {
-    let self = this,
-      region = self.region.regions[regionId];
+    const self = this;
+    const region = self.region.regions[regionId];
 
     if (!region) return;
 
     _.each(region.players, function(playerInstance) {
-      if (playerInstance !== ignoreId)
+      if (playerInstance !== ignoreId) {
         self.pushToPlayer(
           self.world.getEntityByInstance(playerInstance),
           message
         );
+      }
     });
   }
 
@@ -168,9 +165,8 @@ class Network {
    * G  P  G
    * G  G  G
    */
-
   pushToAdjacentRegions(regionId, message, ignoreId) {
-    let self = this;
+    const self = this;
 
     self.map.regions.forEachAdjacentRegion(regionId, function(id) {
       self.pushToRegion(id, message, ignoreId);
@@ -180,12 +176,11 @@ class Network {
   /**
    * Sends a message to an array of player names
    */
-
   pushToNameArray(names, message) {
-    let self = this;
+    const self = this;
 
     _.each(names, function(name) {
-      let player = self.world.getPlayerByName(name);
+      const player = self.world.getPlayerByName(name);
 
       if (player) self.pushToPlayer(player, message);
     });
@@ -194,9 +189,8 @@ class Network {
   /**
    * Sends a message to the region the player just left from
    */
-
   pushToOldRegions(player, message) {
-    let self = this;
+    const self = this;
 
     _.each(player.recentRegions, function(id) {
       self.pushToRegion(id, message);

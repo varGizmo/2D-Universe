@@ -14,7 +14,7 @@
 
 ### Region Manager
 
-The region system sends data to the client according to the map data of the server. The collisons are checked both server-side and client-side in order to avoid cheating. The region-system has also been updated such that users can create instanced versions of the same area. These areas can be used to draw 'alternate' versions of the map, and be used for special events such as minigames. Multiple players can also be added to these regions.
+The region system sends data to the client according to the map data of the server. The collisions are checked both server-side and client-side in order to avoid cheating. The region-system has also been updated such that users can create instanced versions of the same area. These areas can be used to draw 'alternate' versions of the map, and be used for special events such as minigames. Multiple players can also be added to these regions.
 
 ### Tilesheet Parsing
 
@@ -25,11 +25,13 @@ The rendering engine has been updated such that it is able to handle multiple ti
 You must install MongoDB and create a user and a database.
 
 ```sh
-npm install
-npm start
+yarn
+yarn start
 ```
 
 Prior to starting Gizmo, make sure you rename the `config.json-dist` to `config.json` and modify them accordingly. There are two configurations in `server/` and `client/data`.
+
+Also be sure to edit `client/data/config.json` ip to your actual domain.
 
 ## Map Parsing
 

@@ -3,7 +3,7 @@
 define(function() {
   return Class.extend({
     init: function(game) {
-      let self = this;
+      const self = this;
 
       self.game = game;
 
@@ -19,7 +19,7 @@ define(function() {
     },
 
     load: function() {
-      let self = this;
+      const self = this;
 
       self.music = {
         codingroom: false,
@@ -52,9 +52,9 @@ define(function() {
     },
 
     parse: function(path, name, channels, callback) {
-      let self = this,
-        fullPath = path + name + "." + self.format,
-        sound = document.createElement("audio");
+      const self = this;
+      const fullPath = path + name + "." + self.format;
+      const sound = document.createElement("audio");
 
       sound.addEventListener(
         "canplaythrough",
@@ -97,7 +97,7 @@ define(function() {
     },
 
     play: function(type, name) {
-      let self = this;
+      const self = this;
 
       if (!self.isEnabled() || !self.fileExists(name)) return;
 
@@ -107,7 +107,7 @@ define(function() {
             self.reset(self.song);
           });
 
-          let song = self.get(name);
+          const song = self.get(name);
 
           if (!song) return;
 
@@ -124,7 +124,7 @@ define(function() {
         case Modules.AudioTypes.SFX:
           if (!self.sounds[name]) self.parse("audio/sounds/", name, 4);
 
-          let sound = self.get(name);
+          const sound = self.get(name);
 
           if (!sound) return;
 
@@ -137,11 +137,11 @@ define(function() {
     },
 
     update: function() {
-      let self = this;
+      const self = this;
 
       if (!self.isEnabled()) return;
 
-      let song = self.getMusic(self.songName);
+      const song = self.getMusic(self.songName);
 
       if (song && !(self.song && self.song.name === song.name)) {
         if (self.game.renderer.mobile) self.reset(self.song);
@@ -150,7 +150,7 @@ define(function() {
         if (song.name in self.music && !self.music[song.name]) {
           self.parse("audio/music/", song.name, 1);
 
-          let music = self.audibles[song.name][0];
+          const music = self.audibles[song.name][0];
 
           music.loop = true;
           music.addEventListener(
@@ -170,7 +170,7 @@ define(function() {
     },
 
     fadeIn: function(song) {
-      let self = this;
+      const self = this;
 
       if (!song || song.fadingIn) return;
 
@@ -187,7 +187,7 @@ define(function() {
     },
 
     fadeOut: function(song, callback) {
-      let self = this;
+      const self = this;
 
       if (!song || song.fadingOut) return;
 
@@ -207,7 +207,7 @@ define(function() {
     },
 
     fadeSongOut: function() {
-      let self = this;
+      const self = this;
 
       if (!self.song) return;
 
@@ -240,7 +240,7 @@ define(function() {
     },
 
     stop: function() {
-      let self = this;
+      const self = this;
 
       if (!self.song) return;
 
@@ -255,7 +255,7 @@ define(function() {
     },
 
     get: function(name) {
-      let self = this;
+      const self = this;
 
       if (!self.audibles[name]) return null;
 

@@ -1,11 +1,11 @@
 /* global module */
 
-let MongoDB = require("./mongodb/mongodb"),
-  config = require("../../config");
+const MongoDB = require("./mongodb/mongodb");
+const config = require("../../config");
 
 class Database {
   constructor(databaseType) {
-    let self = this;
+    const self = this;
 
     self.database = null;
     self.databaseType = databaseType;
@@ -29,12 +29,13 @@ class Database {
   }
 
   getDatabase() {
-    let self = this;
+    const self = this;
 
-    if (!self.database)
+    if (!self.database) {
       log.error(
         "[Database] No database is currently present. It is advised against proceeding in this state."
       );
+    }
 
     return self.database;
   }

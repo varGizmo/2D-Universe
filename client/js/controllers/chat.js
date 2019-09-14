@@ -3,7 +3,7 @@
 define(["jquery"], function($) {
   return Class.extend({
     init: function(game) {
-      let self = this;
+      const self = this;
 
       self.game = game;
 
@@ -26,8 +26,8 @@ define(["jquery"], function($) {
     },
 
     add: function(source, text, colour) {
-      let self = this,
-        element = $("<p>" + source + ": " + text + "</p>");
+      const self = this;
+      const element = $("<p>" + source + ": " + text + "</p>");
 
       self.showChat();
 
@@ -35,14 +35,14 @@ define(["jquery"], function($) {
 
       self.hideChat();
 
-      element.css("color", colour ? colour : "white");
+      element.css("color", colour || "white");
 
       self.log.append(element);
       self.log.scrollTop(99999);
     },
 
     key: function(data) {
-      let self = this;
+      const self = this;
 
       switch (data) {
         case Modules.Keys.Enter:
@@ -54,14 +54,14 @@ define(["jquery"], function($) {
     },
 
     send: function() {
-      let self = this;
+      const self = this;
 
       self.game.socket.send(Packets.Chat, [self.input.val()]);
       self.toggle();
     },
 
     toggle: function() {
-      let self = this;
+      const self = this;
 
       self.clean();
 
@@ -76,7 +76,7 @@ define(["jquery"], function($) {
     },
 
     showChat: function() {
-      let self = this;
+      const self = this;
 
       self.chat.fadeIn("fast");
 
@@ -84,7 +84,7 @@ define(["jquery"], function($) {
     },
 
     showInput: function() {
-      let self = this;
+      const self = this;
 
       self.button.addClass("active");
 
@@ -96,7 +96,7 @@ define(["jquery"], function($) {
     },
 
     hideChat: function() {
-      let self = this;
+      const self = this;
 
       if (self.fadingTimeout) {
         clearTimeout(self.fadingTimeout);
@@ -113,7 +113,7 @@ define(["jquery"], function($) {
     },
 
     hideInput: function() {
-      let self = this;
+      const self = this;
 
       self.button.removeClass("active");
 
@@ -125,7 +125,7 @@ define(["jquery"], function($) {
     },
 
     clean: function() {
-      let self = this;
+      const self = this;
 
       clearTimeout(self.fadingTimeout);
       self.fadingTimeout = null;

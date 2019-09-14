@@ -3,7 +3,7 @@
 define(["jquery", "../renderer/bubbles/blob"], function($, Blob) {
   return Class.extend({
     init: function(game) {
-      let self = this;
+      const self = this;
 
       self.game = game;
       self.bubbles = {};
@@ -12,13 +12,13 @@ define(["jquery", "../renderer/bubbles/blob"], function($, Blob) {
     },
 
     create: function(id, message, duration) {
-      let self = this;
+      const self = this;
 
       if (self.bubbles[id]) {
         self.bubbles[id].reset(Blob.time);
         $("#" + id + " p").html(message);
       } else {
-        let element = $(
+        const element = $(
           "<div id='" +
             id +
             "' class='bubble'><p>" +
@@ -35,19 +35,19 @@ define(["jquery", "../renderer/bubbles/blob"], function($, Blob) {
     },
 
     setTo: function(entity) {
-      let self = this;
+      const self = this;
 
-      let bubble = self.get(entity.id);
+      const bubble = self.get(entity.id);
 
       if (!bubble || !entity) return;
 
-      let scale = self.game.renderer.getDrawingScale(),
-        tileSize = 16 * scale,
-        x = (entity.x - self.game.getCamera().x) * scale,
-        width = parseInt(bubble.element.css("width")) + 24,
-        offset = width / 2 - tileSize / 2,
-        offsetY = 10,
-        y;
+      const scale = self.game.renderer.getDrawingScale();
+      const tileSize = 16 * scale;
+      const x = (entity.x - self.game.getCamera().x) * scale;
+      const width = parseInt(bubble.element.css("width")) + 24;
+      const offset = width / 2 - tileSize / 2;
+      const offsetY = 10;
+      let y;
 
       y = (entity.y - self.game.getCamera().y) * scale - tileSize * 2 - offsetY;
 
@@ -59,10 +59,10 @@ define(["jquery", "../renderer/bubbles/blob"], function($, Blob) {
     },
 
     update: function(time) {
-      let self = this;
+      const self = this;
 
       _.each(self.bubbles, function(bubble) {
-        let entity = self.game.entities.get(bubble.id);
+        const entity = self.game.entities.get(bubble.id);
 
         if (entity) self.setTo(entity);
 
@@ -74,7 +74,7 @@ define(["jquery", "../renderer/bubbles/blob"], function($, Blob) {
     },
 
     get: function(id) {
-      let self = this;
+      const self = this;
 
       if (id in self.bubbles) return self.bubbles[id];
 
@@ -82,7 +82,7 @@ define(["jquery", "../renderer/bubbles/blob"], function($, Blob) {
     },
 
     clean: function() {
-      let self = this;
+      const self = this;
 
       _.each(self.bubbles, function(bubble) {
         bubble.destroy();
@@ -92,8 +92,8 @@ define(["jquery", "../renderer/bubbles/blob"], function($, Blob) {
     },
 
     destroy: function(id) {
-      let self = this,
-        bubble = self.get(id);
+      const self = this;
+      const bubble = self.get(id);
 
       if (!bubble) return;
 

@@ -1,7 +1,7 @@
 define(["jquery", "../page"], function($, Page) {
   return Page.extend({
     init: function() {
-      let self = this;
+      const self = this;
 
       self._super("#questPage");
 
@@ -16,64 +16,67 @@ define(["jquery", "../page"], function($, Page) {
     },
 
     load: function(quests, achievements) {
-      let self = this,
-        finishedAchievements = 0,
-        finishedQuests = 0;
+      const self = this;
+      let finishedAchievements = 0;
+      let finishedQuests = 0;
 
-      _.each(achievements, function(achievement) {
-        let item = self.getItem(false, achievement.id),
-          name = self.getName(false, achievement.id);
+      if (achievements) {
+        _.each(achievements, function(achievement) {
+          const item = self.getItem(false, achievement.id);
+          const name = self.getName(false, achievement.id);
 
-        name.text("????????");
+          name.text("????????");
 
-        name.css("background", "rgba(255, 10, 10, 0.3)");
+          name.css("background", "rgba(255, 10, 10, 0.3)");
 
-        if (achievement.progress > 0 && achievement.progress < 9999) {
-          name.css("background", "rgba(255, 255, 10, 0.4)");
+          if (achievement.progress > 0 && achievement.progress < 9999) {
+            name.css("background", "rgba(255, 255, 10, 0.4)");
 
-          name.text(
-            achievement.name +
-              (achievement.count > 2
-                ? " " +
-                  (achievement.progress - 1) +
-                  "/" +
-                  (achievement.count - 1)
-                : "")
-          );
-        } else if (achievement.progress > 9998) {
-          name.text(achievement.name);
-          name.css("background", "rgba(10, 255, 10, 0.3)");
-        }
+            name.text(
+              achievement.name +
+                (achievement.count > 2
+                  ? " " +
+                    (achievement.progress - 1) +
+                    "/" +
+                    (achievement.count - 1)
+                  : "")
+            );
+          } else if (achievement.progress > 9998) {
+            name.text(achievement.name);
+            name.css("background", "rgba(10, 255, 10, 0.3)");
+          }
 
-        if (achievement.finished) finishedAchievements++;
+          if (achievement.finished) finishedAchievements++;
 
-        item.append(name);
+          item.append(name);
 
-        let listItem = $("<li></li>");
+          const listItem = $("<li></li>");
 
-        listItem.append(item);
+          listItem.append(item);
 
-        self.achievementsList.append(listItem);
-      });
+          self.achievementsList.append(listItem);
+        });
+      }
 
       _.each(quests, function(quest) {
-        let item = self.getItem(true, quest.id),
-          name = self.getName(true, quest.id);
+        const item = self.getItem(true, quest.id);
+        const name = self.getName(true, quest.id);
 
         name.text(quest.name);
 
         name.css("background", "rgba(255, 10, 10, 0.3)");
 
-        if (quest.stage > 0 && quest.stage < 9999)
+        if (quest.stage > 0 && quest.stage < 9999) {
           name.css("background", "rgba(255, 255, 10, 0.4)");
-        else if (quest.stage > 9998)
+        } else if (quest.stage > 9998) {
           name.css("background", "rgba(10, 255, 10, 0.3)");
+        }
 
         if (quest.finished) finishedQuests++;
 
         item.append(name);
 
-        let listItem = $("<li></li>");
+        const listItem = $("<li></li>");
 
         listItem.append(item);
 
@@ -87,34 +90,35 @@ define(["jquery", "../page"], function($, Page) {
     },
 
     progress: function(info) {
-      let self = this,
-        item = info.isQuest
-          ? self.getQuest(info.id)
-          : self.getAchievement(info.id);
+      const self = this;
+      const item = info.isQuest
+        ? self.getQuest(info.id)
+        : self.getAchievement(info.id);
 
       if (!item) return;
 
-      let name = item.find(
+      const name = item.find(
         "" + (info.isQuest ? "#quest" : "#achievement") + info.id + "name"
       );
 
       if (!name) return;
 
-      if (!info.isQuest && info.count > 2)
+      if (!info.isQuest && info.count > 2) {
         name.text(info.name + " " + info.progress + "/" + (info.count - 1));
+      }
 
       name.css("background", "rgba(255, 255, 10, 0.4)");
     },
 
     finish: function(info) {
-      let self = this,
-        item = info.isQuest
-          ? self.getQuest(info.id)
-          : self.getAchievement(info.id);
+      const self = this;
+      const item = info.isQuest
+        ? self.getQuest(info.id)
+        : self.getAchievement(info.id);
 
       if (!item) return;
 
-      let name = item.find(
+      const name = item.find(
         "" + (info.isQuest ? "#quest" : "#achievement") + info.id + "name"
       );
 
@@ -140,19 +144,19 @@ define(["jquery", "../page"], function($, Page) {
 
     getItem: function(isQuest, id) {
       return $(
-        '<div id="' +
+        "<div id=\"" +
           (isQuest ? "quest" : "achievement") +
           id +
-          '" class="questItem"></div>'
+          "\" class=\"questItem\"></div>"
       );
     },
 
     getName: function(isQuest, id) {
       return $(
-        '<div id="' +
+        "<div id=\"" +
           (isQuest ? "quest" : "achievement") +
           id +
-          'name" class="questName"></div>'
+          "name\" class=\"questName\"></div>"
       );
     }
   });

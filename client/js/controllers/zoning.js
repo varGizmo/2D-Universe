@@ -3,7 +3,7 @@
 define(function() {
   return Class.extend({
     init: function(game) {
-      let self = this;
+      const self = this;
 
       self.game = game;
       self.renderer = game.renderer;

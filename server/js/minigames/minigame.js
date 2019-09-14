@@ -2,7 +2,7 @@
 
 class Minigame {
   constructor(id, name) {
-    let self = this;
+    const self = this;
 
     self.id = id;
     self.name = name;

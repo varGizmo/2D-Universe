@@ -1,15 +1,15 @@
 /* global module */
 
-let _ = require("underscore"),
-  Introduction = require("../game/entity/character/player/quest/impl/introduction"),
-  BulkySituation = require("../game/entity/character/player/quest/impl/bulkysituation"),
-  QuestData = require("../../data/quests.json"),
-  AchievementData = require("../../data/achievements.json"),
-  Achievement = require("../game/entity/character/player/achievement");
+const _ = require("underscore");
+const Introduction = require("../game/entity/character/player/quest/impl/introduction");
+const BulkySituation = require("../game/entity/character/player/quest/impl/bulkysituation");
+const QuestData = require("../../data/quests.json");
+const AchievementData = require("../../data/achievements.json");
+const Achievement = require("../game/entity/character/player/achievement");
 
 class Quests {
   constructor(player) {
-    let self = this;
+    const self = this;
 
     self.player = player;
 
@@ -20,14 +20,15 @@ class Quests {
   }
 
   load() {
-    let self = this,
-      questCount = 0;
+    const self = this;
+    let questCount = 0;
 
     _.each(QuestData, function(quest) {
-      if (questCount === 0)
+      if (questCount === 0) {
         self.quests[quest.id] = new Introduction(self.player, quest);
-      else if (questCount === 1)
+      } else if (questCount === 1) {
         self.quests[quest.id] = new BulkySituation(self.player, quest);
+      }
 
       questCount++;
     });
@@ -41,7 +42,7 @@ class Quests {
   }
 
   updateQuests(ids, stages) {
-    let self = this;
+    const self = this;
 
     if (!ids || !stages) {
       _.each(self.quests, function(quest) {
@@ -50,23 +51,27 @@ class Quests {
       return;
     }
 
-    for (let id = 0; id < ids.length; id++)
-      if (!isNaN(parseInt(ids[id])) && self.quests[id])
+    for (let id = 0; id < ids.length; id++) {
+      if (!isNaN(parseInt(ids[id])) && self.quests[id]) {
         self.quests[id].load(stages[id]);
+      }
+    }
   }
 
   updateAchievements(ids, progress) {
-    let self = this;
+    const self = this;
 
-    for (let id = 0; id < ids.length; id++)
-      if (!isNaN(parseInt(ids[id])) && self.achievements[id])
+    for (let id = 0; id < ids.length; id++) {
+      if (!isNaN(parseInt(ids[id])) && self.achievements[id]) {
         self.achievements[id].setProgress(progress[id]);
+      }
+    }
 
     if (self.readyCallback) self.readyCallback();
   }
 
   getQuest(id) {
-    let self = this;
+    const self = this;
 
     if (id in self.quests) return self.quests[id];
 
@@ -74,9 +79,9 @@ class Quests {
   }
 
   getQuests() {
-    let self = this,
-      ids = "",
-      stages = "";
+    const self = this;
+    let ids = "";
+    let stages = "";
 
     for (let id = 0; id < self.getQuestSize(); id++) {
       ids += id + " ";
@@ -91,9 +96,9 @@ class Quests {
   }
 
   getAchievements() {
-    let self = this,
-      ids = "",
-      progress = "";
+    const self = this;
+    let ids = "";
+    let progress = "";
 
     for (let id = 0; id < self.getAchievementSize(); id++) {
       ids += id + " ";
@@ -108,9 +113,9 @@ class Quests {
   }
 
   getData() {
-    let self = this,
-      quests = [],
-      achievements = [];
+    const self = this;
+    const quests = [];
+    const achievements = [];
 
     self.forEachQuest(function(quest) {
       quests.push(quest.getInfo());
@@ -139,23 +144,27 @@ class Quests {
   }
 
   getQuestsCompleted() {
-    let self = this,
-      count = 0;
+    const self = this;
+    let count = 0;
 
-    for (let id in self.quests)
-      if (self.quests.hasOwnProperty(id))
+    for (const id in self.quests) {
+      if (self.quests.hasOwnProperty(id)) {
         if (self.quests[id].isFinished()) count++;
+      }
+    }
 
     return count;
   }
 
   getAchievementsCompleted() {
-    let self = this,
-      count = 0;
+    const self = this;
+    let count = 0;
 
-    for (let id in self.achievements)
-      if (self.achievements.hasOwnProperty(id))
+    for (const id in self.achievements) {
+      if (self.achievements.hasOwnProperty(id)) {
         if (self.achievements[id].isFinished()) count++;
+      }
+    }
 
     return count;
   }
@@ -169,7 +178,7 @@ class Quests {
   }
 
   getQuestByNPC(npc) {
-    let self = this;
+    const self = this;
 
     /**
      * Iterate through the quest list in the order it has been
@@ -177,9 +186,9 @@ class Quests {
      * follow the proper order.
      */
 
-    for (let id in self.quests) {
+    for (const id in self.quests) {
       if (self.quests.hasOwnProperty(id)) {
-        let quest = self.quests[id];
+        const quest = self.quests[id];
 
         if (quest.hasNPC(npc.id)) return quest;
       }
@@ -189,36 +198,42 @@ class Quests {
   }
 
   getAchievementByNPC(npc) {
-    let self = this;
+    const self = this;
 
-    for (let id in self.achievements)
-      if (self.achievements.hasOwnProperty(id))
+    for (const id in self.achievements) {
+      if (self.achievements.hasOwnProperty(id)) {
         if (
           self.achievements[id].data.npc === npc.id &&
           !self.achievements[id].isFinished()
-        )
+        ) {
           return self.achievements[id];
+        }
+      }
+    }
 
     return null;
   }
 
   getAchievementByMob(mob) {
-    let self = this;
+    const self = this;
 
-    for (let id in self.achievements)
-      if (self.achievements.hasOwnProperty(id))
-        if (self.achievements[id].data.mob === mob.id)
+    for (const id in self.achievements) {
+      if (self.achievements.hasOwnProperty(id)) {
+        if (self.achievements[id].data.mob === mob.id) {
           return self.achievements[id];
+        }
+      }
+    }
 
     return null;
   }
 
   isQuestMob(mob) {
-    let self = this;
+    const self = this;
 
-    for (let id in self.quests) {
+    for (const id in self.quests) {
       if (self.quests.hasOwnProperty(id)) {
-        let quest = self.quests[id];
+        const quest = self.quests[id];
 
         if (!quest.isFinished() && quest.hasMob(mob.id)) return true;
       }
@@ -226,25 +241,28 @@ class Quests {
   }
 
   isAchievementMob(mob) {
-    let self = this;
+    const self = this;
 
-    for (let id in self.achievements)
-      if (self.achievements.hasOwnProperty(id))
+    for (const id in self.achievements) {
+      if (self.achievements.hasOwnProperty(id)) {
         if (
           self.achievements[id].data.mob === mob.id &&
           !self.achievements[id].isFinished()
-        )
+        ) {
           return true;
+        }
+      }
+    }
 
     return false;
   }
 
   isQuestNPC(npc) {
-    let self = this;
+    const self = this;
 
-    for (let id in self.quests) {
+    for (const id in self.quests) {
       if (self.quests.hasOwnProperty(id)) {
-        let quest = self.quests[id];
+        const quest = self.quests[id];
 
         if (!quest.isFinished() && quest.hasNPC(npc.id)) return true;
       }
@@ -252,15 +270,18 @@ class Quests {
   }
 
   isAchievementNPC(npc) {
-    let self = this;
+    const self = this;
 
-    for (let id in self.achievements)
-      if (self.achievements.hasOwnProperty(id))
+    for (const id in self.achievements) {
+      if (self.achievements.hasOwnProperty(id)) {
         if (
           self.achievements[id].data.npc === npc.id &&
           !self.achievements[id].isFinished()
-        )
+        ) {
           return true;
+        }
+      }
+    }
 
     return false;
   }

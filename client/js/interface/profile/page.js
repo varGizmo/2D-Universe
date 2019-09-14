@@ -3,7 +3,7 @@
 define(["jquery"], function($) {
   return Class.extend({
     init: function(element) {
-      let self = this;
+      const self = this;
 
       self.body = $(element);
 
@@ -23,21 +23,21 @@ define(["jquery"], function($) {
     },
 
     load: function() {
-      //log.info('Uninitialized.');
+      // log.info('Uninitialized.');
     },
 
     resize: function() {
-      //log.info('Uninitialized.');
+      // log.info('Uninitialized.');
     },
 
     update: function() {
-      //log.info('Uninitialized.');
+      // log.info('Uninitialized.');
     },
 
     getImageFormat: function(scale, name) {
       if (!name || name === "null") return "";
 
-      return 'url("img/' + scale + "/item-" + name + '.png")';
+      return "url(\"img/" + scale + "/item-" + name + ".png\")";
     }
   });
 });

@@ -3,7 +3,7 @@
 define(["./character/character"], function(Character) {
   return Class.extend({
     init: function(entity) {
-      let self = this;
+      const self = this;
 
       self.entity = entity;
       self.game = null;
@@ -11,13 +11,13 @@ define(["./character/character"], function(Character) {
     },
 
     load: function() {
-      let self = this;
+      const self = this;
 
       if (!self.entity || !self.game) return;
 
       if (self.isCharacter()) {
         self.entity.onRequestPath(function(x, y) {
-          let ignored = [self.entity];
+          const ignored = [self.entity];
 
           return self.game.findPath(self.entity, x, y, ignored);
         });
@@ -35,16 +35,16 @@ define(["./character/character"], function(Character) {
               attacker.target.id === self.entity.id &&
               !attacker.stunned
             )
-              attacker.follow(self.entity);
+            { attacker.follow(self.entity); }
           });
 
           if (self.entity.type === "mob")
-            self.game.socket.send(Packets.Movement, [
-              Packets.MovementOpcode.Entity,
-              self.entity.id,
-              self.entity.gridX,
-              self.entity.gridY
-            ]);
+          { self.game.socket.send(Packets.Movement, [
+            Packets.MovementOpcode.Entity,
+            self.entity.id,
+            self.entity.gridX,
+            self.entity.gridY
+          ]); }
 
           if (
             self.entity.attackRange > 1 &&
@@ -52,7 +52,7 @@ define(["./character/character"], function(Character) {
             self.entity.getDistance(self.entity.target) <=
               self.entity.attackRange
           )
-            self.entity.stop(false);
+          { self.entity.stop(false); }
         });
 
         self.entity.onStopPathing(function() {
@@ -78,7 +78,7 @@ define(["./character/character"], function(Character) {
     },
 
     setGame: function(game) {
-      let self = this;
+      const self = this;
 
       if (!self.game) self.game = game;
 
@@ -86,7 +86,7 @@ define(["./character/character"], function(Character) {
     },
 
     setEntities: function(entities) {
-      let self = this;
+      const self = this;
 
       if (!self.entities) self.entities = entities;
     }

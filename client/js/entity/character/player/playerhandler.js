@@ -8,7 +8,7 @@ define(function() {
 
   return Class.extend({
     init: function(game, player) {
-      let self = this;
+      const self = this;
 
       self.game = game;
       self.camera = game.getCamera();
@@ -22,36 +22,36 @@ define(function() {
     },
 
     load: function() {
-      let self = this;
+      const self = this;
 
       self.player.onRequestPath(function(x, y) {
         if (self.player.dead) return null;
 
-        let ignores = [self.player];
+        const ignores = [self.player];
 
         if (self.player.hasTarget()) ignores.push(self.player.target);
 
         if (!self.game.map.isColliding(x, y))
-          self.socket.send(Packets.Movement, [
-            Packets.MovementOpcode.Request,
-            x,
-            y,
-            self.player.gridX,
-            self.player.gridY
-          ]);
+        { self.socket.send(Packets.Movement, [
+          Packets.MovementOpcode.Request,
+          x,
+          y,
+          self.player.gridX,
+          self.player.gridY
+        ]); }
 
         return self.game.findPath(self.player, x, y, ignores);
       });
 
       self.player.onStartPathing(function(path) {
-        let i = path.length - 1;
+        const i = path.length - 1;
 
         self.input.selectedX = path[i][0];
         self.input.selectedY = path[i][1];
         self.input.selectedCellVisible = true;
 
         if (!self.game.getEntityAt(self.input.selectedX, self.input.selectedY))
-          self.socket.send(Packets.Target, [Packets.TargetOpcode.None]);
+        { self.socket.send(Packets.Target, [Packets.TargetOpcode.None]); }
 
         self.socket.send(Packets.Movement, [
           Packets.MovementOpcode.Started,
@@ -70,12 +70,12 @@ define(function() {
 
         self.camera.clip();
 
-        let id = null,
-          entity = self.game.getEntityAt(x, y, true);
+        let id = null;
+        const entity = self.game.getEntityAt(x, y, true);
 
         if (entity) id = entity.id;
 
-        let hasTarget = self.player.hasTarget();
+        const hasTarget = self.player.hasTarget();
 
         self.socket.send(Packets.Movement, [
           Packets.MovementOpcode.Stop,
@@ -108,7 +108,7 @@ define(function() {
 
         if (self.player.isRanged()) {
           if (self.player.getDistance(self.player.target) < 7)
-            self.player.stop();
+          { self.player.stop(); }
         } else {
           self.input.selectedX = self.player.target.gridX;
           self.input.selectedY = self.player.target.gridY;
@@ -117,10 +117,10 @@ define(function() {
 
       self.player.onStep(function() {
         if (self.player.hasNextStep())
-          self.entities.registerDuality(self.player);
+        { self.entities.registerDuality(self.player); }
 
         if (!self.camera.centered || self.camera.lockX || self.camera.lockY)
-          self.checkBounds();
+        { self.checkBounds(); }
 
         self.player.forEachAttacker(function(attacker) {
           if (!attacker.stunned) attacker.follow(self.player);
@@ -153,8 +153,8 @@ define(function() {
     },
 
     isAttackable: function() {
-      let self = this,
-        target = self.player.target;
+      const self = this;
+      const target = self.player.target;
 
       if (!target) return;
 
@@ -162,10 +162,10 @@ define(function() {
     },
 
     checkBounds: function() {
-      let self = this,
-        x = self.player.gridX - self.camera.gridX,
-        y = self.player.gridY - self.camera.gridY,
-        isBorder = false;
+      const self = this;
+      const x = self.player.gridX - self.camera.gridX;
+      const y = self.player.gridY - self.camera.gridY;
+      const isBorder = false;
 
       if (x === 0) self.game.zoning.setLeft();
       else if (y === 0) self.game.zoning.setUp();

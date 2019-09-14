@@ -3,7 +3,7 @@
 define(["jquery", "../page"], function($, Page) {
   return Page.extend({
     init: function(game) {
-      let self = this;
+      const self = this;
 
       self._super("#statePage");
 
@@ -38,7 +38,7 @@ define(["jquery", "../page"], function($, Page) {
     },
 
     load: function() {
-      let self = this;
+      const self = this;
 
       if (!self.game.player.armour) return;
 
@@ -87,7 +87,7 @@ define(["jquery", "../page"], function($, Page) {
     },
 
     loadSlots: function() {
-      let self = this;
+      const self = this;
 
       self.weaponSlot.css(
         "background-image",
@@ -111,13 +111,13 @@ define(["jquery", "../page"], function($, Page) {
       );
 
       if (self.game.getScaleFactor() === 1)
-        self.forEachSlot(function(slot) {
-          slot.css("background-size", "600%");
-        });
+      { self.forEachSlot(function(slot) {
+        slot.css("background-size", "600%");
+      }); }
     },
 
     update: function() {
-      let self = this;
+      const self = this;
 
       self.level.text(self.player.level);
       self.experience.text(self.player.experience);

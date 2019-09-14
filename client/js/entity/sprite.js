@@ -3,7 +3,7 @@
 define(["./animation"], function(Animation) {
   return Class.extend({
     init: function(sprite, scale) {
-      let self = this;
+      const self = this;
 
       self.sprite = sprite;
       self.scale = scale;
@@ -24,7 +24,7 @@ define(["./animation"], function(Animation) {
     },
 
     load: function() {
-      let self = this;
+      const self = this;
 
       self.image = new Image();
       self.image.crossOrigin = "Anonymous";
@@ -38,8 +38,8 @@ define(["./animation"], function(Animation) {
     },
 
     loadSprite: function() {
-      let self = this,
-        sprite = self.sprite;
+      const self = this;
+      const sprite = self.sprite;
 
       self.filepath = "img/sprites/" + self.id + ".png";
       self.animationData = sprite.animations;
@@ -56,7 +56,7 @@ define(["./animation"], function(Animation) {
     },
 
     update: function(newScale) {
-      let self = this;
+      const self = this;
 
       self.scale = newScale;
 
@@ -65,12 +65,12 @@ define(["./animation"], function(Animation) {
     },
 
     createAnimations: function() {
-      let self = this,
-        animations = {};
+      const self = this;
+      const animations = {};
 
-      for (let name in self.animationData) {
+      for (const name in self.animationData) {
         if (self.animationData.hasOwnProperty(name)) {
-          let a = self.animationData[name];
+          const a = self.animationData[name];
 
           animations[name] = new Animation(
             name,
@@ -90,16 +90,16 @@ define(["./animation"], function(Animation) {
      */
 
     createHurtSprite: function() {
-      let self = this;
+      const self = this;
 
       if (!self.loaded) self.load();
 
       if (self.whiteSprite.loaded) return;
 
-      let canvas = document.createElement("canvas"),
-        context = canvas.getContext("2d"),
-        spriteData,
-        data;
+      const canvas = document.createElement("canvas");
+      const context = canvas.getContext("2d");
+      let spriteData;
+      let data;
 
       canvas.width = self.image.width;
       canvas.height = self.image.height;
@@ -136,7 +136,7 @@ define(["./animation"], function(Animation) {
     },
 
     getHurtSprite: function() {
-      let self = this;
+      const self = this;
 
       try {
         if (!self.loaded) self.load();

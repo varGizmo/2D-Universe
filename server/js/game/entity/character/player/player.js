@@ -1,38 +1,38 @@
 /* global module */
 
-let Character = require("../character"),
-  Incoming = require("../../../../controllers/incoming"),
-  Armour = require("./equipment/armour"),
-  Weapon = require("./equipment/weapon"),
-  Pendant = require("./equipment/pendant"),
-  Ring = require("./equipment/ring"),
-  Boots = require("./equipment/boots"),
-  Items = require("../../../../util/items"),
-  Messages = require("../../../../network/messages"),
-  Formulas = require("../../../../util/formulas"),
-  HitPoints = require("./points/hitpoints"),
-  Mana = require("./points/mana"),
-  Packets = require("../../../../network/packets"),
-  Modules = require("../../../../util/modules"),
-  Handler = require("./handler"),
-  Quests = require("../../../../controllers/quests"),
-  Inventory = require("./containers/inventory/inventory"),
-  Abilities = require("./ability/abilities"),
-  Bank = require("./containers/bank/bank"),
-  config = require("../../../../../config.json"),
-  Enchant = require("./enchant"),
-  Utils = require("../../../../util/utils"),
-  Hit = require("../combat/hit"),
-  Trade = require("./trade"),
-  Warp = require("./warp"),
-  Guild = require("./guild"),
-  Doors = require("./doors");
+const Character = require("../character");
+const Incoming = require("../../../../controllers/incoming");
+const Armour = require("./equipment/armour");
+const Weapon = require("./equipment/weapon");
+const Pendant = require("./equipment/pendant");
+const Ring = require("./equipment/ring");
+const Boots = require("./equipment/boots");
+const Items = require("../../../../util/items");
+const Messages = require("../../../../network/messages");
+const Formulas = require("../../../../util/formulas");
+const HitPoints = require("./points/hitpoints");
+const Mana = require("./points/mana");
+const Packets = require("../../../../network/packets");
+const Modules = require("../../../../util/modules");
+const Handler = require("./handler");
+const Quests = require("../../../../controllers/quests");
+const Inventory = require("./containers/inventory/inventory");
+const Abilities = require("./ability/abilities");
+const Bank = require("./containers/bank/bank");
+const config = require("../../../../../config.json");
+const Enchant = require("./enchant");
+const Utils = require("../../../../util/utils");
+const Hit = require("../combat/hit");
+const Trade = require("./trade");
+const Warp = require("./warp");
+const Guild = require("./guild");
+const Doors = require("./doors");
 
 class Player extends Character {
   constructor(world, database, connection, clientId) {
     super(-1, "player", connection.id, -1, -1);
 
-    let self = this;
+    const self = this;
 
     self.world = world;
     self.database = database;
@@ -54,7 +54,7 @@ class Player extends Character {
     self.team = null;
 
     self.disconnectTimeout = null;
-    self.timeoutDuration = 1000 * 60 * 10; //10 minutes
+    self.timeoutDuration = 1000 * 60 * 10; // 10 minutes
     self.lastRegionChange = new Date().getTime();
 
     self.handler = new Handler(self);
@@ -88,7 +88,7 @@ class Player extends Character {
   }
 
   load(data) {
-    let self = this;
+    const self = this;
 
     self.kind = data.kind;
     self.rights = data.rights;
@@ -111,11 +111,11 @@ class Player extends Character {
 
     if (data.invisibleIds) self.invisiblesIds = data.invisibleIds.split(" ");
 
-    let armour = data.armour,
-      weapon = data.weapon,
-      pendant = data.pendant,
-      ring = data.ring,
-      boots = data.boots;
+    const armour = data.armour;
+    const weapon = data.weapon;
+    const pendant = data.pendant;
+    const ring = data.ring;
+    const boots = data.boots;
 
     self.setPosition(data.x, data.y);
     self.setArmour(armour[0], armour[1], armour[2], armour[3]);
@@ -128,7 +128,7 @@ class Player extends Character {
   }
 
   loadInventory() {
-    let self = this;
+    const self = this;
 
     if (config.offlineMode) {
       self.inventory.loadEmpty();
@@ -149,7 +149,7 @@ class Player extends Character {
   }
 
   loadBank() {
-    let self = this;
+    const self = this;
 
     if (config.offlineMode) {
       self.bank.loadEmpty();
@@ -170,7 +170,7 @@ class Player extends Character {
   }
 
   loadQuests() {
-    let self = this;
+    const self = this;
 
     if (config.offlineMode) return;
 
@@ -215,7 +215,7 @@ class Player extends Character {
   }
 
   intro() {
-    let self = this;
+    const self = this;
 
     if (self.ban > new Date()) {
       self.connection.sendUTF8("ban");
@@ -224,14 +224,15 @@ class Player extends Character {
 
     if (self.x <= 0 || self.y <= 0) self.sendToSpawn();
 
-    if (self.hitPoints.getHitPoints() < 0)
+    if (self.hitPoints.getHitPoints() < 0) {
       self.hitPoints.setHitPoints(self.getMaxHitPoints());
+    }
 
     if (self.mana.getMana() < 0) self.mana.setMana(self.mana.getMaxMana());
 
     self.verifyRights();
 
-    let info = {
+    const info = {
       instance: self.instance,
       username: self.username.charAt(0).toUpperCase() + self.username.substr(1),
       x: self.x,
@@ -259,29 +260,32 @@ class Player extends Character {
   }
 
   verifyRights() {
-    let self = this;
+    const self = this;
 
-    if (config.moderators.indexOf(self.username.toLowerCase()) > -1)
+    if (config.moderators.indexOf(self.username.toLowerCase()) > -1) {
       self.rights = 1;
+    }
 
     if (
       config.administrators.indexOf(self.username.toLowerCase()) > -1 ||
       config.offlineMode
-    )
+    ) {
       self.rights = 2;
+    }
   }
 
   addExperience(exp) {
-    let self = this;
+    const self = this;
 
     self.experience += exp;
 
-    let oldLevel = self.level;
+    const oldLevel = self.level;
 
     self.level = Formulas.expToLevel(self.experience);
 
-    if (oldLevel !== self.level)
+    if (oldLevel !== self.level) {
       self.hitPoints.setMaxHitPoints(Formulas.getMaxHitPoints(self.level));
+    }
 
     self.sendToAdjacentRegions(
       self.region,
@@ -295,7 +299,7 @@ class Player extends Character {
   }
 
   heal(amount) {
-    let self = this;
+    const self = this;
 
     /**
      * Passed from the superclass...
@@ -310,8 +314,8 @@ class Player extends Character {
   }
 
   healHitPoints(amount) {
-    let self = this,
-      type = "health";
+    const self = this;
+    const type = "health";
 
     self.hitPoints.heal(amount);
 
@@ -328,8 +332,8 @@ class Player extends Character {
   }
 
   healManaPoints(amount) {
-    let self = this,
-      type = "mana";
+    const self = this;
+    const type = "mana";
 
     self.mana.heal(amount);
 
@@ -346,19 +350,20 @@ class Player extends Character {
   }
 
   eat(id) {
-    let self = this,
-      type,
-      amount;
+    const self = this;
+    let type;
+    let amount;
 
-    if (Items.hasPlugin(id))
+    if (Items.hasPlugin(id)) {
       new (Items.isNewPlugin(id))(id, -1, self.x, self.y).onUse(self);
+    }
   }
 
   equip(string, count, ability, abilityLevel) {
-    let self = this,
-      data = Items.getData(string),
-      type,
-      id;
+    const self = this;
+    const data = Items.getData(string);
+    let type;
+    let id = null;
 
     if (!data || data === "null") return;
 
@@ -372,8 +377,9 @@ class Player extends Character {
 
     switch (type) {
       case Modules.Equipment.Armour:
-        if (self.hasArmour() && self.armour.id !== 114)
+        if (self.hasArmour() && self.armour.id !== 114) {
           self.inventory.add(self.armour.getItem());
+        }
 
         self.setArmour(id, count, ability, abilityLevel);
         break;
@@ -422,8 +428,8 @@ class Player extends Character {
   }
 
   isInvisible(instance) {
-    let self = this,
-      entity = self.world.getEntityByInstance(instance);
+    const self = this;
+    const entity = self.world.getEntityByInstance(instance);
 
     if (!entity) return false;
 
@@ -435,8 +441,8 @@ class Player extends Character {
   }
 
   canEquip(string) {
-    let self = this,
-      requirement = Items.getLevelRequirement(string);
+    const self = this;
+    const requirement = Items.getLevelRequirement(string);
 
     if (requirement > self.level) {
       self.notify(
@@ -449,7 +455,7 @@ class Player extends Character {
   }
 
   die() {
-    let self = this;
+    const self = this;
 
     self.dead = true;
 
@@ -459,7 +465,7 @@ class Player extends Character {
   }
 
   teleport(x, y, isDoor, animate) {
-    let self = this;
+    const self = this;
 
     if (isDoor && !self.finishedTutorial()) {
       if (self.doorCallback) self.doorCallback(x, y);
@@ -478,13 +484,13 @@ class Player extends Character {
     );
 
     self.setPosition(x, y);
-    //self.checkRegions();
+    // self.checkRegions();
 
     self.world.cleanCombat(self);
   }
 
   updatePVP(pvp) {
-    let self = this;
+    const self = this;
 
     /**
      * No need to update if the state is the same
@@ -501,7 +507,7 @@ class Player extends Character {
   }
 
   updateOverlay(overlay) {
-    let self = this;
+    const self = this;
 
     if (self.overlayArea === overlay) return;
 
@@ -520,7 +526,7 @@ class Player extends Character {
   }
 
   updateCamera(camera) {
-    let self = this;
+    const self = this;
 
     if (self.cameraArea === camera) return;
 
@@ -544,7 +550,7 @@ class Player extends Character {
   }
 
   updateMusic(song) {
-    let self = this;
+    const self = this;
 
     self.currentSong = song;
 
@@ -552,7 +558,7 @@ class Player extends Character {
   }
 
   revertPoints() {
-    let self = this;
+    const self = this;
 
     self.hitPoints.setHitPoints(self.hitPoints.getMaxHitPoints());
     self.mana.setMana(self.mana.getMaxMana());
@@ -565,7 +571,7 @@ class Player extends Character {
   }
 
   toggleProfile(state) {
-    let self = this;
+    const self = this;
 
     self.profileDialogOpen = state;
 
@@ -597,7 +603,7 @@ class Player extends Character {
    */
 
   setArmour(id, count, ability, abilityLevel) {
-    let self = this;
+    const self = this;
 
     if (!id) return;
 
@@ -611,7 +617,7 @@ class Player extends Character {
   }
 
   breakWeapon() {
-    let self = this;
+    const self = this;
 
     self.notify("Your weapon has been broken.");
 
@@ -621,7 +627,7 @@ class Player extends Character {
   }
 
   setWeapon(id, count, ability, abilityLevel) {
-    let self = this;
+    const self = this;
 
     if (!id) return;
 
@@ -637,7 +643,7 @@ class Player extends Character {
   }
 
   setPendant(id, count, ability, abilityLevel) {
-    let self = this;
+    const self = this;
 
     if (!id) return;
 
@@ -651,7 +657,7 @@ class Player extends Character {
   }
 
   setRing(id, count, ability, abilityLevel) {
-    let self = this;
+    const self = this;
 
     if (!id) return;
 
@@ -665,7 +671,7 @@ class Player extends Character {
   }
 
   setBoots(id, count, ability, abilityLevel) {
-    let self = this;
+    const self = this;
 
     if (!id) return;
 
@@ -686,7 +692,7 @@ class Player extends Character {
   }
 
   setPosition(x, y) {
-    let self = this;
+    const self = this;
 
     if (self.dead) return;
 
@@ -736,14 +742,14 @@ class Player extends Character {
   }
 
   timeout() {
-    let self = this;
+    const self = this;
 
     self.connection.sendUTF8("timeout");
     self.connection.close("Player timed out.");
   }
 
   refreshTimeout() {
-    let self = this;
+    const self = this;
 
     clearTimeout(self.disconnectTimeout);
 
@@ -806,7 +812,7 @@ class Player extends Character {
   }
 
   getState() {
-    let self = this;
+    const self = this;
 
     return {
       type: self.type,
@@ -834,8 +840,8 @@ class Player extends Character {
   }
 
   getSpawn() {
-    let self = this,
-      position;
+    const self = this;
+    let position;
 
     /**
      * Here we will implement functions from quests and
@@ -846,27 +852,28 @@ class Player extends Character {
   }
 
   getHit(target) {
-    let self = this;
+    const self = this;
 
-    let defaultDamage = Formulas.getDamage(self, target),
-      isSpecial = 100 - self.weapon.abilityLevel < Utils.randomInt(0, 100);
+    const defaultDamage = Formulas.getDamage(self, target);
+    const isSpecial = 100 - self.weapon.abilityLevel < Utils.randomInt(0, 100);
 
-    if (!self.hasSpecialAttack() || !isSpecial)
+    if (!self.hasSpecialAttack() || !isSpecial) {
       return new Hit(Modules.Hits.Damage, defaultDamage);
+    }
 
     switch (self.weapon.ability) {
-      case Modules.Enchantment.Critical:
+      case Modules.Enchantment.Critical: {
         /**
          * Still experimental, not sure how likely it is that you're
          * gonna do a critical strike. I just do not want it getting
          * out of hand, it's easier to buff than to nerf..
          */
 
-        let multiplier = 1.0 + self.weapon.abilityLevel,
-          damage = defaultDamage * multiplier;
+        const multiplier = 1.0 + self.weapon.abilityLevel;
+        const damage = defaultDamage * multiplier;
 
         return new Hit(Modules.Hits.Critical, damage);
-
+      }
       case Modules.Enchantment.Stun:
         return new Hit(Modules.Hits.Stun, defaultDamage);
 
@@ -876,8 +883,8 @@ class Player extends Character {
   }
 
   isMuted() {
-    let self = this,
-      time = new Date().getTime();
+    const self = this;
+    const time = new Date().getTime();
 
     return self.mute - time > 0;
   }
@@ -917,28 +924,28 @@ class Player extends Character {
   }
 
   sendEquipment() {
-    let self = this,
-      info = {
-        armour: self.armour.getData(),
-        weapon: self.weapon.getData(),
-        pendant: self.pendant.getData(),
-        ring: self.ring.getData(),
-        boots: self.boots.getData()
-      };
+    const self = this;
+    const info = {
+      armour: self.armour.getData(),
+      weapon: self.weapon.getData(),
+      pendant: self.pendant.getData(),
+      ring: self.ring.getData(),
+      boots: self.boots.getData()
+    };
 
     self.send(new Messages.Equipment(Packets.EquipmentOpcode.Batch, info));
   }
 
   sendToSpawn() {
-    let self = this,
-      position = self.getSpawn();
+    const self = this;
+    const position = self.getSpawn();
 
     self.x = position.x;
     self.y = position.y;
   }
 
   sync(all) {
-    let self = this;
+    const self = this;
 
     /**
      * Function to be used for syncing up health,
@@ -947,7 +954,7 @@ class Player extends Character {
 
     if (!self.hitPoints || !self.mana) return;
 
-    let info = {
+    const info = {
       id: self.instance,
       hitPoints: self.getHitPoints(),
       maxHitPoints: self.getMaxHitPoints(),
@@ -969,7 +976,7 @@ class Player extends Character {
   }
 
   notify(message) {
-    let self = this;
+    const self = this;
 
     if (!message) return;
 
@@ -985,7 +992,7 @@ class Player extends Character {
      * being transported elsewhere.
      */
 
-    let self = this;
+    const self = this;
 
     self.send(
       new Messages.Movement(Packets.MovementOpcode.Stop, {
@@ -996,7 +1003,7 @@ class Player extends Character {
   }
 
   finishedTutorial() {
-    let self = this;
+    const self = this;
 
     if (!self.quests || config.offlineMode) return true;
 
@@ -1004,12 +1011,12 @@ class Player extends Character {
   }
 
   checkRegions() {
-    let self = this;
+    const self = this;
 
     if (!self.regionPosition) return;
 
-    let diffX = Math.abs(self.regionPosition[0] - self.x),
-      diffY = Math.abs(self.regionPosition[1] - self.y);
+    const diffX = Math.abs(self.regionPosition[0] - self.x);
+    const diffY = Math.abs(self.regionPosition[1] - self.y);
 
     if (diffX >= 10 || diffY >= 10) {
       self.regionPosition = [self.x, self.y];
@@ -1019,7 +1026,7 @@ class Player extends Character {
   }
 
   movePlayer() {
-    let self = this;
+    const self = this;
 
     /**
      * Server-sided callbacks towards movement should
@@ -1033,7 +1040,7 @@ class Player extends Character {
   }
 
   walkRandomly() {
-    let self = this;
+    const self = this;
 
     setInterval(function() {
       self.setPosition(
@@ -1044,13 +1051,13 @@ class Player extends Character {
   }
 
   killCharacter(character) {
-    let self = this;
+    const self = this;
 
     if (self.killCallback) self.killCallback(character);
   }
 
   save() {
-    let self = this;
+    const self = this;
 
     if (config.offlineMode || self.isGuest) return;
 

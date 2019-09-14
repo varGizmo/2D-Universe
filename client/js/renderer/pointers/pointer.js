@@ -1,7 +1,7 @@
 define(function() {
   return Class.extend({
     init: function(id, element, type) {
-      let self = this;
+      const self = this;
 
       self.id = id;
       self.element = element;
@@ -17,7 +17,7 @@ define(function() {
     },
 
     load: function() {
-      let self = this;
+      const self = this;
 
       self.blinkInterval = setInterval(function() {
         if (self.visible) self.hide();
@@ -28,14 +28,14 @@ define(function() {
     },
 
     destroy: function() {
-      let self = this;
+      const self = this;
 
       clearInterval(self.blinkInterval);
       self.element.remove();
     },
 
     setPosition: function(x, y) {
-      let self = this;
+      const self = this;
 
       self.x = x;
       self.y = y;

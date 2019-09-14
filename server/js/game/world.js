@@ -1,30 +1,30 @@
 /* global module */
 
-let config = require("../../config.json"),
-  Player = require("./entity/character/player/player"),
-  Map = require("../map/map"),
-  _ = require("underscore"),
-  Messages = require("../network/messages"),
-  Utils = require("../util/utils"),
-  Mobs = require("../util/mobs"),
-  Mob = require("./entity/character/mob/mob"),
-  NPCs = require("../util/npcs"),
-  NPC = require("./entity/npc/npc"),
-  Items = require("../util/items"),
-  Item = require("./entity/objects/item"),
-  Chest = require("./entity/objects/chest"),
-  Character = require("./entity/character/character"),
-  Projectile = require("./entity/objects/projectile"),
-  Packets = require("../network/packets"),
-  Formulas = require("../util/formulas"),
-  Modules = require("../util/modules"),
-  Shops = require("../controllers/shops"),
-  Region = require("../region/region"),
-  Network = require("../network/network");
+const config = require("../../config.json");
+const Player = require("./entity/character/player/player");
+const Map = require("../map/map");
+const _ = require("underscore");
+const Messages = require("../network/messages");
+const Utils = require("../util/utils");
+const Mobs = require("../util/mobs");
+const Mob = require("./entity/character/mob/mob");
+const NPCs = require("../util/npcs");
+const NPC = require("./entity/npc/npc");
+const Items = require("../util/items");
+const Item = require("./entity/objects/item");
+const Chest = require("./entity/objects/chest");
+const Character = require("./entity/character/character");
+const Projectile = require("./entity/objects/projectile");
+const Packets = require("../network/packets");
+const Formulas = require("../util/formulas");
+const Modules = require("../util/modules");
+const Shops = require("../controllers/shops");
+const Region = require("../region/region");
+const Network = require("../network/network");
 
 class World {
   constructor(id, socket, database) {
-    let self = this;
+    const self = this;
 
     self.id = id;
     self.socket = socket;
@@ -53,9 +53,9 @@ class World {
   }
 
   load(onWorldLoad) {
-    let self = this;
+    const self = this;
 
-    log.info("************ World " + self.id + " ***********");
+    log.info("************ World " + self.id + " ************");
 
     /**
      * The reason maps are loaded per each world is because
@@ -78,7 +78,7 @@ class World {
   }
 
   loaded() {
-    let self = this;
+    const self = this;
     /**
      * Similar to Gizmo engine here, but it's loaded upon initialization
      * rather than being called from elsewhere.
@@ -96,7 +96,7 @@ class World {
   }
 
   tick() {
-    let self = this;
+    const self = this;
 
     setInterval(function() {
       self.network.parsePackets();
@@ -109,7 +109,7 @@ class World {
    ****************************/
 
   kill(entity) {
-    let self = this;
+    const self = this;
 
     entity.applyDamage(entity.hitPoints);
 
@@ -132,14 +132,15 @@ class World {
   }
 
   handleDamage(attacker, target, damage) {
-    let self = this;
+    const self = this;
 
     if (!attacker || !target || isNaN(damage) || target.invincible) return;
 
-    if (target.type === "player" && target.hitCallback)
+    if (target.type === "player" && target.hitCallback) {
       target.hitCallback(attacker, damage);
+    }
 
-    //Stop screwing with this - it's so the target retaliates.
+    // Stop screwing with this - it's so the target retaliates.
 
     target.hit(attacker);
     target.applyDamage(damage);
@@ -182,13 +183,13 @@ class World {
   }
 
   handleDeath(character, ignoreDrops) {
-    let self = this;
+    const self = this;
 
     if (!character) return;
 
     if (character.type === "mob") {
-      let deathX = character.x,
-        deathY = character.y;
+      const deathX = character.x;
+      const deathY = character.y;
 
       if (character.deathCallback) character.deathCallback();
 
@@ -201,7 +202,7 @@ class World {
       character.combat.stop();
 
       if (!ignoreDrops) {
-        let drop = character.getDrop();
+        const drop = character.getDrop();
 
         if (drop) self.dropItem(drop.id, drop.count, deathX, deathY);
       }
@@ -209,20 +210,20 @@ class World {
   }
 
   createProjectile(info) {
-    let self = this,
-      attacker = info.shift(),
-      target = info.shift();
+    const self = this;
+    const attacker = info.shift();
+    const target = info.shift();
 
     if (!attacker || !target) return null;
 
-    let startX = attacker.x,
-      startY = attacker.y,
-      type = attacker.getProjectile(),
-      hit = null,
-      projectile = new Projectile(
-        type,
-        Utils.generateInstance(5, type, startX + startY)
-      );
+    const startX = attacker.x;
+    const startY = attacker.y;
+    const type = attacker.getProjectile();
+    let hit = null;
+    const projectile = new Projectile(
+      type,
+      Utils.generateInstance(5, type, startX + startY)
+    );
 
     projectile.setStart(startX, startY);
     projectile.setTarget(target);
@@ -246,34 +247,35 @@ class World {
   }
 
   spawnEntities() {
-    let self = this,
-      entities = 0;
+    const self = this;
+    let entities = 0;
 
     _.each(self.map.staticEntities, function(key, tileIndex) {
-      let isMob = !!Mobs.Properties[key],
-        isNpc = !!NPCs.Properties[key],
-        isItem = !!Items.Data[key],
-        info = isMob
-          ? Mobs.Properties[key]
-          : isNpc
+      const isMob = !!Mobs.Properties[key];
+      const isNpc = !!NPCs.Properties[key];
+      const isItem = !!Items.Data[key];
+      const info = isMob
+        ? Mobs.Properties[key]
+        : isNpc
           ? NPCs.Properties[key]
           : isItem
-          ? Items.getData(key)
-          : null,
-        position = self.map.indexToGridPosition(tileIndex);
+            ? Items.getData(key)
+            : null;
+      const position = self.map.indexToGridPosition(tileIndex);
 
       position.x++;
 
       if (!info || info === "null") {
-        if (self.debug)
+        if (self.debug) {
           log.info(
             "Unknown object spawned at: " + position.x + " " + position.y
           );
+        }
 
         return;
       }
 
-      let instance = Utils.generateInstance(
+      const instance = Utils.generateInstance(
         isMob ? 2 : isNpc ? 3 : 4,
         info.id + entities,
         position.x + entities,
@@ -281,12 +283,13 @@ class World {
       );
 
       if (isMob) {
-        let mob = new Mob(info.id, instance, position.x, position.y);
+        const mob = new Mob(info.id, instance, position.x, position.y);
 
         mob.static = true;
 
-        if (Mobs.Properties[key].hiddenName)
+        if (Mobs.Properties[key].hiddenName) {
           mob.hiddenName = Mobs.Properties[key].hiddenName;
+        }
 
         mob.onRespawn(function() {
           mob.dead = false;
@@ -299,11 +302,12 @@ class World {
         self.addMob(mob);
       }
 
-      if (isNpc)
+      if (isNpc) {
         self.addNPC(new NPC(info.id, instance, position.x, position.y));
+      }
 
       if (isItem) {
-        let item = self.createItem(info.id, instance, position.x, position.y);
+        const item = self.createItem(info.id, instance, position.x, position.y);
         item.static = true;
         self.addItem(item);
       }
@@ -315,8 +319,8 @@ class World {
   }
 
   spawnChests() {
-    let self = this,
-      chests = 0;
+    const self = this;
+    let chests = 0;
 
     _.each(self.map.chests, function(info) {
       self.spawnChest(info.i, info.x, info.y, true);
@@ -328,9 +332,9 @@ class World {
   }
 
   spawnMob(id, x, y) {
-    let self = this,
-      instance = Utils.generateInstance(2, id, x + id, y),
-      mob = new Mob(id, instance, x, y);
+    const self = this;
+    const instance = Utils.generateInstance(2, id, x + id, y);
+    const mob = new Mob(id, instance, x, y);
 
     if (!Mobs.exists(id)) return;
 
@@ -340,10 +344,10 @@ class World {
   }
 
   spawnChest(items, x, y, staticChest) {
-    let self = this,
-      chestCount = Object.keys(self.chests).length,
-      instance = Utils.generateInstance(5, 194, chestCount, x, y),
-      chest = new Chest(194, instance, x, y);
+    const self = this;
+    const chestCount = Object.keys(self.chests).length;
+    const instance = Utils.generateInstance(5, 194, chestCount, x, y);
+    const chest = new Chest(194, instance, x, y);
 
     chest.items = items;
 
@@ -362,8 +366,9 @@ class World {
 
       self.removeChest(chest);
 
-      if (config.debug)
+      if (config.debug) {
         log.info(`Opening chest at x: ${chest.x}, y: ${chest.y}`);
+      }
 
       self.dropItem(Items.stringToId(chest.getItem()), 1, chest.x, chest.y);
     });
@@ -376,22 +381,22 @@ class World {
   createItem(id, instance, x, y) {
     let item;
 
-    if (Items.hasPlugin(id))
+    if (Items.hasPlugin(id)) {
       item = new (Items.isNewPlugin(id))(id, instance, x, y);
-    else item = new Item(id, instance, x, y);
+    } else item = new Item(id, instance, x, y);
 
     return item;
   }
 
   dropItem(id, count, x, y) {
-    let self = this,
-      instance = Utils.generateInstance(
-        4,
-        id + Object.keys(self.entities).length,
-        x,
-        y
-      ),
-      item = self.createItem(id, instance, x, y);
+    const self = this;
+    const instance = Utils.generateInstance(
+      4,
+      id + Object.keys(self.entities).length,
+      x,
+      y
+    );
+    const item = self.createItem(id, instance, x, y);
 
     item.count = count;
     item.dropped = true;
@@ -416,7 +421,7 @@ class World {
   }
 
   push(type, info) {
-    let self = this;
+    const self = this;
 
     if (_.isArray(info)) {
       _.each(info, i => {
@@ -479,17 +484,19 @@ class World {
   }
 
   addEntity(entity, region) {
-    let self = this;
+    const self = this;
 
-    if (entity.instance in self.entities)
+    if (entity.instance in self.entities) {
       log.info("Entity " + entity.instance + " already exists.");
+    }
 
     self.entities[entity.instance] = entity;
 
     if (entity.type !== "projectile") self.region.handle(entity, region);
 
-    if (entity.x > 0 && entity.y > 0)
+    if (entity.x > 0 && entity.y > 0) {
       self.getGrids().addToEntityGrid(entity, entity.x, entity.y);
+    }
 
     entity.onSetPosition(function() {
       self.getGrids().updateEntityPosition(entity);
@@ -537,7 +544,7 @@ class World {
   }
 
   addPlayer(player) {
-    let self = this;
+    const self = this;
 
     self.addEntity(player);
     self.players[player.instance] = player;
@@ -546,14 +553,14 @@ class World {
   }
 
   addNPC(npc, region) {
-    let self = this;
+    const self = this;
 
     self.addEntity(npc, region);
     self.npcs[npc.instance] = npc;
   }
 
   addMob(mob, region) {
-    let self = this;
+    const self = this;
 
     if (!Mobs.exists(mob.id)) {
       log.error("Cannot spawn mob. " + mob.id + " does not exist.");
@@ -573,7 +580,7 @@ class World {
   }
 
   addItem(item, region) {
-    let self = this;
+    const self = this;
 
     if (item.static) item.onRespawn(self.addItem.bind(self, item));
 
@@ -582,21 +589,21 @@ class World {
   }
 
   addProjectile(projectile, region) {
-    let self = this;
+    const self = this;
 
     self.addEntity(projectile, region);
     self.projectiles[projectile.instance] = projectile;
   }
 
   addChest(chest, region) {
-    let self = this;
+    const self = this;
 
     self.addEntity(chest, region);
     self.chests[chest.instance] = chest;
   }
 
   removeEntity(entity) {
-    let self = this;
+    const self = this;
 
     if (entity.instance in self.entities) delete self.entities[entity.instance];
 
@@ -610,16 +617,17 @@ class World {
   }
 
   cleanCombat(entity) {
-    let self = this;
+    const self = this;
 
     _.each(this.entities, function(oEntity) {
-      if (oEntity instanceof Character && oEntity.combat.hasAttacker(entity))
+      if (oEntity instanceof Character && oEntity.combat.hasAttacker(entity)) {
         oEntity.combat.removeAttacker(entity);
+      }
     });
   }
 
   removeItem(item) {
-    let self = this;
+    const self = this;
 
     self.removeEntity(item);
     self.push(Packets.PushOpcode.Broadcast, {
@@ -630,7 +638,7 @@ class World {
   }
 
   removePlayer(player) {
-    let self = this;
+    const self = this;
 
     self.push(Packets.PushOpcode.Regions, {
       regionId: player.region,
@@ -652,7 +660,7 @@ class World {
   }
 
   removeProjectile(projectile) {
-    let self = this;
+    const self = this;
 
     self.removeEntity(projectile);
 
@@ -660,7 +668,7 @@ class World {
   }
 
   removeChest(chest) {
-    let self = this;
+    const self = this;
 
     self.removeEntity(chest);
     self.push(Packets.PushOpcode.Broadcast, {
@@ -672,29 +680,37 @@ class World {
   }
 
   playerInWorld(username) {
-    let self = this;
+    const self = this;
 
-    for (let id in self.players)
-      if (self.players.hasOwnProperty(id))
-        if (self.players[id].username.toLowerCase() === username.toLowerCase())
+    for (const id in self.players) {
+      if (self.players.hasOwnProperty(id)) {
+        if (
+          self.players[id].username.toLowerCase() === username.toLowerCase()
+        ) {
           return true;
+        }
+      }
+    }
 
     return false;
   }
 
   getPlayerByName(name) {
-    let self = this;
+    const self = this;
 
-    for (let id in self.players)
-      if (self.players.hasOwnProperty(id))
-        if (self.players[id].username.toLowerCase() === name.toLowerCase())
+    for (const id in self.players) {
+      if (self.players.hasOwnProperty(id)) {
+        if (self.players[id].username.toLowerCase() === name.toLowerCase()) {
           return self.players[id];
+        }
+      }
+    }
 
     return null;
   }
 
   getPlayerByInstance(instance) {
-    let self = this;
+    const self = this;
 
     if (instance in self.players) return self.players[instance];
 
@@ -708,23 +724,23 @@ class World {
   }
 
   getPVPAreas() {
-    return this.map.areas["PVP"].pvpAreas;
+    return this.map.areas.PVP.pvpAreas;
   }
 
   getMusicAreas() {
-    return this.map.areas["Music"].musicAreas;
+    return this.map.areas.Music.musicAreas;
   }
 
   getChestAreas() {
-    return this.map.areas["Chests"].chestAreas;
+    return this.map.areas.Chests.chestAreas;
   }
 
   getOverlayAreas() {
-    return this.map.areas["Overlays"].overlayAreas;
+    return this.map.areas.Overlays.overlayAreas;
   }
 
   getCameraAreas() {
-    return this.map.areas["Cameras"].cameraAreas;
+    return this.map.areas.Cameras.cameraAreas;
   }
 
   getGrids() {

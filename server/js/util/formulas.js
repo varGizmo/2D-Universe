@@ -1,15 +1,15 @@
 /* global module */
 
-let Formulas = {},
-  Utils = require("./utils");
+const Formulas = {};
+const Utils = require("./utils");
 
 Formulas.LevelExp = [];
 
 module.exports = Formulas;
 
 Formulas.getDamage = function(attacker, target, special) {
-  let maxDamage = Formulas.getMaxDamage(attacker, target, special),
-    accuracy = Utils.randomInt(0, attacker.level);
+  const maxDamage = Formulas.getMaxDamage(attacker, target, special);
+  const accuracy = Utils.randomInt(0, attacker.level);
 
   return Utils.randomInt(accuracy, maxDamage);
 };
@@ -17,29 +17,29 @@ Formulas.getDamage = function(attacker, target, special) {
 Formulas.getMaxDamage = function(attacker, target, special) {
   if (!attacker || !target) return;
 
-  let damageDealt,
-    damageAbsorbed,
-    damageAmplifier = 1,
-    absorptionAmplifier = 1,
-    usingRange = attacker.weapon
-      ? attacker.weapon.isRanged()
-      : attacker.isRanged(),
-    weaponLevel = attacker.weapon
-      ? attacker.weapon.getLevel()
-      : attacker.weaponLevel,
-    armourLevel = attacker.armour
-      ? attacker.armour.getDefense()
-      : attacker.armourLevel,
-    pendant = attacker.pendant ? attacker.pendant : null,
-    ring = attacker.ring ? attacker.ring : null,
-    boots = attacker.boots ? attacker.boots : null,
-    targetArmour = target.armour
-      ? target.armour.getDefense()
-      : target.armourLevel,
-    targetPendant = target.pendant ? target.pendant : null,
-    targetRing = target.ring ? target.ring : null,
-    targetBoots = target.boots ? target.boots : null,
-    isPlayer = attacker.type === "player";
+  let damageDealt;
+  let damageAbsorbed;
+  let damageAmplifier = 1;
+  let absorptionAmplifier = 1;
+  const usingRange = attacker.weapon
+    ? attacker.weapon.isRanged()
+    : attacker.isRanged();
+  const weaponLevel = attacker.weapon
+    ? attacker.weapon.getLevel()
+    : attacker.weaponLevel;
+  const armourLevel = attacker.armour
+    ? attacker.armour.getDefense()
+    : attacker.armourLevel;
+  const pendant = attacker.pendant ? attacker.pendant : null;
+  const ring = attacker.ring ? attacker.ring : null;
+  const boots = attacker.boots ? attacker.boots : null;
+  const targetArmour = target.armour
+    ? target.armour.getDefense()
+    : target.armourLevel;
+  const targetPendant = target.pendant ? target.pendant : null;
+  const targetRing = target.ring ? target.ring : null;
+  const targetBoots = target.boots ? target.boots : null;
+  const isPlayer = attacker.type === "player";
 
   damageDealt =
     (isPlayer ? 10 : 0) +
@@ -59,13 +59,15 @@ Formulas.getMaxDamage = function(attacker, target, special) {
    * Apply special amulets
    */
 
-  if (pendant && pendant.pendantLevel > 0)
+  if (pendant && pendant.pendantLevel > 0) {
     damageAmplifier *= pendant.getBaseAmplifier();
+  }
 
   if (ring && ring.ringLevel > 0) damageAmplifier *= ring.getBaseAmplifier();
 
-  if (boots && boots.bootsLevel > 0)
+  if (boots && boots.bootsLevel > 0) {
     damageAmplifier *= boots.getBaseAmplifier();
+  }
 
   /**
    * Just so amplifiers don't get out of hand.
@@ -101,8 +103,8 @@ Formulas.getCritical = function(attacker, target) {
    * The critical is the player's max hit plus *= critical multiplier of the weapon
    */
 
-  let damage = Formulas.getDamage(attacker, target),
-    multiplier = attacker.weapon.abilityLevel / 10;
+  let damage = Formulas.getDamage(attacker, target);
+  const multiplier = attacker.weapon.abilityLevel / 10;
 
   return (damage *= multiplier);
 };
@@ -110,13 +112,13 @@ Formulas.getCritical = function(attacker, target) {
 Formulas.getWeaponBreak = function(attacker, target) {
   if (!attacker || !target) return;
 
-  let targetArmour = target.getArmourLevel();
+  const targetArmour = target.getArmourLevel();
 
   /**
    * The chance a weapon will break ....
    */
 
-  let breakChance = Utils.randomRange(1, 100);
+  const breakChance = Utils.randomRange(1, 100);
 
   return breakChance > 75;
 };
@@ -133,8 +135,9 @@ Formulas.getAoEDamage = function(attacker, target) {
 Formulas.expToLevel = function(experience) {
   if (experience < 0) return -1;
 
-  for (let i = 1; i < Formulas.LevelExp.length; i++)
+  for (let i = 1; i < Formulas.LevelExp.length; i++) {
     if (experience < Formulas.LevelExp[i]) return i;
+  }
 };
 
 Formulas.getRewardExperience = function(player) {

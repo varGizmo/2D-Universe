@@ -3,7 +3,7 @@
 define(["jquery", "./container/container"], function($, Container) {
   return Class.extend({
     init: function(game, size) {
-      let self = this;
+      const self = this;
 
       self.game = game;
       self.actions = game.interface.actions;
@@ -21,21 +21,21 @@ define(["jquery", "./container/container"], function($, Container) {
     },
 
     load: function(data) {
-      let self = this,
-        list = $("#inventory").find("ul");
+      const self = this;
+      const list = $("#inventory").find("ul");
 
       for (let i = 0; i < data.length; i++) {
-        let item = data[i];
+        const item = data[i];
 
         self.container.setSlot(i, item);
 
-        let itemSlot = $('<div id="slot' + i + '" class="itemSlot"></div>');
+        const itemSlot = $("<div id=\"slot" + i + "\" class=\"itemSlot\"></div>");
 
         if (item.string !== "null")
-          itemSlot.css(
-            "background-image",
-            self.container.getImageFormat(self.getScale(), item.string)
-          );
+        { itemSlot.css(
+          "background-image",
+          self.container.getImageFormat(self.getScale(), item.string)
+        ); }
 
         if (self.game.app.isMobile()) itemSlot.css("background-size", "600%");
 
@@ -47,13 +47,13 @@ define(["jquery", "./container/container"], function($, Container) {
           self.click(event);
         });
 
-        let itemSlotList = $("<li></li>");
+        const itemSlotList = $("<li></li>");
 
         itemSlotList.append(itemSlot);
         itemSlotList.append(
-          '<div id="itemCount' +
+          "<div id=\"itemCount" +
             i +
-            '" class="itemCount">' +
+            "\" class=\"itemCount\">" +
             (item.count > 1 ? item.count : "") +
             "</div>"
         );
@@ -70,27 +70,27 @@ define(["jquery", "./container/container"], function($, Container) {
     },
 
     click: function(event) {
-      let self = this,
-        index = event.currentTarget.id.substring(4),
-        slot = self.container.slots[index],
-        item = $(self.getList()[index]);
+      const self = this;
+      const index = event.currentTarget.id.substring(4);
+      const slot = self.container.slots[index];
+      const item = $(self.getList()[index]);
 
       self.clearSelection();
 
       if (slot.string === null || slot.count === -1 || slot.string === "null")
-        return;
+      { return; }
 
       self.actions.reset();
       self.actions.loadDefaults("inventory");
 
       if (slot.edible)
-        self.actions.add($('<div id="eat" class="actionButton">Eat</div>'));
+      { self.actions.add($("<div id=\"eat\" class=\"actionButton\">Eat</div>")); }
       else if (slot.equippable)
-        self.actions.add($('<div id="wield" class="actionButton">Wield</div>'));
+      { self.actions.add($("<div id=\"wield\" class=\"actionButton\">Wield</div>")); }
 
       if (!self.actions.isVisible()) self.actions.show();
 
-      let sSlot = item.find("#slot" + index);
+      const sSlot = item.find("#slot" + index);
 
       sSlot.addClass("select");
 
@@ -101,14 +101,14 @@ define(["jquery", "./container/container"], function($, Container) {
     },
 
     clickDouble: function(event) {
-      let self = this,
-        index = event.currentTarget.id.substring(4),
-        slot = self.container.slots[index];
+      const self = this;
+      const index = event.currentTarget.id.substring(4);
+      const slot = self.container.slots[index];
 
       if (!slot.edible && !slot.equippable) return;
 
-      let item = $(self.getList()[index]),
-        sSlot = item.find("#slot" + index);
+      const item = $(self.getList()[index]);
+      const sSlot = item.find("#slot" + index);
 
       self.clearSelection();
 
@@ -121,8 +121,8 @@ define(["jquery", "./container/container"], function($, Container) {
     },
 
     clickAction: function(event, dAction) {
-      let self = this,
-        action = event.currentTarget ? event.currentTarget.id : event;
+      const self = this;
+      const action = event.currentTarget ? event.currentTarget.id : event;
 
       if (!self.selectedSlot || !self.selectedItem) return;
 
@@ -138,7 +138,7 @@ define(["jquery", "./container/container"], function($, Container) {
           break;
 
         case "drop":
-          let item = self.selectedItem;
+          const item = self.selectedItem;
 
           if (item.count > 1) self.actions.displayDrop("inventory");
           else {
@@ -152,7 +152,7 @@ define(["jquery", "./container/container"], function($, Container) {
           break;
 
         case "dropAccept":
-          let count = $("#dropCount").val();
+          const count = $("#dropCount").val();
 
           if (isNaN(count) || count < 1) return;
 
@@ -177,9 +177,9 @@ define(["jquery", "./container/container"], function($, Container) {
     },
 
     add: function(info) {
-      let self = this,
-        item = $(self.getList()[info.index]),
-        slot = self.container.slots[info.index];
+      const self = this;
+      const item = $(self.getList()[info.index]);
+      const slot = self.container.slots[info.index];
 
       if (!item || !slot) return;
 
@@ -193,7 +193,7 @@ define(["jquery", "./container/container"], function($, Container) {
         info.equippable
       );
 
-      let cssSlot = item.find("#slot" + info.index);
+      const cssSlot = item.find("#slot" + info.index);
 
       cssSlot.css(
         "background-image",
@@ -208,9 +208,9 @@ define(["jquery", "./container/container"], function($, Container) {
     },
 
     remove: function(info) {
-      let self = this,
-        item = $(self.getList()[info.index]),
-        slot = self.container.slots[info.index];
+      const self = this;
+      const item = $(self.getList()[info.index]);
+      const slot = self.container.slots[info.index];
 
       if (!item || !slot) return;
 
@@ -226,26 +226,26 @@ define(["jquery", "./container/container"], function($, Container) {
     },
 
     resize: function() {
-      let self = this,
-        list = self.getList();
+      const self = this;
+      const list = self.getList();
 
       for (let i = 0; i < list.length; i++) {
-        let item = $(list[i]).find("#slot" + i),
-          slot = self.container.slots[i];
+        const item = $(list[i]).find("#slot" + i);
+        const slot = self.container.slots[i];
 
         if (!slot) continue;
 
         if (self.game.app.isMobile()) item.css("background-size", "600%");
         else
-          item.css(
-            "background-image",
-            self.container.getImageFormat(self.getScale(), slot.string)
-          );
+        { item.css(
+          "background-image",
+          self.container.getImageFormat(self.getScale(), slot.string)
+        ); }
       }
     },
 
     clearSelection: function() {
-      let self = this;
+      const self = this;
 
       if (!self.selectedSlot) return;
 
@@ -255,14 +255,14 @@ define(["jquery", "./container/container"], function($, Container) {
     },
 
     display: function() {
-      let self = this;
+      const self = this;
 
       self.body.fadeIn("fast");
       self.button.addClass("active");
     },
 
     hide: function() {
-      let self = this;
+      const self = this;
 
       self.button.removeClass("active");
 

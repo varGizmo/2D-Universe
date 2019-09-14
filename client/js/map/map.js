@@ -3,7 +3,7 @@
 define(["jquery"], function($) {
   return Class.extend({
     init: function(game) {
-      let self = this;
+      const self = this;
 
       self.game = game;
       self.renderer = self.game.renderer;
@@ -26,30 +26,30 @@ define(["jquery"], function($) {
     },
 
     ready: function() {
-      let self = this,
-        rC = function() {
-          if (self.readyCallback) self.readyCallback();
-        };
+      const self = this;
+      const rC = function() {
+        if (self.readyCallback) self.readyCallback();
+      };
 
       if (self.mapLoaded && self.tilesetsLoaded) rC();
       else
-        setTimeout(function() {
-          self.loadTilesets();
-          self.ready();
-        }, 50);
+      { setTimeout(function() {
+        self.loadTilesets();
+        self.ready();
+      }, 50); }
     },
 
     load: function() {
-      let self = this;
+      const self = this;
 
       if (self.supportsWorker) {
         log.info("Parsing map with Web Workers...");
 
-        let worker = new Worker("./js/map/mapworker.js");
+        const worker = new Worker("./js/map/mapworker.js");
         worker.postMessage(1);
 
         worker.onmessage = function(event) {
-          let map = event.data;
+          const map = event.data;
 
           self.parseMap(map);
           self.grid = map.grid;
@@ -71,29 +71,29 @@ define(["jquery"], function($) {
     },
 
     synchronize: function(tileData) {
-      let self = this;
+      const self = this;
       // Use traditional for-loop instead of _
 
       for (let i = 0; i < tileData.length; i++) {
-        let tile = tileData[i],
-          collisionIndex = self.collisions.indexOf(tile.index);
+        const tile = tileData[i];
+        const collisionIndex = self.collisions.indexOf(tile.index);
 
         self.data[tile.index] = tile.data;
 
         if (tile.isCollision && collisionIndex < 0)
-          // Adding new collision tileIndex
-          self.collisions.push(tile.index);
+        // Adding new collision tileIndex
+        { self.collisions.push(tile.index); }
 
         if (!tile.isCollision && collisionIndex > 0)
-          // Removing existing collision tileIndex
-          self.collisions.splice(collisionIndex, 1);
+        // Removing existing collision tileIndex
+        { self.collisions.splice(collisionIndex, 1); }
       }
 
       self.saveRegionData();
     },
 
     loadTilesets: function() {
-      let self = this;
+      const self = this;
 
       if (self.rawTilesets.length < 1) return;
 
@@ -107,8 +107,8 @@ define(["jquery"], function($) {
     },
 
     loadTileset: function(path, rawTileset) {
-      let self = this,
-        tileset = new Image();
+      const self = this;
+      const tileset = new Image();
 
       tileset.crossOrigin = "Anonymous";
       tileset.src = path;
@@ -120,14 +120,14 @@ define(["jquery"], function($) {
 
       tileset.onload = function() {
         if (tileset.width % self.tileSize > 0)
-          throw Error("The tile size is malformed in the tile set: " + path);
+        { throw Error("The tile size is malformed in the tile set: " + path); }
       };
 
       return tileset;
     },
 
     parseMap: function(map) {
-      let self = this;
+      const self = this;
 
       self.width = map.width;
       self.height = map.height;
@@ -143,7 +143,7 @@ define(["jquery"], function($) {
     },
 
     loadCollisions: function() {
-      let self = this;
+      const self = this;
 
       self.grid = [];
 
@@ -153,22 +153,22 @@ define(["jquery"], function($) {
       }
 
       _.each(self.collisions, function(index) {
-        let position = self.indexToGridPosition(index + 1);
+        const position = self.indexToGridPosition(index + 1);
         self.grid[position.y][position.x] = 1;
       });
 
       _.each(self.blocking, function(index) {
-        let position = self.indexToGridPosition(index + 1);
+        const position = self.indexToGridPosition(index + 1);
 
         if (self.grid[position.y]) self.grid[position.y][position.x] = 1;
       });
     },
 
     updateCollisions: function() {
-      let self = this;
+      const self = this;
 
       _.each(self.collisions, function(index) {
-        let position = self.indexToGridPosition(index + 1);
+        const position = self.indexToGridPosition(index + 1);
 
         if (position.x > self.width - 1) position.x = self.width - 1;
 
@@ -179,12 +179,12 @@ define(["jquery"], function($) {
     },
 
     indexToGridPosition: function(index) {
-      let self = this;
+      const self = this;
 
       index -= 1;
 
-      let x = self.getX(index + 1, self.width),
-        y = Math.floor(index / self.width);
+      const x = self.getX(index + 1, self.width);
+      const y = Math.floor(index / self.width);
 
       return {
         x: x,
@@ -197,7 +197,7 @@ define(["jquery"], function($) {
     },
 
     isColliding: function(x, y) {
-      let self = this;
+      const self = this;
 
       if (self.isOutOfBounds(x, y) || !self.grid) return false;
 
@@ -235,28 +235,28 @@ define(["jquery"], function($) {
     },
 
     getTilesetFromId: function(id) {
-      let self = this;
+      const self = this;
 
-      for (let idx in self.tilesets)
-        if (
-          id > self.tilesets[idx].firstGID - 1 &&
+      for (const idx in self.tilesets)
+      { if (
+        id > self.tilesets[idx].firstGID - 1 &&
           id < self.tilesets[idx].lastGID + 1
-        )
-          return self.tilesets[idx];
+      )
+      { return self.tilesets[idx]; } }
 
       return null;
     },
 
     saveRegionData() {
-      let self = this;
+      const self = this;
 
       self.game.storage.setRegionData(self.data, self.collisions);
     },
 
     loadRegionData() {
-      let self = this,
-        regionData = self.game.storage.getRegionData(),
-        collisions = self.game.storage.getCollisions();
+      const self = this;
+      const regionData = self.game.storage.getRegionData();
+      const collisions = self.game.storage.getCollisions();
 
       if (regionData.length < 1) return;
 

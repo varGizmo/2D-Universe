@@ -2,10 +2,10 @@
 
 define(["jquery", "../page"], function($, Page) {
   return Class.extend({
-    //TODO - Hide crpyto mining option on mobiles and completely disable it.
+    // TODO - Hide crpyto mining option on mobiles and completely disable it.
 
     init: function(game) {
-      let self = this;
+      const self = this;
 
       self.game = game;
       self.audio = game.audio;
@@ -35,7 +35,7 @@ define(["jquery", "../page"], function($, Page) {
     },
 
     load: function() {
-      let self = this;
+      const self = this;
 
       if (self.loaded) return;
 
@@ -79,7 +79,7 @@ define(["jquery", "../page"], function($, Page) {
       });
 
       self.soundCheck.click(function() {
-        let isActive = self.soundCheck.hasClass("active");
+        const isActive = self.soundCheck.hasClass("active");
 
         self.setSound(!isActive);
 
@@ -96,7 +96,7 @@ define(["jquery", "../page"], function($, Page) {
       });
 
       self.cameraCheck.click(function() {
-        let active = self.cameraCheck.hasClass("active");
+        const active = self.cameraCheck.hasClass("active");
 
         if (active) self.renderer.camera.decenter();
         else self.renderer.camera.center();
@@ -107,7 +107,7 @@ define(["jquery", "../page"], function($, Page) {
       });
 
       self.debugCheck.click(function() {
-        let active = self.debugCheck.hasClass("active");
+        const active = self.debugCheck.hasClass("active");
 
         self.debugCheck.toggleClass("active");
 
@@ -117,7 +117,7 @@ define(["jquery", "../page"], function($, Page) {
       });
 
       self.centreCheck.click(function() {
-        let active = self.centreCheck.hasClass("active");
+        const active = self.centreCheck.hasClass("active");
 
         self.centreCheck.toggleClass("active");
 
@@ -127,7 +127,7 @@ define(["jquery", "../page"], function($, Page) {
       });
 
       self.nameCheck.click(function() {
-        let active = self.nameCheck.hasClass("active");
+        const active = self.nameCheck.hasClass("active");
 
         self.nameCheck.toggleClass("active");
 
@@ -137,7 +137,7 @@ define(["jquery", "../page"], function($, Page) {
       });
 
       self.levelCheck.click(function() {
-        let active = self.levelCheck.hasClass("active");
+        const active = self.levelCheck.hasClass("active");
 
         self.levelCheck.toggleClass("active");
 
@@ -179,63 +179,63 @@ define(["jquery", "../page"], function($, Page) {
     },
 
     setMusicLevel: function(musicLevel) {
-      let self = this;
+      const self = this;
 
       self.storage.data.settings.music = musicLevel;
       self.storage.save();
     },
 
     setSFXLevel: function(sfxLevel) {
-      let self = this;
+      const self = this;
 
       self.storage.data.settings.sfx = sfxLevel;
       self.storage.save();
     },
 
     setBrightness: function(brightness) {
-      let self = this;
+      const self = this;
 
       self.storage.data.settings.brightness = brightness;
       self.storage.save();
     },
 
     setSound: function(state) {
-      let self = this;
+      const self = this;
 
       self.storage.data.settings.soundEnabled = state;
       self.storage.save();
     },
 
     setCamera: function(state) {
-      let self = this;
+      const self = this;
 
       self.storage.data.settings.centerCamera = state;
       self.storage.save();
     },
 
     setDebug: function(state) {
-      let self = this;
+      const self = this;
 
       self.storage.data.settings.debug = state;
       self.storage.save();
     },
 
     setCentre: function(state) {
-      let self = this;
+      const self = this;
 
       self.storage.data.settings.autoCentre = state;
       self.storage.save();
     },
 
     setName: function(state) {
-      let self = this;
+      const self = this;
 
       self.storage.data.settings.showNames = state;
       self.storage.save();
     },
 
     setLevel: function(state) {
-      let self = this;
+      const self = this;
 
       self.storage.data.settings.showLevels = state;
       self.storage.save();

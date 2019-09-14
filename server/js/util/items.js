@@ -1,6 +1,6 @@
 /* global module */
 
-let Items = {};
+const Items = {};
 
 Items.Data = {};
 Items.Ids = {};
@@ -21,9 +21,11 @@ Items.hasPlugin = function(id) {
 };
 
 Items.isNewPlugin = function(id) {
-  if (id in Items.Ids)
-    if (Items.Ids[id].plugin in Items.Plugins)
+  if (id in Items.Ids) {
+    if (Items.Ids[id].plugin in Items.Plugins) {
       return Items.Plugins[Items.Ids[id].plugin];
+    }
+  }
 };
 
 Items.idToString = function(id) {
@@ -46,8 +48,8 @@ Items.stringToId = function(name) {
 };
 
 Items.getLevelRequirement = function(name) {
-  let level = 1,
-    item = Items.Data[name];
+  let level = 1;
+  const item = Items.Data[name];
 
   if (item && item.requirement) return item.requirement;
 
@@ -97,21 +99,23 @@ Items.isArcherWeapon = function(string) {
 };
 
 Items.isWeapon = function(string) {
-  if (string in Items.Data)
+  if (string in Items.Data) {
     return (
       Items.Data[string].type === "weapon" ||
       Items.Data[string].type === "weaponarcher"
     );
+  }
 
   return false;
 };
 
 Items.isArmour = function(string) {
-  if (string in Items.Data)
+  if (string in Items.Data) {
     return (
       Items.Data[string].type === "armor" ||
       Items.Data[string].type === "armorarcher"
     );
+  }
 
   return false;
 };

@@ -1,6 +1,6 @@
 /* global module */
 
-let NPCs = {};
+const NPCs = {};
 
 NPCs.Properties = {};
 NPCs.Ids = {};

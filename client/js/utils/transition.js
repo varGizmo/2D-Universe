@@ -1,7 +1,7 @@
 define(function() {
   return Class.extend({
     init: function() {
-      let self = this;
+      const self = this;
 
       self.startValue = 0;
       self.endValue = 0;
@@ -17,7 +17,7 @@ define(function() {
       endValue,
       duration
     ) {
-      let self = this;
+      const self = this;
 
       self.startTime = currentTime;
       self.updateFunction = updateFunction;
@@ -31,7 +31,7 @@ define(function() {
     },
 
     step: function(currentTime) {
-      let self = this;
+      const self = this;
 
       if (!self.inProgress) return;
 
@@ -41,10 +41,10 @@ define(function() {
 
         if (elapsed > self.duration) elapsed = self.duration;
 
-        let diff = self.endValue - self.startValue,
-          interval = Math.round(
-            self.startValue + (diff / self.duration) * elapsed
-          );
+        const diff = self.endValue - self.startValue;
+        const interval = Math.round(
+          self.startValue + (diff / self.duration) * elapsed
+        );
 
         if (elapsed === self.duration || interval === self.endValue) {
           self.stop();
@@ -54,7 +54,7 @@ define(function() {
     },
 
     restart: function(currentTime, startValue, endValue) {
-      let self = this;
+      const self = this;
 
       self.start(
         currentTime,

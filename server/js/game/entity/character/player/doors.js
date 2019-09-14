@@ -1,13 +1,13 @@
 /* global module */
 
-let _ = require("underscore"),
-  DoorData = require("../../../../../data/doors"),
-  Messages = require("../../../../network/messages"),
-  Packets = require("../../../../network/packets");
+const _ = require("underscore");
+const DoorData = require("../../../../../data/doors");
+const Messages = require("../../../../network/messages");
+const Packets = require("../../../../network/packets");
 
 class Doors {
   constructor(player) {
-    let self = this;
+    const self = this;
 
     self.world = player.world;
     self.player = player;
@@ -18,7 +18,7 @@ class Doors {
   }
 
   load() {
-    let self = this;
+    const self = this;
 
     _.each(DoorData, function(door) {
       self.doors[door.id] = {
@@ -35,29 +35,30 @@ class Doors {
   }
 
   getStatus(door) {
-    let self = this;
+    const self = this;
 
     switch (door.requirement) {
-      case "quest":
-        let quest = self.player.quests.getQuest(door.questId);
+      case "quest": {
+        const quest = self.player.quests.getQuest(door.questId);
 
         return quest && quest.hasDoorUnlocked(door) ? "open" : "closed";
+      }
     }
   }
 
   getTiles(door) {
-    let self = this,
-      tiles = {
-        indexes: [],
-        data: [],
-        collisions: []
-      };
+    const self = this;
+    const tiles = {
+      indexes: [],
+      data: [],
+      collisions: []
+    };
 
-    let status = self.getStatus(door),
-      doorState = {
-        open: door.openIds,
-        closed: door.closedIds
-      };
+    const status = self.getStatus(door);
+    const doorState = {
+      open: door.openIds,
+      closed: door.closedIds
+    };
 
     _.each(doorState[status], function(value, key) {
       tiles.indexes.push(parseInt(key));
@@ -69,15 +70,15 @@ class Doors {
   }
 
   getAllTiles() {
-    let self = this,
-      allTiles = {
-        indexes: [],
-        data: [],
-        collisions: []
-      };
+    const self = this;
+    const allTiles = {
+      indexes: [],
+      data: [],
+      collisions: []
+    };
 
     _.each(self.doors, function(door) {
-      let tiles = self.getTiles(door);
+      const tiles = self.getTiles(door);
 
       allTiles.indexes.push.apply(allTiles.indexes, tiles.indexes);
       allTiles.data.push.apply(allTiles.data, tiles.data);
@@ -88,13 +89,14 @@ class Doors {
   }
 
   hasCollision(x, y) {
-    let self = this,
-      tiles = self.getAllTiles(),
-      tileIndex = self.world.map.gridPositionToIndex(x, y),
-      index = tiles.indexes.indexOf(tileIndex) - 1;
+    const self = this;
+    const tiles = self.getAllTiles();
+    const tileIndex = self.world.map.gridPositionToIndex(x, y);
+    const index = tiles.indexes.indexOf(tileIndex) - 1;
 
     return index < 0 ? false : tiles.collisions[index];
   }
+
   getDoor(x, y, callback) {
     this.forEachDoor(function(door) {
       callback(door.x === x && door.y === y ? door : null);

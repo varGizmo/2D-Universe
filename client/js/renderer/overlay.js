@@ -3,7 +3,7 @@
 define(function() {
   return Class.extend({
     init: function(game) {
-      let self = this;
+      const self = this;
 
       self.game = game;
 
@@ -14,13 +14,13 @@ define(function() {
     },
 
     load: function() {
-      let self = this;
+      const self = this;
 
       self.overlays["fog.png"] = self.loadOverlay("fog.png");
     },
 
     loadOverlay: function(overlayName) {
-      let overlay = new Image();
+      const overlay = new Image();
 
       overlay.crossOrigin = "Anonymous";
       overlay.src = "img/overlays/" + overlayName;
@@ -33,10 +33,10 @@ define(function() {
     },
 
     updateOverlay(overlay) {
-      let self = this;
+      const self = this;
 
       if (overlay in self.overlays)
-        self.currentOverlay = self.overlays[overlay];
+      { self.currentOverlay = self.overlays[overlay]; }
       else self.currentOverlay = overlay;
     },
 

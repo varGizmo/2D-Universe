@@ -2,7 +2,7 @@
 
 class Connection {
   constructor(id, connection, server) {
-    let self = this;
+    const self = this;
 
     self.id = id;
     self.socket = connection;

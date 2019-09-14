@@ -9,7 +9,7 @@ define(function() {
 
   return Class.extend({
     init: function() {
-      let self = this;
+      const self = this;
 
       self.queue = [];
     },

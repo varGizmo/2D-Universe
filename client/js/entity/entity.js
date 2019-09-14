@@ -3,7 +3,7 @@
 define(["./entityhandler"], function(EntityHandler) {
   return Class.extend({
     init: function(id, kind) {
-      let self = this;
+      const self = this;
 
       self.id = id;
       self.kind = kind;
@@ -59,7 +59,7 @@ define(["./entityhandler"], function(EntityHandler) {
      */
 
     loadDirty: function() {
-      let self = this;
+      const self = this;
 
       self.dirty = true;
 
@@ -67,14 +67,14 @@ define(["./entityhandler"], function(EntityHandler) {
     },
 
     fadeIn: function(time) {
-      let self = this;
+      const self = this;
 
       self.fading = true;
       self.fadingTime = time;
     },
 
     blink: function(speed) {
-      let self = this;
+      const self = this;
 
       self.blinking = setInterval(function() {
         self.toggleVisibility();
@@ -82,7 +82,7 @@ define(["./entityhandler"], function(EntityHandler) {
     },
 
     stopBlinking: function() {
-      let self = this;
+      const self = this;
 
       if (self.blinking) clearInterval(self.blinking);
 
@@ -94,7 +94,7 @@ define(["./entityhandler"], function(EntityHandler) {
     },
 
     setSprite: function(sprite) {
-      let self = this;
+      const self = this;
 
       if (!sprite || (self.sprite && self.sprite.name === sprite.name)) return;
 
@@ -113,14 +113,14 @@ define(["./entityhandler"], function(EntityHandler) {
     },
 
     setPosition: function(x, y) {
-      let self = this;
+      const self = this;
 
       self.x = x;
       self.y = y;
     },
 
     setGridPosition: function(x, y) {
-      let self = this;
+      const self = this;
 
       self.gridX = x;
       self.gridY = y;
@@ -129,15 +129,15 @@ define(["./entityhandler"], function(EntityHandler) {
     },
 
     setAnimation: function(name, speed, count, onEndCount) {
-      let self = this;
+      const self = this;
 
       if (
         !self.spriteLoaded ||
         (self.currentAnimation && self.currentAnimation.name === name)
       )
-        return;
+      { return; }
 
-      let anim = self.getAnimationByName(name);
+      const anim = self.getAnimationByName(name);
 
       if (!anim) return;
 
@@ -148,7 +148,7 @@ define(["./entityhandler"], function(EntityHandler) {
       self.currentAnimation.setSpeed(speed);
 
       self.currentAnimation.setCount(
-        count ? count : 0,
+        count || 0,
         onEndCount ||
           function() {
             self.idle();
@@ -157,7 +157,7 @@ define(["./entityhandler"], function(EntityHandler) {
     },
 
     setCountdown: function(count) {
-      let self = this;
+      const self = this;
 
       self.counter = count;
 
@@ -179,17 +179,17 @@ define(["./entityhandler"], function(EntityHandler) {
     },
 
     getDistance: function(entity) {
-      let self = this,
-        x = Math.abs(self.gridX - entity.gridX),
-        y = Math.abs(self.gridY - entity.gridY);
+      const self = this;
+      const x = Math.abs(self.gridX - entity.gridX);
+      const y = Math.abs(self.gridY - entity.gridY);
 
       return x > y ? x : y;
     },
 
     getCoordDistance: function(toX, toY) {
-      let self = this,
-        x = Math.abs(self.gridX - toX),
-        y = Math.abs(self.gridY - toY);
+      const self = this;
+      const x = Math.abs(self.gridX - toX);
+      const y = Math.abs(self.gridY - toY);
 
       return x > y ? x : y;
     },

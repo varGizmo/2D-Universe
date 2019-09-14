@@ -1,19 +1,19 @@
 /* global module */
 
-let Packets = require("../network/packets"),
-  Request = require("request"),
-  config = require("../../config.json"),
-  _ = require("underscore"),
-  Messages = require("../network/messages"),
-  sanitizer = require("sanitizer"),
-  Commands = require("./commands"),
-  Items = require("../util/items"),
-  Creator = require("../database/mongodb/creator"),
-  Utils = require("../util/utils");
+const Packets = require("../network/packets");
+const Request = require("request");
+const config = require("../../config.json");
+const _ = require("underscore");
+const Messages = require("../network/messages");
+const sanitizer = require("sanitizer");
+const Commands = require("./commands");
+const Items = require("../util/items");
+const Creator = require("../database/mongodb/creator");
+const Utils = require("../util/utils");
 
 class Incoming {
   constructor(player) {
-    let self = this;
+    const self = this;
 
     self.player = player;
     self.connection = self.player.connection;
@@ -22,8 +22,8 @@ class Incoming {
     self.commands = new Commands(self.player);
 
     self.connection.listen(function(data) {
-      let packet = data.shift(),
-        message = data[0];
+      const packet = data.shift();
+      const message = data[0];
 
       if (!Utils.validPacket(packet)) {
         log.error("Non-existent packet received: " + packet + " data: ");
@@ -119,16 +119,16 @@ class Incoming {
   }
 
   handleIntro(message) {
-    let self = this,
-      loginType = message.shift(),
-      username = message.shift().toLowerCase(),
-      password = message.shift(),
-      isRegistering = loginType === Packets.IntroOpcode.Register,
-      isGuest = loginType === Packets.IntroOpcode.Guest,
-      email = isRegistering ? message.shift() : "",
-      formattedUsername = username
-        ? username.charAt(0).toUpperCase() + username.slice(1)
-        : "";
+    const self = this;
+    const loginType = message.shift();
+    const username = message.shift().toLowerCase();
+    const password = message.shift();
+    const isRegistering = loginType === Packets.IntroOpcode.Register;
+    const isGuest = loginType === Packets.IntroOpcode.Guest;
+    const email = isRegistering ? message.shift() : "";
+    const formattedUsername = username
+      ? username.charAt(0).toUpperCase() + username.slice(1)
+      : "";
 
     self.player.username = formattedUsername
       .substr(0, 32)
@@ -151,7 +151,7 @@ class Incoming {
     }
 
     if (config.offlineMode) {
-      let creator = new Creator(null);
+      const creator = new Creator(null);
 
       self.player.load(Creator.getFullData(self.player));
       self.player.intro();
@@ -175,7 +175,7 @@ class Incoming {
       self.player.isGuest = true;
 
       self.database.login(self.player);
-    } else
+    } else {
       self.database.verify(self.player, function(result) {
         if (result.status === "success") self.database.login(self.player);
         else {
@@ -185,17 +185,19 @@ class Incoming {
           );
         }
       });
+    }
   }
 
   handleReady(message) {
-    let self = this,
-      isReady = message.shift(),
-      preloadedData = message.shift();
+    const self = this;
+    const isReady = message.shift();
+    const preloadedData = message.shift();
 
     if (!isReady) return;
 
-    if (self.player.regionsLoaded.length > 0 && !preloadedData)
+    if (self.player.regionsLoaded.length > 0 && !preloadedData) {
       self.player.regionsLoaded = [];
+    }
 
     self.player.ready = true;
 
@@ -207,8 +209,9 @@ class Incoming {
     self.player.loadBank();
     self.player.loadQuests();
 
-    if (self.world.map.isOutOfBounds(self.player.x, self.player.y))
+    if (self.world.map.isOutOfBounds(self.player.x, self.player.y)) {
       self.player.setPosition(50, 89);
+    }
 
     self.player.save();
 
@@ -216,22 +219,23 @@ class Incoming {
   }
 
   handleWho(message) {
-    let self = this;
+    const self = this;
 
     _.each(message.shift(), function(id) {
-      let entity = self.world.getEntityByInstance(id);
+      const entity = self.world.getEntityByInstance(id);
 
       if (entity && entity.id) self.player.send(new Messages.Spawn(entity));
     });
   }
 
   handleEquipment(message) {
-    let self = this,
-      opcode = message.shift();
+    const self = this;
+    const opcode = message.shift();
+    let type;
 
     switch (opcode) {
       case Packets.EquipmentOpcode.Unequip:
-        let type = message.shift();
+        type = message.shift();
 
         if (!self.player.inventory.hasSpace()) {
           self.player.send(
@@ -253,8 +257,9 @@ class Incoming {
             break;
 
           case "armour":
-            if (self.player.hasArmour() && self.player.armour.id === 114)
+            if (self.player.hasArmour() && self.player.armour.id === 114) {
               return;
+            }
 
             self.player.inventory.add(self.player.armour.getItem());
             self.player.setArmour(114, 1, -1, -1);
@@ -282,102 +287,108 @@ class Incoming {
 
             self.player.inventory.add(self.player.boots.getItem());
             self.player.setBoots(-1, -1, -1, -1);
-
-            break;
         }
 
         self.player.send(
           new Messages.Equipment(Packets.EquipmentOpcode.Unequip, [type])
         );
         self.player.sync();
-
-        break;
     }
   }
 
   handleMovement(message) {
-    let self = this,
-      opcode = message.shift();
+    const self = this;
+    const opcode = message.shift();
 
     if (!self.player || self.player.dead) return;
 
     switch (opcode) {
       case Packets.MovementOpcode.Request:
-        let requestX = message.shift(),
-          requestY = message.shift(),
-          playerX = message.shift(),
-          playerY = message.shift();
+        {
+          const requestX = message.shift();
+          const requestY = message.shift();
+          const playerX = message.shift();
+          const playerY = message.shift();
 
-        if (self.preventNoClip(requestX, requestY))
-          self.player.guessPosition(requestX, requestY);
-
+          if (self.preventNoClip(requestX, requestY)) {
+            self.player.guessPosition(requestX, requestY);
+          }
+        }
         break;
 
       case Packets.Movement.Started:
-        let selectedX = message.shift(),
-          selectedY = message.shift(),
-          pX = message.shift(),
-          pY = message.shift();
+        {
+          const selectedX = message.shift();
+          const selectedY = message.shift();
+          const pX = message.shift();
+          const pY = message.shift();
 
-        if (
-          pX !== self.player.x ||
-          pY !== self.player.y ||
-          self.player.stunned ||
-          !self.preventNoClip(selectedX, selectedY)
-        )
-          return;
+          if (
+            pX !== self.player.x ||
+            pY !== self.player.y ||
+            self.player.stunned ||
+            !self.preventNoClip(selectedX, selectedY)
+          ) {
+            return;
+          }
 
-        self.player.moving = true;
-
+          self.player.moving = true;
+        }
         break;
 
       case Packets.MovementOpcode.Step:
-        let x = message.shift(),
-          y = message.shift();
+        {
+          const x = message.shift();
+          const y = message.shift();
 
-        if (self.player.stunned || !self.preventNoClip(x, y)) return;
+          if (self.player.stunned || !self.preventNoClip(x, y)) return;
 
-        self.player.setPosition(x, y);
-
+          self.player.setPosition(x, y);
+        }
         break;
 
       case Packets.MovementOpcode.Stop:
-        let posX = message.shift(),
-          posY = message.shift(),
-          id = message.shift(),
-          hasTarget = message.shift(),
-          entity = self.world.getEntityByInstance(id);
+        {
+          const posX = message.shift();
+          const posY = message.shift();
+          const id = message.shift();
+          const hasTarget = message.shift();
+          const entity = self.world.getEntityByInstance(id);
 
-        if (entity && entity.type === "item") self.player.inventory.add(entity);
+          if (entity && entity.type === "item") {
+            self.player.inventory.add(entity);
+          }
 
-        if (self.world.map.isDoor(posX, posY) && !hasTarget) {
-          let destination = self.world.map.getDoorDestination(posX, posY);
+          if (self.world.map.isDoor(posX, posY) && !hasTarget) {
+            const destination = self.world.map.getDoorDestination(posX, posY);
 
-          self.player.teleport(destination.x, destination.y, true);
-        } else self.player.setPosition(posX, posY);
+            self.player.teleport(destination.x, destination.y, true);
+          } else self.player.setPosition(posX, posY);
 
-        self.player.moving = false;
-        self.player.lastMovement = new Date().getTime();
-
+          self.player.moving = false;
+          self.player.lastMovement = new Date().getTime();
+        }
         break;
 
       case Packets.MovementOpcode.Entity:
-        let instance = message.shift(),
-          entityX = message.shift(),
-          entityY = message.shift(),
-          oEntity = self.world.getEntityByInstance(instance);
+        {
+          const instance = message.shift();
+          const entityX = message.shift();
+          const entityY = message.shift();
+          const oEntity = self.world.getEntityByInstance(instance);
 
-        if (!oEntity || (oEntity.x === entityX && oEntity.y === entityY))
-          return;
+          if (!oEntity || (oEntity.x === entityX && oEntity.y === entityY)) {
+            return;
+          }
 
-        oEntity.setPosition(entityX, entityY);
+          oEntity.setPosition(entityX, entityY);
 
-        if (oEntity.hasTarget()) oEntity.combat.forceAttack();
-
+          if (oEntity.hasTarget()) oEntity.combat.forceAttack();
+        }
         break;
 
-      case Packets.MovementOpcode.Orientate:
-        let orientation = message.shift();
+      case Packets.MovementOpcode.Orientate: {
+        const orientation = message.shift();
 
         self.world.push(Packets.PushOpcode.Regions, {
           regionId: self.player.region,
@@ -386,14 +397,13 @@ class Incoming {
             orientation
           ])
         });
-
-        break;
+      }
     }
   }
 
   handleRequest(message) {
-    let self = this,
-      id = message.shift();
+    const self = this;
+    const id = message.shift();
 
     if (id !== self.player.instance) return;
 
@@ -401,61 +411,63 @@ class Incoming {
   }
 
   handleTarget(message) {
-    let self = this,
-      opcode = message.shift(),
-      instance = message.shift();
+    const self = this;
+    const opcode = message.shift();
+    const instance = message.shift();
 
     log.debug("Targeted: " + instance);
 
     switch (opcode) {
       case Packets.TargetOpcode.Talk:
-        let entity = self.world.getEntityByInstance(instance);
+        {
+          const entity = self.world.getEntityByInstance(instance);
 
-        if (!entity || !self.player.isAdjacent(entity)) return;
+          if (!entity || !self.player.isAdjacent(entity)) return;
 
-        if (entity.type === "chest") {
-          entity.openChest();
-          return;
+          if (entity.type === "chest") {
+            entity.openChest();
+            return;
+          }
+
+          if (entity.dead) return;
+
+          if (self.player.npcTalkCallback) self.player.npcTalkCallback(entity);
         }
-
-        if (entity.dead) return;
-
-        if (self.player.npcTalkCallback) self.player.npcTalkCallback(entity);
-
         break;
 
       case Packets.TargetOpcode.Attack:
-        let target = self.world.getEntityByInstance(instance);
+        {
+          const target = self.world.getEntityByInstance(instance);
 
-        if (!target || target.dead || !self.canAttack(self.player, target))
-          return;
+          if (!target || target.dead || !self.canAttack(self.player, target)) {
+            return;
+          }
 
-        self.world.push(Packets.PushOpcode.Regions, {
-          regionId: target.region,
-          message: new Messages.Combat(Packets.CombatOpcode.Initiate, {
-            attackerId: self.player.instance,
-            targetId: target.instance
-          })
-        });
-
+          self.world.push(Packets.PushOpcode.Regions, {
+            regionId: target.region,
+            message: new Messages.Combat(Packets.CombatOpcode.Initiate, {
+              attackerId: self.player.instance,
+              targetId: target.instance
+            })
+          });
+        }
         break;
 
-      case Packets.TargetOpcode.None:
+      case Packets.TargetOpcode.None: {
         self.player.combat.stop();
         self.player.removeTarget();
-
-        break;
+      }
     }
   }
 
   handleCombat(message) {
-    let self = this,
-      opcode = message.shift();
+    const self = this;
+    const opcode = message.shift();
 
     switch (opcode) {
-      case Packets.CombatOpcode.Initiate:
-        let attacker = self.world.getEntityByInstance(message.shift()),
-          target = self.world.getEntityByInstance(message.shift());
+      case Packets.CombatOpcode.Initiate: {
+        const attacker = self.world.getEntityByInstance(message.shift());
+        const target = self.world.getEntityByInstance(message.shift());
 
         if (
           !target ||
@@ -463,8 +475,9 @@ class Incoming {
           !attacker ||
           attacker.dead ||
           !self.canAttack(attacker, target)
-        )
+        ) {
           return;
+        }
 
         attacker.setTarget(target);
 
@@ -476,54 +489,52 @@ class Incoming {
         }
 
         if (target.combat) target.combat.addAttacker(attacker);
-
-        break;
+      }
     }
   }
 
   handleProjectile(message) {
-    let self = this,
-      type = message.shift();
+    const self = this;
+    const type = message.shift();
 
     switch (type) {
-      case Packets.ProjectileOpcode.Impact:
-        let projectile = self.world.getEntityByInstance(message.shift()),
-          target = self.world.getEntityByInstance(message.shift());
+      case Packets.ProjectileOpcode.Impact: {
+        const projectile = self.world.getEntityByInstance(message.shift());
+        const target = self.world.getEntityByInstance(message.shift());
 
         if (!target || target.dead || !projectile) return;
 
         self.world.handleDamage(projectile.owner, target, projectile.damage);
         self.world.removeProjectile(projectile);
 
-        if (target.combat.started || target.dead || target.type !== "mob")
+        if (target.combat.started || target.dead || target.type !== "mob") {
           return;
+        }
 
         target.begin(projectile.owner);
-
-        break;
+      }
     }
   }
 
   handleNetwork(message) {
-    let self = this,
-      opcode = message.shift();
+    const self = this;
+    const opcode = message.shift();
 
     switch (opcode) {
       case Packets.NetworkOpcode.Pong:
         log.info("Pingy pongy pung pong.");
-        break;
     }
   }
 
   handleChat(message) {
-    let self = this,
-      text = sanitizer.escape(sanitizer.sanitize(message.shift()));
+    const self = this;
+    const text = sanitizer.escape(sanitizer.sanitize(message.shift()));
 
     if (!text || text.length < 1 || !/\S/.test(text)) return;
 
-    if (text.charAt(0) === "/" || text.charAt(0) === ";")
+    if (text.charAt(0) === "/" || text.charAt(0) === ";") {
       self.commands.parse(text);
-    else {
+    } else {
       if (self.player.isMuted()) {
         self.player.send(
           new Messages.Notification(
@@ -560,48 +571,41 @@ class Incoming {
   }
 
   handleInventory(message) {
-    let self = this,
-      opcode = message.shift(),
-      id;
+    const self = this;
+    const opcode = message.shift();
+    let id;
 
     switch (opcode) {
       case Packets.InventoryOpcode.Remove:
-        let item = message.shift(),
-          count;
+        {
+          const item = message.shift();
+          let count;
 
-        if (!item) return;
+          if (!item) return;
 
-        if (item.count > 1) count = message.shift();
+          if (item.count > 1) count = message.shift();
 
-        id = Items.stringToId(item.string);
+          id = Items.stringToId(item.string);
 
-        let iSlot = self.player.inventory.slots[item.index];
+          const iSlot = self.player.inventory.slots[item.index];
 
-        if (count > iSlot.count) count = iSlot.count;
+          if (count > iSlot.count) count = iSlot.count;
 
-        if (
-          self.player.inventory.remove(
-            id,
-            count ? count : item.count,
-            item.index
-          )
-        )
-          self.world.dropItem(
-            id,
-            count ? count : 1,
-            self.player.x,
-            self.player.y
-          );
-
+          if (
+            self.player.inventory.remove(id, count || item.count, item.index)
+          ) {
+            self.world.dropItem(id, count || 1, self.player.x, self.player.y);
+          }
+        }
         break;
 
-      case Packets.InventoryOpcode.Select:
-        let index = message.shift(),
-          slot = self.player.inventory.slots[index],
-          string = slot.string,
-          sCount = slot.count,
-          ability = slot.ability,
-          abilityLevel = slot.abilityLevel;
+      case Packets.InventoryOpcode.Select: {
+        const index = message.shift();
+        const slot = self.player.inventory.slots[index];
+        const string = slot.string;
+        const sCount = slot.count;
+        const ability = slot.ability;
+        const abilityLevel = slot.abilityLevel;
 
         if (!slot) return;
 
@@ -618,32 +622,32 @@ class Incoming {
 
           self.player.eat(id);
         }
-
-        break;
+      }
     }
   }
 
   handleBank(message) {
-    let self = this,
-      opcode = message.shift();
+    const self = this;
+    const opcode = message.shift();
 
     switch (opcode) {
-      case Packets.BankOpcode.Select:
-        let type = message.shift(),
-          index = message.shift(),
-          isBank = type === "bank";
+      case Packets.BankOpcode.Select: {
+        const type = message.shift();
+        const index = message.shift();
+        const isBank = type === "bank";
 
         if (isBank) {
-          let bankSlot = self.player.bank.slots[index];
+          const bankSlot = self.player.bank.slots[index];
 
-          //Infinite stacks move all at onces, otherwise move one by one.
-          let moveAmount =
+          // Infinite stacks move all at onces, otherwise move one by one.
+          const moveAmount =
             Items.maxStackSize(bankSlot.id) === -1 ? bankSlot.count : 1;
 
-          if (self.player.inventory.add(bankSlot, moveAmount))
+          if (self.player.inventory.add(bankSlot, moveAmount)) {
             self.player.bank.remove(bankSlot.id, moveAmount, index);
+          }
         } else {
-          let inventorySlot = self.player.inventory.slots[index];
+          const inventorySlot = self.player.inventory.slots[index];
 
           if (
             self.player.bank.add(
@@ -652,25 +656,25 @@ class Incoming {
               inventorySlot.ability,
               inventorySlot.abilityLevel
             )
-          )
+          ) {
             self.player.inventory.remove(
               inventorySlot.id,
               inventorySlot.count,
               index
             );
+          }
         }
-
-        break;
+      }
     }
   }
 
   handleRespawn(message) {
-    let self = this,
-      instance = message.shift();
+    const self = this;
+    const instance = message.shift();
 
     if (self.player.instance !== instance) return;
 
-    let spawn = self.player.getSpawn();
+    const spawn = self.player.getSpawn();
 
     self.player.dead = false;
     self.player.setPosition(spawn.x, spawn.y);
@@ -689,9 +693,9 @@ class Incoming {
   }
 
   handleTrade(message) {
-    let self = this,
-      opcode = message.shift(),
-      oPlayer = self.world.getEntityByInstance(message.shift());
+    const self = this;
+    const opcode = message.shift();
+    const oPlayer = self.world.getEntityByInstance(message.shift());
 
     if (!oPlayer || !opcode) return;
 
@@ -703,24 +707,24 @@ class Incoming {
         break;
 
       case Packets.TradeOpcode.Decline:
-        break;
     }
   }
 
   handleEnchant(message) {
-    let self = this,
-      opcode = message.shift();
+    const self = this;
+    const opcode = message.shift();
 
     switch (opcode) {
       case Packets.EnchantOpcode.Select:
-        let index = message.shift(),
-          item = self.player.inventory.slots[index],
-          type = "item";
+        {
+          const index = message.shift();
+          const item = self.player.inventory.slots[index];
+          let type = "item";
 
-        if (Items.isShard(item.id)) type = "shards";
+          if (Items.isShard(item.id)) type = "shards";
 
-        self.player.enchant.add(type, item);
-
+          self.player.enchant.add(type, item);
+        }
         break;
 
       case Packets.EnchantOpcode.Remove:
@@ -730,41 +734,38 @@ class Incoming {
 
       case Packets.EnchantOpcode.Enchant:
         self.player.enchant.enchant();
-
-        break;
     }
   }
 
   handleClick(message) {
-    let self = this,
-      type = message.shift(),
-      isOpen = message.shift();
+    const self = this;
+    const type = message.shift();
+    const isOpen = message.shift();
 
     switch (type) {
       case "profile":
-        if (self.player.profileToggleCallback)
+        if (self.player.profileToggleCallback) {
           self.player.profileToggleCallback(isOpen);
-
-        break;
+        }
     }
   }
 
   handleWarp(message) {
-    let self = this,
-      id = parseInt(message.shift()) - 1;
+    const self = this;
+    const id = parseInt(message.shift()) - 1;
 
     if (self.player.warp) self.player.warp.warp(id);
   }
 
   handleShop(message) {
-    let self = this,
-      opcode = message.shift(),
-      shopId = message.shift();
+    const self = this;
+    const opcode = message.shift();
+    const shopId = message.shift();
 
     switch (opcode) {
-      case Packets.ShopOpcode.Buy:
-        let buyId = message.shift(),
-          amount = message.shift();
+      case Packets.ShopOpcode.Buy: {
+        const buyId = message.shift();
+        const amount = message.shift();
 
         if (!buyId || !amount) {
           self.player.notify("Incorrect purchase relay.");
@@ -772,15 +773,13 @@ class Incoming {
         }
 
         log.info("Received Buy: " + buyId + " " + amount);
-
-        //self.world.shops.buy(self.player, shopId, buyId, amount);
-
-        break;
+      }
+      // self.world.shops.buy(self.player, shopId, buyId, amount);
     }
   }
 
   handleCamera(message) {
-    let self = this;
+    const self = this;
 
     log.info(self.player.x + " " + self.player.y);
 
@@ -805,9 +804,9 @@ class Incoming {
   }
 
   preventNoClip(x, y) {
-    let self = this,
-      isMapColliding = self.world.map.isColliding(x, y),
-      isInstanceColliding = self.player.doors.hasCollision(x, y);
+    const self = this;
+    const isMapColliding = self.world.map.isColliding(x, y);
+    const isInstanceColliding = self.player.doors.hasCollision(x, y);
 
     if (isMapColliding || isInstanceColliding) {
       self.player.stopMovement(true);
@@ -815,8 +814,10 @@ class Incoming {
         "We have detected no-clipping in your client. Please submit a bug report."
       );
 
-      let x = self.player.previousX < 0 ? self.player.x : self.player.previousX,
-        y = self.player.previousY < 0 ? self.player.y : self.player.previousY;
+      const x =
+        self.player.previousX < 0 ? self.player.x : self.player.previousX;
+      const y =
+        self.player.previousY < 0 ? self.player.y : self.player.previousY;
 
       self.player.teleport(x, y, false, true);
       return false;

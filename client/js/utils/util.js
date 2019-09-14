@@ -3,39 +3,39 @@
  */
 
 if (!Function.prototype.bind)
-  Function.prototype.bind = function(oThis) {
-    if (typeof this !== "function") {
-      // closest thing possible to the ECMAScript 5
-      // internal IsCallable function
-      throw new TypeError(
-        "Function.prototype.bind - what is trying to be bound is not callable"
-      );
-    }
+{ Function.prototype.bind = function(oThis) {
+  if (typeof this !== "function") {
+    // closest thing possible to the ECMAScript 5
+    // internal IsCallable function
+    throw new TypeError(
+      "Function.prototype.bind - what is trying to be bound is not callable"
+    );
+  }
 
-    let aArgs = Array.prototype.slice.call(arguments, 1),
-      fToBind = this,
-      fNOP = function() {},
-      fBound = function() {
-        return fToBind.apply(
-          this instanceof fNOP ? this : oThis,
-          aArgs.concat(Array.prototype.slice.call(arguments))
-        );
-      };
-
-    if (this.prototype) {
-      // Function.prototype doesn't have a prototype property
-      fNOP.prototype = this.prototype;
-    }
-    fBound.prototype = new fNOP();
-
-    return fBound;
+  const aArgs = Array.prototype.slice.call(arguments, 1);
+  const fToBind = this;
+  const fNOP = function() {};
+  const fBound = function() {
+    return fToBind.apply(
+      this instanceof fNOP ? this : oThis,
+      aArgs.concat(Array.prototype.slice.call(arguments))
+    );
   };
 
-let isInt = function(n) {
+  if (this.prototype) {
+    // Function.prototype doesn't have a prototype property
+    fNOP.prototype = this.prototype;
+  }
+  fBound.prototype = new fNOP();
+
+  return fBound;
+}; }
+
+const isInt = function(n) {
   return n % 1 === 0;
 };
 
-let TRANSITIONEND = "transitionend webkitTransitionEnd oTransitionEnd";
+const TRANSITIONEND = "transitionend webkitTransitionEnd oTransitionEnd";
 
 // http://paulirish.com/2011/requestanimationframe-for-smart-animating/
 if (!window.requestAnimationFrame) {
@@ -88,13 +88,13 @@ if (!Array.prototype.includes) {
     value: function(searchElement, fromIndex) {
       // 1. Let O be ? ToObject(this value).
       if (this == null) {
-        throw new TypeError('"this" is null or not defined');
+        throw new TypeError("\"this\" is null or not defined");
       }
 
-      let o = Object(this);
+      const o = Object(this);
 
       // 2. Let len be ? ToLength(? Get(O, "length")).
-      let len = o.length >>> 0;
+      const len = o.length >>> 0;
 
       // 3. If len is 0, return false.
       if (len === 0) {
@@ -103,7 +103,7 @@ if (!Array.prototype.includes) {
 
       // 4. Let n be ? ToInteger(fromIndex).
       //    (If fromIndex is undefined, this step produces the value 0.)
-      let n = fromIndex | 0;
+      const n = fromIndex | 0;
 
       // 5. If n ≥ 0, then
       //  a. Let k be n.

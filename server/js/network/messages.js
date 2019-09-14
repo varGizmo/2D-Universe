@@ -1,7 +1,7 @@
 /* global module */
 
-let Packets = require("./packets"),
-  Messages = {};
+const Packets = require("./packets");
+const Messages = {};
 
 Messages.Handshake = class {
   constructor(info) {
@@ -15,7 +15,7 @@ Messages.Handshake = class {
 
 Messages.Welcome = class {
   constructor(data) {
-    this.info = data; //array of info
+    this.info = data; // array of info
   }
 
   serialize() {

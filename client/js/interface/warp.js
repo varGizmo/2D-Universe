@@ -3,7 +3,7 @@
 define(["jquery"], function($) {
   return Class.extend({
     init: function(game) {
-      let self = this;
+      const self = this;
 
       self.game = game;
 
@@ -17,8 +17,8 @@ define(["jquery"], function($) {
     },
 
     load: function() {
-      let self = this,
-        scale = self.getScale();
+      const self = this;
+      const scale = self.getScale();
 
       self.warp.click(function() {
         self.toggle();
@@ -29,21 +29,21 @@ define(["jquery"], function($) {
       });
 
       for (let i = 1; i < 7; i++) {
-        let warp = self.mapFrame.find("#warp" + i);
+        const warp = self.mapFrame.find("#warp" + i);
 
         if (warp)
-          warp.click(function(event) {
-            self.hide();
+        { warp.click(function(event) {
+          self.hide();
 
-            self.game.socket.send(Packets.Warp, [
-              event.currentTarget.id.substring(4)
-            ]);
-          });
+          self.game.socket.send(Packets.Warp, [
+            event.currentTarget.id.substring(4)
+          ]);
+        }); }
       }
     },
 
     toggle: function() {
-      let self = this;
+      const self = this;
 
       /**
        * Just so it fades out nicely.

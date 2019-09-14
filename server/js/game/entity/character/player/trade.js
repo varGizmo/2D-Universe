@@ -1,10 +1,10 @@
 /* global module */
 
-let Modules = require("../../../../util/modules");
+const Modules = require("../../../../util/modules");
 
 class Trade {
   constructor(player) {
-    let self = this;
+    const self = this;
 
     self.player = player;
     self.oPlayer = null;
@@ -19,14 +19,14 @@ class Trade {
   }
 
   start() {
-    let self = this;
+    const self = this;
 
     self.oPlayer = self.requestee;
     self.state = Modules.Trade.Started;
   }
 
   stop() {
-    let self = this;
+    const self = this;
 
     self.oPlayer = null;
     self.state = null;
@@ -38,12 +38,12 @@ class Trade {
   }
 
   finalize() {
-    let self = this;
+    const self = this;
 
     if (!self.player.inventory.containsSpaces(self.oPlayerItems.length)) return;
 
-    for (let i in self.oPlayerItems) {
-      let item = self.oPlayerItems[i];
+    for (const i in self.oPlayerItems) {
+      const item = self.oPlayerItems[i];
 
       if (!item || item.id === -1) continue;
 
@@ -53,8 +53,8 @@ class Trade {
   }
 
   select(slot) {
-    let self = this,
-      item = self.player.inventory.slots[slot];
+    const self = this;
+    const item = self.player.inventory.slots[slot];
 
     if (!item || item.id === -1 || self.playerItems.indexOf(item) < 0) return;
 
@@ -62,7 +62,7 @@ class Trade {
   }
 
   request(oPlayer) {
-    let self = this;
+    const self = this;
 
     self.requestee = oPlayer;
 
@@ -70,7 +70,7 @@ class Trade {
   }
 
   accept() {
-    let self = this;
+    const self = this;
 
     self.subState = Modules.Trade.Accepted;
 
@@ -81,7 +81,7 @@ class Trade {
   }
 
   getRequestee() {
-    let self = this;
+    const self = this;
 
     if (!self.requestee) return null;
 

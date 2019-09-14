@@ -3,7 +3,7 @@
 define(["jquery"], function($) {
   return Class.extend({
     init: function(intrfce) {
-      let self = this;
+      const self = this;
 
       self.interface = intrfce;
 
@@ -23,29 +23,29 @@ define(["jquery"], function($) {
     },
 
     load: function() {
-      let self = this,
-        dropAccept = $("#dropAccept"),
-        dropCancel = $("#dropcancel");
+      const self = this;
+      const dropAccept = $("#dropAccept");
+      const dropCancel = $("#dropcancel");
 
       dropAccept.click(function(event) {
         if (self.activeClass === "inventory")
-          self.interface.inventory.clickAction(event);
+        { self.interface.inventory.clickAction(event); }
       });
 
       dropCancel.click(function(event) {
         if (self.activeClass === "inventory")
-          self.interface.inventory.clickAction(event);
+        { self.interface.inventory.clickAction(event); }
       });
     },
 
     loadDefaults: function(activeClass) {
-      let self = this;
+      const self = this;
 
       self.activeClass = activeClass;
 
       switch (self.activeClass) {
         case "inventory":
-          let dropButton = $('<div id="drop" class="actionButton">Drop</div>');
+          const dropButton = $("<div id=\"drop\" class=\"actionButton\">Drop</div>");
 
           self.add(dropButton);
 
@@ -57,28 +57,28 @@ define(["jquery"], function($) {
     },
 
     add: function(button, misc) {
-      let self = this;
+      const self = this;
 
       self.body.find("ul").prepend($("<li></li>").append(button));
 
       button.click(function(event) {
         if (self.activeClass === "inventory")
-          self.interface.inventory.clickAction(event);
+        { self.interface.inventory.clickAction(event); }
       });
 
       if (misc) self.miscButton = button;
     },
 
     removeMisc: function() {
-      let self = this;
+      const self = this;
 
       self.miscButton.remove();
       self.miscButton = null;
     },
 
     reset: function() {
-      let self = this,
-        buttons = self.getButtons();
+      const self = this;
+      const buttons = self.getButtons();
 
       for (let i = 0; i < buttons.length; i++) $(buttons[i]).remove();
     },
@@ -88,7 +88,7 @@ define(["jquery"], function($) {
     },
 
     showPlayerActions: function(player, mouseX, mouseY) {
-      let self = this;
+      const self = this;
 
       if (!player) return;
 
@@ -120,7 +120,7 @@ define(["jquery"], function($) {
     },
 
     displayDrop: function(activeClass) {
-      let self = this;
+      const self = this;
 
       self.activeClass = activeClass;
 
@@ -131,7 +131,7 @@ define(["jquery"], function($) {
     },
 
     hideDrop: function() {
-      let self = this;
+      const self = this;
 
       self.drop.fadeOut("slow");
 

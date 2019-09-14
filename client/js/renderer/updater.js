@@ -3,7 +3,7 @@
 define(["../entity/character/character"], function(Character) {
   return Class.extend({
     init: function(game) {
-      let self = this;
+      const self = this;
 
       self.game = game;
       self.camera = game.getCamera();
@@ -27,8 +27,8 @@ define(["../entity/character/character"], function(Character) {
     },
 
     animateTiles: function() {
-      let self = this,
-        time = self.game.time;
+      const self = this;
+      const time = self.game.time;
 
       self.renderer.forEachAnimatedTile(function(tile) {
         tile.animate(time);
@@ -36,34 +36,34 @@ define(["../entity/character/character"], function(Character) {
     },
 
     updateEntities: function() {
-      let self = this;
+      const self = this;
 
       self.game.entities.forEachEntity(function(entity) {
         if (entity.spriteLoaded) {
           self.updateFading(entity);
 
-          let animation = entity.currentAnimation;
+          const animation = entity.currentAnimation;
 
           if (animation) animation.update(self.game.time);
 
           if (entity instanceof Character) {
             if (entity.critical && entity.criticalAnimation)
-              entity.criticalAnimation.update(self.game.time);
+            { entity.criticalAnimation.update(self.game.time); }
 
             if (entity.terror && entity.terrorAnimation)
-              entity.terrorAnimation.update(self.game.time);
+            { entity.terrorAnimation.update(self.game.time); }
 
             if (entity.stunned && entity.stunAnimation)
-              entity.stunAnimation.update(self.game.time);
+            { entity.stunAnimation.update(self.game.time); }
 
             if (entity.explosion && entity.explosionAnimation)
-              entity.explosionAnimation.update(self.game.time);
+            { entity.explosionAnimation.update(self.game.time); }
 
             if (entity.movement && entity.movement.inProgress)
-              entity.movement.step(self.game.time);
+            { entity.movement.step(self.game.time); }
 
             if (entity.hasPath() && !entity.movement.inProgress) {
-              let tick = Math.round(266 / entity.movementSpeed);
+              const tick = Math.round(266 / entity.movementSpeed);
 
               switch (entity.orientation) {
                 case Modules.Orientation.Left:
@@ -144,11 +144,11 @@ define(["../entity/character/character"], function(Character) {
               }
             }
           } else if (entity.type === "projectile") {
-            let mDistance = entity.speed * self.timeDifferential,
-              dx = entity.destX - entity.x,
-              dy = entity.destY - entity.y,
-              tDistance = Math.sqrt(dx * dx + dy * dy),
-              amount = mDistance / tDistance;
+            const mDistance = entity.speed * self.timeDifferential;
+            const dx = entity.destX - entity.x;
+            const dy = entity.destY - entity.y;
+            const tDistance = Math.sqrt(dx * dx + dy * dy);
+            let amount = mDistance / tDistance;
 
             if (amount > 1) amount = 1;
 
@@ -162,13 +162,13 @@ define(["../entity/character/character"], function(Character) {
     },
 
     updateFading: function(entity) {
-      let self = this;
+      const self = this;
 
       if (!entity || !entity.fading) return;
 
-      let duration = 1000,
-        time = self.game.time,
-        dt = time - entity.fadingTime;
+      const duration = 1000;
+      const time = self.game.time;
+      const dt = time - entity.fadingTime;
 
       if (dt > duration) {
         entity.isFading = false;
@@ -177,12 +177,12 @@ define(["../entity/character/character"], function(Character) {
     },
 
     updateKeyboard: function() {
-      let self = this,
-        player = self.game.player,
-        position = {
-          x: player.gridX,
-          y: player.gridY
-        };
+      const self = this;
+      const player = self.game.player;
+      const position = {
+        x: player.gridX,
+        y: player.gridY
+      };
 
       if (player.frozen) return;
 
@@ -195,15 +195,15 @@ define(["../entity/character/character"], function(Character) {
     },
 
     updateAnimations: function() {
-      let self = this,
-        target = self.input.targetAnimation;
+      const self = this;
+      const target = self.input.targetAnimation;
 
       if (target && self.input.selectedCellVisible && !self.renderer.mobile)
-        target.update(self.game.time);
+      { target.update(self.game.time); }
 
       if (!self.sprites) return;
 
-      let sparks = self.sprites.sparksAnimation;
+      const sparks = self.sprites.sparksAnimation;
 
       if (sparks) sparks.update(self.game.time);
     },

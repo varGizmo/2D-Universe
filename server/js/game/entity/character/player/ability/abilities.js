@@ -1,11 +1,11 @@
 /* global module */
 
-let _ = require("underscore"),
-  AbilityInfo = require("../../../../../util/abilities");
+const _ = require("underscore");
+const AbilityInfo = require("../../../../../util/abilities");
 
 class Abilities {
   constructor(player) {
-    let self = this;
+    const self = this;
 
     self.player = player;
 
@@ -21,7 +21,7 @@ class Abilities {
   }
 
   addShortcut(ability) {
-    let self = this;
+    const self = this;
 
     if (self.shortcutSize >= 5) return;
 
@@ -29,10 +29,11 @@ class Abilities {
   }
 
   removeAbility(ability) {
-    let self = this;
+    const self = this;
 
-    if (self.isShortcut(ability))
+    if (self.isShortcut(ability)) {
       self.removeShortcut(self.shortcuts.indexOf(ability.name));
+    }
 
     delete self.abilities[ability.name];
   }
@@ -54,10 +55,10 @@ class Abilities {
   }
 
   getArray() {
-    let self = this,
-      abilities = "",
-      abilityLevels = "",
-      shortcuts = self.shortcuts.toString();
+    const self = this;
+    let abilities = "";
+    let abilityLevels = "";
+    const shortcuts = self.shortcuts.toString();
 
     _.each(self.abilities, function(ability) {
       abilities += ability.name;

@@ -1,14 +1,14 @@
 /* global module */
 
-let Quest = require("../quest"),
-  Packets = require("../../../../../../network/packets"),
-  Messages = require("../../../../../../network/messages");
+const Quest = require("../quest");
+const Packets = require("../../../../../../network/packets");
+const Messages = require("../../../../../../network/messages");
 
 class Introduction extends Quest {
   constructor(player, data) {
     super(player, data);
 
-    let self = this;
+    const self = this;
 
     self.player = player;
     self.data = data;
@@ -17,7 +17,7 @@ class Introduction extends Quest {
   }
 
   load(stage) {
-    let self = this;
+    const self = this;
 
     if (!self.player.inTutorial()) {
       self.setStage(9999);
@@ -32,7 +32,7 @@ class Introduction extends Quest {
   }
 
   loadCallbacks() {
-    let self = this;
+    const self = this;
 
     if (self.stage >= 9999) return;
 
@@ -40,7 +40,7 @@ class Introduction extends Quest {
     self.toggleChat();
 
     self.onNPCTalk(function(npc) {
-      let conversation = self.getConversation(npc.id);
+      const conversation = self.getConversation(npc.id);
 
       self.lastNPC = npc;
 
@@ -66,9 +66,9 @@ class Introduction extends Quest {
         return;
       }
 
-      if (!self.verifyDoor(self.player.x, self.player.y))
+      if (!self.verifyDoor(self.player.x, self.player.y)) {
         self.player.notify("You are not supposed to go through here.");
-      else {
+      } else {
         self.progress("door");
         self.player.teleport(destX, destY, false);
       }
@@ -80,8 +80,8 @@ class Introduction extends Quest {
   }
 
   progress(type) {
-    let self = this,
-      task = self.data.task[self.stage];
+    const self = this;
+    const task = self.data.task[self.stage];
 
     if (!task || task !== type) return;
 
@@ -94,13 +94,14 @@ class Introduction extends Quest {
       case "talk":
         if (self.stage === 2) self.player.updateRegion(true);
 
-        if (self.stage === 4)
+        if (self.stage === 4) {
           self.player.inventory.add({
             id: 248,
             count: 1,
             ability: -1,
             abilityLevel: -1
           });
+        }
 
         break;
     }
@@ -130,7 +131,7 @@ class Introduction extends Quest {
   }
 
   setStage(stage) {
-    let self = this;
+    const self = this;
 
     super.setStage(stage);
 
@@ -138,14 +139,14 @@ class Introduction extends Quest {
   }
 
   finish() {
-    let self = this;
+    const self = this;
 
     self.toggleChat();
     super.finish();
   }
 
   hasDoorUnlocked(door) {
-    let self = this;
+    const self = this;
 
     switch (door.id) {
       case 0:
@@ -156,8 +157,8 @@ class Introduction extends Quest {
   }
 
   verifyDoor(destX, destY) {
-    let self = this,
-      doorData = self.data.doors[self.stage];
+    const self = this;
+    const doorData = self.data.doors[self.stage];
 
     if (!doorData) return;
 

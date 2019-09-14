@@ -1,17 +1,17 @@
 /* global module */
 
-let _ = require("underscore"),
-  Hit = require("./hit"),
-  CombatQueue = require("./combatqueue"),
-  Utils = require("../../../../util/utils"),
-  Formulas = require("../../../../util/formulas"),
-  Modules = require("../../../../util/modules"),
-  Messages = require("../../../../network/messages"),
-  Packets = require("../../../../network/packets");
+const _ = require("underscore");
+const Hit = require("./hit");
+const CombatQueue = require("./combatqueue");
+const Utils = require("../../../../util/utils");
+const Formulas = require("../../../../util/formulas");
+const Modules = require("../../../../util/modules");
+const Messages = require("../../../../network/messages");
+const Packets = require("../../../../network/packets");
 
 class Combat {
   constructor(character) {
-    let self = this;
+    const self = this;
 
     self.character = character;
     self.world = null;
@@ -46,8 +46,9 @@ class Combat {
         self.isPlayer() &&
         self.character.hasBreakableWeapon() &&
         Formulas.getWeaponBreak(self.character, target)
-      )
+      ) {
         self.character.breakWeapon();
+      }
 
       if (hitInfo.type === Modules.Hits.Stun) {
         target.setStun(true);
@@ -62,20 +63,20 @@ class Combat {
   }
 
   begin(attacker) {
-    let self = this;
+    const self = this;
 
     self.start();
 
     self.character.setTarget(attacker);
     self.addAttacker(attacker);
 
-    attacker.combat.addAttacker(self.character); //For mobs attacking players..
+    attacker.combat.addAttacker(self.character); // For mobs attacking players..
 
     self.attack(attacker);
   }
 
   start() {
-    let self = this;
+    const self = this;
 
     if (self.started) return;
 
@@ -101,7 +102,7 @@ class Combat {
   }
 
   stop() {
-    let self = this;
+    const self = this;
 
     if (!self.started) return;
 
@@ -117,40 +118,43 @@ class Combat {
   }
 
   parseAttack() {
-    let self = this;
+    const self = this;
 
     if (!self.world || !self.queue || self.character.stunned) return;
 
     if (self.character.hasTarget() && self.inProximity()) {
-      if (self.queue.hasQueue())
+      if (self.queue.hasQueue()) {
         self.hit(self.character, self.character.target, self.queue.getHit());
+      }
 
-      if (self.character.target && !self.character.target.isDead())
+      if (self.character.target && !self.character.target.isDead()) {
         self.attack(self.character.target);
+      }
 
       self.lastAction = self.getTime();
     } else self.queue.clear();
   }
 
   parseFollow() {
-    let self = this;
+    const self = this;
 
     if (self.character.frozen || self.character.stunned) return;
 
     if (self.isMob()) {
       if (!self.character.isRanged()) self.sendFollow();
 
-      if (self.isAttacked() || self.character.hasTarget())
+      if (self.isAttacked() || self.character.hasTarget()) {
         self.lastAction = self.getTime();
+      }
 
       if (self.onSameTile()) {
-        let newPosition = self.getNewPosition();
+        const newPosition = self.getNewPosition();
 
         self.move(self.character, newPosition.x, newPosition.y);
       }
 
       if (self.character.hasTarget() && !self.inProximity()) {
-        let attacker = self.getClosestAttacker();
+        const attacker = self.getClosestAttacker();
 
         if (attacker) self.follow(self.character, attacker);
       }
@@ -158,15 +162,16 @@ class Combat {
   }
 
   attack(target) {
-    let self = this,
-      hit;
+    const self = this;
+    let hit;
 
     if (self.isPlayer()) hit = self.character.getHit(target);
-    else
+    else {
       hit = new Hit(
         Modules.Hits.Damage,
         Formulas.getDamage(self.character, target)
       );
+    }
 
     if (!hit) return;
 
@@ -174,7 +179,7 @@ class Combat {
   }
 
   dealAoE(radius, hasTerror) {
-    let self = this;
+    const self = this;
 
     /**
      * TODO - Find a way to implement special effects without hardcoding them.
@@ -182,12 +187,12 @@ class Combat {
 
     if (!self.world) return;
 
-    let entities = self.world
+    const entities = self.world
       .getGrids()
       .getSurroundingEntities(self.character, radius);
 
     _.each(entities, function(entity) {
-      let hitData = new Hit(
+      const hitData = new Hit(
         Modules.Hits.Damage,
         Formulas.getAoEDamage(self.character, entity)
       ).getData();
@@ -200,7 +205,7 @@ class Combat {
   }
 
   forceAttack() {
-    let self = this;
+    const self = this;
 
     if (!self.character.target || !self.inProximity()) return;
 
@@ -212,13 +217,13 @@ class Combat {
   }
 
   attackCount(count, target) {
-    let self = this;
+    const self = this;
 
     for (let i = 0; i < count; i++) self.attack(target);
   }
 
   addAttacker(character) {
-    let self = this;
+    const self = this;
 
     if (self.hasAttacker(character)) return;
 
@@ -226,7 +231,7 @@ class Combat {
   }
 
   removeAttacker(character) {
-    let self = this;
+    const self = this;
 
     if (self.hasAttacker(character)) delete self.attackers[character.instance];
 
@@ -234,7 +239,7 @@ class Combat {
   }
 
   sendToSpawn() {
-    let self = this;
+    const self = this;
 
     if (!self.isMob()) return;
 
@@ -252,7 +257,7 @@ class Combat {
   }
 
   hasAttacker(character) {
-    let self = this;
+    const self = this;
 
     if (!self.isAttacked()) return;
 
@@ -260,7 +265,7 @@ class Combat {
   }
 
   onSameTile() {
-    let self = this;
+    const self = this;
 
     if (!self.character.target || self.character.type !== "mob") return;
 
@@ -275,13 +280,13 @@ class Combat {
   }
 
   getNewPosition() {
-    let self = this,
-      position = {
-        x: self.character.x,
-        y: self.character.y
-      };
+    const self = this;
+    const position = {
+      x: self.character.x,
+      y: self.character.y
+    };
 
-    let random = Utils.randomInt(0, 3);
+    const random = Utils.randomInt(0, 3);
 
     if (random === 0) position.x++;
     else if (random === 1) position.y--;
@@ -302,12 +307,12 @@ class Combat {
   }
 
   inProximity() {
-    let self = this;
+    const self = this;
 
     if (!self.character.target) return;
 
-    let targetDistance = self.character.getDistance(self.character.target),
-      range = self.character.attackRange;
+    const targetDistance = self.character.getDistance(self.character.target);
+    const range = self.character.attackRange;
 
     if (self.character.isRanged()) return targetDistance <= range;
 
@@ -315,12 +320,12 @@ class Combat {
   }
 
   getClosestAttacker() {
-    let self = this,
-      closest = null,
-      lowestDistance = 100;
+    const self = this;
+    let closest = null;
+    const lowestDistance = 100;
 
     self.forEachAttacker(function(attacker) {
-      let distance = self.character.getDistance(attacker);
+      const distance = self.character.getDistance(attacker);
 
       if (distance < lowestDistance) closest = attacker;
     });
@@ -329,13 +334,13 @@ class Combat {
   }
 
   setWorld(world) {
-    let self = this;
+    const self = this;
 
     if (!self.world) self.world = world;
   }
 
   forget() {
-    let self = this;
+    const self = this;
 
     self.attackers = {};
     self.character.removeTarget();
@@ -344,7 +349,7 @@ class Combat {
   }
 
   move(character, x, y) {
-    let self = this;
+    const self = this;
 
     /**
      * The server and mob types can parse the mob movement
@@ -356,14 +361,15 @@ class Combat {
   }
 
   hit(character, target, hitInfo) {
-    let self = this,
-      time = self.getTime();
+    const self = this;
+    const time = self.getTime();
 
-    if (time - self.lastHit < self.character.attackRate && !hitInfo.isAoE)
+    if (time - self.lastHit < self.character.attackRate && !hitInfo.isAoE) {
       return;
+    }
 
     if (character.isRanged() || hitInfo.isRanged) {
-      let projectile = self.world.createProjectile(
+      const projectile = self.world.createProjectile(
         [character, target],
         hitInfo
       );
@@ -413,11 +419,11 @@ class Combat {
   }
 
   sendFollow() {
-    let self = this;
+    const self = this;
 
     if (!self.character.hasTarget() || self.character.target.isDead()) return;
 
-    let ignores = [self.character.instance, self.character.target.instance];
+    const ignores = [self.character.instance, self.character.target.instance];
 
     self.world.push(Packets.PushOpcode.Selectively, {
       message: new Messages.Movement(Packets.MovementOpcode.Follow, {
@@ -439,12 +445,12 @@ class Combat {
   }
 
   targetOutOfBounds() {
-    let self = this;
+    const self = this;
 
     if (!self.character.hasTarget() || !self.isMob()) return;
 
-    let spawnPoint = self.character.spawnLocation,
-      target = self.character.target;
+    const spawnPoint = self.character.spawnLocation;
+    const target = self.character.target;
 
     return (
       Utils.getDistance(spawnPoint[0], spawnPoint[1], target.x, target.y) >

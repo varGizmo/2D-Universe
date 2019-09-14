@@ -1,7 +1,7 @@
 let exists, existsSync;
 (function() {
-  let semver = require("semver");
-  let module = semver.satisfies(process.version, ">=0.7.1")
+  const semver = require("semver");
+  const module = semver.satisfies(process.version, ">=0.7.1")
     ? require("fs")
     : require("path");
 

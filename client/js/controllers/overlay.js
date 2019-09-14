@@ -1,7 +1,7 @@
 define(["jquery"], function($) {
   return Class.extend({
     init: function(input) {
-      let self = this;
+      const self = this;
 
       self.input = input;
       self.hovering = null;
@@ -15,7 +15,7 @@ define(["jquery"], function($) {
     },
 
     update: function(entity) {
-      let self = this;
+      const self = this;
 
       if (!self.validEntity(entity)) {
         self.hovering = null;
@@ -74,7 +74,7 @@ define(["jquery"], function($) {
     },
 
     clean: function() {
-      let self = this;
+      const self = this;
 
       self.details.html("");
       self.hovering = null;

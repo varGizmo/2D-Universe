@@ -1,14 +1,14 @@
 /* global module */
 
-let _ = require("underscore"),
-  ShopData = require("../util/shops"),
-  Items = require("../util/items"),
-  Messages = require("../network/messages"),
-  Packets = require("../network/packets");
+const _ = require("underscore");
+const ShopData = require("../util/shops");
+const Items = require("../util/items");
+const Messages = require("../network/messages");
+const Packets = require("../network/packets");
 
 class Shops {
   constructor(world) {
-    let self = this;
+    const self = this;
 
     self.world = world;
 
@@ -19,19 +19,21 @@ class Shops {
   }
 
   load() {
-    let self = this;
+    const self = this;
 
     self.shopInterval = setInterval(function() {
       _.each(ShopData.Data, function(info) {
-        for (let i = 0; i < info.count; i++)
-          if (info.count[i] < info.originalCount[i])
+        for (let i = 0; i < info.count; i++) {
+          if (info.count[i] < info.originalCount[i]) {
             ShopData.increment(info.id, info.items[i], 1);
+          }
+        }
       });
     }, self.interval);
   }
 
   open(player, shopId) {
-    let self = this;
+    const self = this;
 
     player.send(
       new Messages.Shop(Packets.ShopOpcode.Open, {
@@ -43,12 +45,12 @@ class Shops {
   }
 
   buy(player, shopId, itemId, count) {
-    let self = this,
-      cost = ShopData.getCost(shopId, itemId, count),
-      currency = self.getCurrency(shopId),
-      stock = ShopData.getStock(shopId, itemId);
+    const self = this;
+    const cost = ShopData.getCost(shopId, itemId, count);
+    const currency = self.getCurrency(shopId);
+    const stock = ShopData.getStock(shopId, itemId);
 
-    //TODO: Make it so that when you have the exact coin count, it removes coins and replaces it with the item purchased.
+    // TODO: Make it so that when you have the exact coin count, it removes coins and replaces it with the item purchased.
 
     if (stock === 0) {
       player.notify("This item is currently out of stock.");
@@ -76,7 +78,7 @@ class Shops {
   }
 
   refresh(shopId) {
-    let self = this;
+    const self = this;
 
     self.world.push(Packets.PushOpcode.Broadcast, {
       message: new Messages.Shop(
@@ -91,13 +93,13 @@ class Shops {
   }
 
   getShopData(id) {
-    let self = this;
+    const self = this;
 
     if (!ShopData.isShopNPC(id)) return;
 
-    let items = ShopData.getItems(id),
-      strings = [],
-      names = [];
+    const items = ShopData.getItems(id);
+    const strings = [];
+    const names = [];
 
     for (let i = 0; i < items.length; i++) {
       strings.push(Items.idToString(items[i]));

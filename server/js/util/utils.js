@@ -1,7 +1,7 @@
 /* global module */
 
-let Utils = {},
-  Packets = require("../network/packets");
+const Utils = {};
+const Packets = require("../network/packets");
 
 module.exports = Utils;
 
@@ -18,8 +18,8 @@ Utils.randomInt = function(min, max) {
 };
 
 Utils.getDistance = function(startX, startY, toX, toY) {
-  let x = Math.abs(startX - toX),
-    y = Math.abs(startY - toY);
+  const x = Math.abs(startX - toX);
+  const y = Math.abs(startY - toY);
 
   return x > y ? x : y;
 };
@@ -54,7 +54,7 @@ Utils.generateInstance = function(randomizer, id, modulo, posY) {
     Utils.randomInt(0, id) +
     randomizer +
     Utils.randomInt(0, modulo) +
-    (posY ? posY : 0)
+    (posY || 0)
   );
 };
 
@@ -63,11 +63,12 @@ Utils.generateRandomId = function() {
 };
 
 Utils.validPacket = function(packet) {
-  let keys = Object.keys(Packets),
-    filtered = [];
+  const keys = Object.keys(Packets);
+  const filtered = [];
 
-  for (let i = 0; i < keys.length; i++)
+  for (let i = 0; i < keys.length; i++) {
     if (!keys[i].endsWith("Opcode")) filtered.push(keys[i]);
+  }
 
   return packet > -1 && packet < Packets[filtered[filtered.length - 1]] + 1;
 };

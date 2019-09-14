@@ -1,33 +1,62 @@
-let World = require("./game/world"),
-  WebSocket = require("./network/websocket"),
-  config = require("../config"),
-  Log = require("log"),
-  Parser = require("./util/parser"),
-  Database = require("./database/database"),
-  worlds = [],
-  allowConnections = false,
-  worldsCreated = 0;
+const fs = require("fs");
+const _ = require("underscore");
+const World = require("./game/world");
+const WebSocket = require("./network/websocket");
+const config = require("../config");
+const chalk = require("chalk");
+const { ColorfulChalkLogger, INFO } = require("colorful-chalk-logger");
+const Parser = require("./util/parser");
+const Database = require("./database/database");
 
-log = new Log(
-  config.worlds > 1 ? "notice" : config.debugLevel,
-  config.localDebug ? fs.createWriteStream("runtime.log") : null
+const worlds = [];
+let allowConnections = false;
+let worldsCreated = 0;
+
+log = new ColorfulChalkLogger(
+  "Gizmo",
+  {
+    date: true
+  },
+  process.argv
 );
+log.notice = log.info;
+log.formatHeader = function(level, date) {
+  let { desc } = level;
+  let { name } = this;
+  if (this.flags.colorful) {
+    desc = level.headerChalk.fg(desc);
+    if (level.headerChalk.bg != null) desc = level.headerChalk.bg(desc);
+    name = chalk.gray(name);
+  }
+  const header = `${desc} ${name}`;
+  if (!this.flags.date) return `[${header}]`;
+
+  let dateString = date
+    .toISOString()
+    .split("T")
+    .join(" ")
+    .split(".")[0];
+
+  if (this.flags.colorful) dateString = chalk.gray(dateString);
+  return `${desc}[${dateString}]`;
+};
 
 function main() {
   log.info("Initializing " + config.name + " game engine...");
 
-  let webSocket = new WebSocket(config.host, config.port, config.gver),
-    database = new Database(config.database);
+  const webSocket = new WebSocket(config.host, config.port, config.gver);
+  const database = new Database(config.database);
 
   webSocket.onConnect(function(connection) {
     if (allowConnections) {
       let world;
 
-      for (let i = 0; i < worlds.length; i++)
+      for (let i = 0; i < worlds.length; i++) {
         if (worlds[i].playerCount < worlds[i].maxPlayers) {
           world = worlds[i];
           break;
         }
+      }
 
       if (world) world.playerConnectCallback(connection);
       else {
@@ -49,8 +78,9 @@ function main() {
 
     loadParser();
 
-    for (let i = 0; i < config.worlds; i++)
+    for (let i = 0; i < config.worlds; i++) {
       worlds.push(new World(i + 1, webSocket, database.getDatabase()));
+    }
 
     initializeWorlds();
   });
@@ -71,7 +101,7 @@ function allWorldsCreated() {
   );
   allowConnections = true;
 
-  let host = config.host === "0.0.0.0" ? "localhost" : config.host;
+  const host = config.host === "0.0.0.0" ? "localhost" : config.host;
   log.notice("Connect locally via http://" + host + ":" + config.port);
 }
 
@@ -80,16 +110,19 @@ function loadParser() {
 }
 
 function initializeWorlds() {
-  for (let worldId in worlds)
+  for (const worldId in worlds) {
     if (worlds.hasOwnProperty(worldId)) worlds[worldId].load(onWorldLoad);
+  }
 }
 
 function getPopulations() {
-  let counts = [];
+  const counts = [];
 
-  for (let index in worlds)
-    if (worlds.hasOwnProperty(index))
+  for (const index in worlds) {
+    if (worlds.hasOwnProperty(index)) {
       counts.push(worlds[index].getPopulation());
+    }
+  }
 
   return counts;
 }
@@ -99,7 +132,7 @@ function saveAll() {
     world.saveAll();
   });
 
-  let plural = worlds.length > 1;
+  const plural = worlds.length > 1;
 
   log.notice(
     "Saved players for " + worlds.length + " world" + (plural ? "s" : "") + "."

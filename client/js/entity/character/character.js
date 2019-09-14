@@ -7,7 +7,7 @@ define(["../entity", "../../utils/transition", "../animation"], function(
 ) {
   return Entity.extend({
     init: function(id, kind) {
-      let self = this;
+      const self = this;
 
       self._super(id, kind);
 
@@ -53,7 +53,7 @@ define(["../entity", "../../utils/transition", "../animation"], function(
     },
 
     loadGlobals: function() {
-      let self = this;
+      const self = this;
 
       self.criticalAnimation = new Animation("atk_down", 10, 0, 48, 48);
       self.criticalAnimation.setSpeed(30);
@@ -90,12 +90,12 @@ define(["../entity", "../../utils/transition", "../animation"], function(
     },
 
     animate: function(animation, speed, count, onEndCount) {
-      let self = this,
-        o = ["atk", "walk", "idle"],
-        orientation = self.orientation;
+      const self = this;
+      const o = ["atk", "walk", "idle"];
+      const orientation = self.orientation;
 
       if (self.currentAnimation && self.currentAnimation.name === "death")
-        return;
+      { return; }
 
       self.spriteFlipX = false;
       self.spriteFlipY = false;
@@ -113,22 +113,22 @@ define(["../entity", "../../utils/transition", "../animation"], function(
     },
 
     lookAt: function(character) {
-      let self = this;
+      const self = this;
 
       if (character.gridX > self.gridX)
-        self.setOrientation(Modules.Orientation.Right);
+      { self.setOrientation(Modules.Orientation.Right); }
       else if (character.gridX < self.gridX)
-        self.setOrientation(Modules.Orientation.Left);
+      { self.setOrientation(Modules.Orientation.Left); }
       else if (character.gridY > self.gridY)
-        self.setOrientation(Modules.Orientation.Down);
+      { self.setOrientation(Modules.Orientation.Down); }
       else if (character.gridY < self.gridY)
-        self.setOrientation(Modules.Orientation.Up);
+      { self.setOrientation(Modules.Orientation.Up); }
 
       self.idle();
     },
 
     follow: function(character) {
-      let self = this;
+      const self = this;
 
       self.following = true;
 
@@ -137,7 +137,7 @@ define(["../entity", "../../utils/transition", "../animation"], function(
     },
 
     attack: function(attacker, character) {
-      let self = this;
+      const self = this;
 
       self.attacking = true;
 
@@ -145,7 +145,7 @@ define(["../entity", "../../utils/transition", "../animation"], function(
     },
 
     backOff: function() {
-      let self = this;
+      const self = this;
 
       self.attacking = false;
       self.following = false;
@@ -154,7 +154,7 @@ define(["../entity", "../../utils/transition", "../animation"], function(
     },
 
     addAttacker: function(character) {
-      let self = this;
+      const self = this;
 
       if (self.hasAttacker(character)) return;
 
@@ -162,13 +162,13 @@ define(["../entity", "../../utils/transition", "../animation"], function(
     },
 
     removeAttacker: function(character) {
-      let self = this;
+      const self = this;
 
       if (self.hasAttacker(character)) delete self.attackers[character.id];
     },
 
     hasAttacker: function(character) {
-      let self = this;
+      const self = this;
 
       if (self.attackers.size === 0) return false;
 
@@ -176,7 +176,7 @@ define(["../entity", "../../utils/transition", "../animation"], function(
     },
 
     performAction: function(orientation, action) {
-      let self = this;
+      const self = this;
 
       self.setOrientation(orientation);
 
@@ -200,14 +200,14 @@ define(["../entity", "../../utils/transition", "../animation"], function(
     },
 
     idle: function(o) {
-      let self = this,
-        orientation = o ? o : self.orientation;
+      const self = this;
+      const orientation = o || self.orientation;
 
       self.performAction(orientation, Modules.Actions.Idle);
     },
 
     orientationToString: function(o) {
-      let oM = Modules.Orientation;
+      const oM = Modules.Orientation;
 
       switch (o) {
         case oM.Left:
@@ -225,7 +225,7 @@ define(["../entity", "../../utils/transition", "../animation"], function(
     },
 
     go: function(x, y, forced) {
-      let self = this;
+      const self = this;
 
       if (self.frozen) return;
 
@@ -254,14 +254,14 @@ define(["../entity", "../../utils/transition", "../animation"], function(
      */
 
     nextStep: function() {
-      let self = this,
-        stop = false,
-        x,
-        y,
-        path;
+      const self = this;
+      let stop = false;
+      let x;
+      let y;
+      let path;
 
       if (self.step % 2 === 0 && self.secondStepCallback)
-        self.secondStepCallback();
+      { self.secondStepCallback(); }
 
       self.prevGridX = self.gridX;
       self.prevGridY = self.gridY;
@@ -306,31 +306,31 @@ define(["../entity", "../../utils/transition", "../animation"], function(
         self.idle();
 
         if (self.stopPathingCallback)
-          self.stopPathingCallback(self.gridX, self.gridY, self.forced);
+        { self.stopPathingCallback(self.gridX, self.gridY, self.forced); }
 
         if (self.forced) self.forced = false;
       }
     },
 
     updateMovement: function() {
-      let self = this,
-        step = self.step;
+      const self = this;
+      const step = self.step;
 
       if (self.path[step][0] < self.path[step - 1][0])
-        self.performAction(Modules.Orientation.Left, Modules.Actions.Walk);
+      { self.performAction(Modules.Orientation.Left, Modules.Actions.Walk); }
 
       if (self.path[step][0] > self.path[step - 1][0])
-        self.performAction(Modules.Orientation.Right, Modules.Actions.Walk);
+      { self.performAction(Modules.Orientation.Right, Modules.Actions.Walk); }
 
       if (self.path[step][1] < self.path[step - 1][1])
-        self.performAction(Modules.Orientation.Up, Modules.Actions.Walk);
+      { self.performAction(Modules.Orientation.Up, Modules.Actions.Walk); }
 
       if (self.path[step][1] > self.path[step - 1][1])
-        self.performAction(Modules.Orientation.Down, Modules.Actions.Walk);
+      { self.performAction(Modules.Orientation.Down, Modules.Actions.Walk); }
     },
 
     followPath: function(path) {
-      let self = this;
+      const self = this;
 
       /**
        * This is to ensure the player does not click on
@@ -350,7 +350,7 @@ define(["../entity", "../../utils/transition", "../animation"], function(
     },
 
     move: function(x, y, forced) {
-      let self = this;
+      const self = this;
 
       self.destination = {
         gridX: x,
@@ -364,7 +364,7 @@ define(["../entity", "../../utils/transition", "../animation"], function(
     },
 
     stop: function(force) {
-      let self = this;
+      const self = this;
 
       if (!force) self.interrupted = true;
       else if (self.hasPath()) {
@@ -378,7 +378,7 @@ define(["../entity", "../../utils/transition", "../animation"], function(
     },
 
     getEffectAnimation: function() {
-      let self = this;
+      const self = this;
 
       if (self.critical) return self.criticalAnimation;
 
@@ -390,7 +390,7 @@ define(["../entity", "../../utils/transition", "../animation"], function(
     },
 
     getActiveEffect: function() {
-      let self = this;
+      const self = this;
 
       if (self.critical) return "criticaleffect";
 
@@ -406,7 +406,7 @@ define(["../entity", "../../utils/transition", "../animation"], function(
      */
 
     triggerHealthBar: function() {
-      let self = this;
+      const self = this;
 
       self.healthBarVisible = true;
 
@@ -418,7 +418,7 @@ define(["../entity", "../../utils/transition", "../animation"], function(
     },
 
     clearHealthBar: function() {
-      let self = this;
+      const self = this;
 
       self.healthBarVisible = false;
       clearTimeout(self.healthBarTimeout);
@@ -426,13 +426,13 @@ define(["../entity", "../../utils/transition", "../animation"], function(
     },
 
     requestPathfinding: function(x, y) {
-      let self = this;
+      const self = this;
 
       if (self.requestPathCallback) return self.requestPathCallback(x, y);
     },
 
     updateGridPosition: function() {
-      let self = this;
+      const self = this;
 
       self.setGridPosition(self.path[self.step][0], self.path[self.step][1]);
     },
@@ -445,7 +445,7 @@ define(["../entity", "../../utils/transition", "../animation"], function(
     },
 
     forEachAttacker: function(callback) {
-      let self = this;
+      const self = this;
 
       _.each(self.attackers, function(attacker) {
         callback(attacker);
@@ -481,7 +481,7 @@ define(["../entity", "../../utils/transition", "../animation"], function(
     },
 
     removeTarget: function() {
-      let self = this;
+      const self = this;
 
       if (!self.target) return;
 
@@ -493,7 +493,7 @@ define(["../entity", "../../utils/transition", "../animation"], function(
     },
 
     moved: function() {
-      let self = this;
+      const self = this;
 
       self.loadDirty();
 
@@ -513,7 +513,7 @@ define(["../entity", "../../utils/transition", "../animation"], function(
     },
 
     setTarget: function(target) {
-      let self = this;
+      const self = this;
 
       if (target === null) {
         self.removeTarget();
@@ -528,7 +528,7 @@ define(["../entity", "../../utils/transition", "../animation"], function(
     },
 
     setHitPoints: function(hitPoints) {
-      let self = this;
+      const self = this;
 
       self.hitPoints = hitPoints;
 

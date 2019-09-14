@@ -1,7 +1,7 @@
 define(["jquery", "./container/container"], function($, Container) {
   return Class.extend({
     init: function(game, inventoryContainer, size) {
-      let self = this;
+      const self = this;
 
       self.game = game;
       self.inventoryContainer = inventoryContainer;
@@ -22,13 +22,13 @@ define(["jquery", "./container/container"], function($, Container) {
     },
 
     load: function(data) {
-      let self = this,
-        bankList = self.bankSlots.find("ul"),
-        inventoryList = self.bankInventorySlots.find("ul");
+      const self = this;
+      const bankList = self.bankSlots.find("ul");
+      const inventoryList = self.bankInventorySlots.find("ul");
 
       for (let i = 0; i < data.length; i++) {
-        let item = data[i],
-          slot = $('<div id="bankSlot' + i + '" class="bankSlot"></div>');
+        const item = data[i];
+        const slot = $("<div id=\"bankSlot" + i + "\" class=\"bankSlot\"></div>");
 
         self.container.setSlot(i, item);
 
@@ -37,13 +37,13 @@ define(["jquery", "./container/container"], function($, Container) {
           "margin-bottom": 4 * self.getScale() + "px"
         });
 
-        let image = $('<div id="bankImage' + i + '" class="bankImage"></div>');
+        const image = $("<div id=\"bankImage" + i + "\" class=\"bankImage\"></div>");
 
         if (item.string)
-          image.css(
-            "background-image",
-            self.container.getImageFormat(self.getDrawingScale(), item.string)
-          );
+        { image.css(
+          "background-image",
+          self.container.getImageFormat(self.getDrawingScale(), item.string)
+        ); }
 
         slot.click(function(event) {
           self.click("bank", event);
@@ -53,9 +53,9 @@ define(["jquery", "./container/container"], function($, Container) {
 
         slot.append(image);
         slot.append(
-          '<div id="bankItemCount' +
+          "<div id=\"bankItemCount" +
             i +
-            '" class="itemCount">' +
+            "\" class=\"itemCount\">" +
             (item.count > 1 ? item.count : "") +
             "</div>"
         );
@@ -66,7 +66,7 @@ define(["jquery", "./container/container"], function($, Container) {
           "margin-left": "0"
         });
 
-        let bankListItem = $("<li></li>");
+        const bankListItem = $("<li></li>");
 
         bankListItem.append(slot);
 
@@ -74,25 +74,25 @@ define(["jquery", "./container/container"], function($, Container) {
       }
 
       for (let j = 0; j < self.inventoryContainer.size; j++) {
-        let iItem = self.inventoryContainer.slots[j],
-          iSlot = $(
-            '<div id="bankInventorySlot' + j + '" class="bankSlot"></div>'
-          );
+        const iItem = self.inventoryContainer.slots[j];
+        const iSlot = $(
+          "<div id=\"bankInventorySlot" + j + "\" class=\"bankSlot\"></div>"
+        );
 
         iSlot.css({
           "margin-right": 3 * self.getScale() + "px",
           "margin-bottom": 6 * self.getScale() + "px"
         });
 
-        let slotImage = $(
-          '<div id="inventoryImage' + j + '" class="bankImage"></div>'
+        const slotImage = $(
+          "<div id=\"inventoryImage" + j + "\" class=\"bankImage\"></div>"
         );
 
         if (iItem.string)
-          slotImage.css(
-            "background-image",
-            self.container.getImageFormat(self.getDrawingScale(), iItem.string)
-          );
+        { slotImage.css(
+          "background-image",
+          self.container.getImageFormat(self.getDrawingScale(), iItem.string)
+        ); }
 
         iSlot.click(function(event) {
           self.click("inventory", event);
@@ -102,9 +102,9 @@ define(["jquery", "./container/container"], function($, Container) {
 
         iSlot.append(slotImage);
         iSlot.append(
-          '<div id="inventoryItemCount' +
+          "<div id=\"inventoryItemCount" +
             j +
-            '" class="itemCount">' +
+            "\" class=\"itemCount\">" +
             (iItem.count > 1 ? iItem.count : "") +
             "</div>"
         );
@@ -114,7 +114,7 @@ define(["jquery", "./container/container"], function($, Container) {
           "margin-left": "0"
         });
 
-        let inventoryListItem = $("<li></li>");
+        const inventoryListItem = $("<li></li>");
 
         inventoryListItem.append(iSlot);
 
@@ -123,14 +123,14 @@ define(["jquery", "./container/container"], function($, Container) {
     },
 
     resize: function() {
-      let self = this,
-        bankList = self.getBankList(),
-        inventoryList = self.getInventoryList();
+      const self = this;
+      const bankList = self.getBankList();
+      const inventoryList = self.getInventoryList();
 
       for (let i = 0; i < bankList.length; i++) {
-        let bankSlot = $(bankList[i]).find("#bankSlot" + i),
-          image = bankSlot.find("#bankImage" + i),
-          slot = self.container.slots[i];
+        const bankSlot = $(bankList[i]).find("#bankSlot" + i);
+        const image = bankSlot.find("#bankImage" + i);
+        const slot = self.container.slots[i];
 
         bankSlot.css({
           "margin-right": 2 * self.getScale() + "px",
@@ -145,16 +145,16 @@ define(["jquery", "./container/container"], function($, Container) {
 
         if (self.game.app.isMobile()) image.css("background-size", "600%");
         else
-          image.css(
-            "background-image",
-            self.container.getImageFormat(self.getDrawingScale(), slot.string)
-          );
+        { image.css(
+          "background-image",
+          self.container.getImageFormat(self.getDrawingScale(), slot.string)
+        ); }
       }
 
       for (let j = 0; j < inventoryList.length; j++) {
-        let inventorySlot = $(inventoryList[j]).find("#bankInventorySlot" + j),
-          iImage = inventorySlot.find("#inventoryImage" + j),
-          iSlot = self.inventoryContainer.slots[j];
+        const inventorySlot = $(inventoryList[j]).find("#bankInventorySlot" + j);
+        const iImage = inventorySlot.find("#inventoryImage" + j);
+        const iSlot = self.inventoryContainer.slots[j];
 
         inventorySlot.css({
           "margin-right": 3 * self.getScale() + "px",
@@ -163,17 +163,17 @@ define(["jquery", "./container/container"], function($, Container) {
 
         if (self.game.app.isMobile()) iImage.css("background-size", "600%");
         else
-          iImage.css(
-            "background-image",
-            self.container.getImageFormat(self.getDrawingScale(), iSlot.string)
-          );
+        { iImage.css(
+          "background-image",
+          self.container.getImageFormat(self.getDrawingScale(), iSlot.string)
+        ); }
       }
     },
 
     click: function(type, event) {
-      let self = this,
-        isBank = type === "bank",
-        index = event.currentTarget.id.substring(isBank ? 8 : 17);
+      const self = this;
+      const isBank = type === "bank";
+      const index = event.currentTarget.id.substring(isBank ? 8 : 17);
 
       self.game.socket.send(Packets.Bank, [
         Packets.BankOpcode.Select,
@@ -183,20 +183,20 @@ define(["jquery", "./container/container"], function($, Container) {
     },
 
     add: function(info) {
-      let self = this,
-        item = $(self.getBankList()[info.index]),
-        slot = self.container.slots[info.index];
+      const self = this;
+      const item = $(self.getBankList()[info.index]);
+      const slot = self.container.slots[info.index];
 
       if (!item || !slot) return;
 
       if (slot.isEmpty())
-        slot.load(info.string, info.count, info.ability, info.abilityLevel);
+      { slot.load(info.string, info.count, info.ability, info.abilityLevel); }
 
       slot.setCount(info.count);
 
-      let bankSlot = item.find("#bankSlot" + info.index),
-        cssSlot = bankSlot.find("#bankImage" + info.index),
-        count = bankSlot.find("#bankItemCount" + info.index);
+      const bankSlot = item.find("#bankSlot" + info.index);
+      const cssSlot = bankSlot.find("#bankImage" + info.index);
+      const count = bankSlot.find("#bankItemCount" + info.index);
 
       cssSlot.css(
         "background-image",
@@ -209,16 +209,16 @@ define(["jquery", "./container/container"], function($, Container) {
     },
 
     remove: function(info) {
-      let self = this,
-        item = $(self.getBankList()[info.index]),
-        slot = self.container.slots[info.index];
+      const self = this;
+      const item = $(self.getBankList()[info.index]);
+      const slot = self.container.slots[info.index];
 
       if (!item || !slot) return;
 
       slot.count -= info.count;
 
       if (slot.count < 1) {
-        let divItem = item.find("#bankSlot" + info.index);
+        const divItem = item.find("#bankSlot" + info.index);
 
         divItem.find("#bankImage" + info.index).css("background-image", "");
         divItem.find("#bankItemCount" + info.index).text("");
@@ -228,13 +228,13 @@ define(["jquery", "./container/container"], function($, Container) {
     },
 
     addInventory: function(info) {
-      let self = this,
-        item = $(self.getInventoryList()[info.index]);
+      const self = this;
+      const item = $(self.getInventoryList()[info.index]);
 
       if (!item) return;
 
-      let slot = item.find("#bankInventorySlot" + info.index),
-        image = slot.find("#inventoryImage" + info.index);
+      const slot = item.find("#bankInventorySlot" + info.index);
+      const image = slot.find("#inventoryImage" + info.index);
 
       image.css(
         "background-image",
@@ -244,16 +244,16 @@ define(["jquery", "./container/container"], function($, Container) {
       if (self.game.app.isMobile()) image.css("background-size", "600%");
 
       if (info.count > 1)
-        slot.find("#inventoryItemCount" + info.index).text(info.count);
+      { slot.find("#inventoryItemCount" + info.index).text(info.count); }
     },
 
     removeInventory: function(info) {
-      let self = this,
-        item = $(self.getInventoryList()[info.index]);
+      const self = this;
+      const item = $(self.getInventoryList()[info.index]);
 
       if (!item) return;
 
-      let slot = item.find("#bankInventorySlot" + info.index);
+      const slot = item.find("#bankInventorySlot" + info.index);
 
       slot.find("#inventoryImage" + info.index).css("background-image", "");
       slot.find("#inventoryItemCount" + info.index).text("");

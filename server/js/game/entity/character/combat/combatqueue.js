@@ -18,7 +18,7 @@ class CombatQueue {
   }
 
   getHit() {
-    let self = this;
+    const self = this;
 
     if (self.hitQueue.length < 1) return;
 

@@ -1,7 +1,7 @@
 define(["../character"], function(Character) {
   return Character.extend({
     init: function(id, kind) {
-      let self = this;
+      const self = this;
 
       self._super(id, kind);
 
@@ -11,9 +11,9 @@ define(["../character"], function(Character) {
     },
 
     talk: function(messages) {
-      let self = this,
-        count = messages.length,
-        message;
+      const self = this;
+      const count = messages.length;
+      let message;
 
       if (self.index > count) self.index = 0;
 

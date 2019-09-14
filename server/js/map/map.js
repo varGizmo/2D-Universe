@@ -1,22 +1,22 @@
 /* global module */
 
-let _ = require("underscore"),
-  Grids = require("./grids"),
-  Regions = require("./regions"),
-  Utils = require("../util/utils"),
-  config = require("../../config"),
-  Modules = require("../util/modules"),
-  PVPAreas = require("./areas/pvpareas"),
-  MusicAreas = require("./areas/musicareas"),
-  ChestAreas = require("./areas/chestareas"),
-  map = require("../../data/map/world_server"),
-  OverlayAreas = require("./areas/overlayareas"),
-  CameraAreas = require("./areas/cameraareas"),
-  ClientMap = require("../../data/map/world_client");
+const _ = require("underscore");
+const Grids = require("./grids");
+const Regions = require("./regions");
+const Utils = require("../util/utils");
+const config = require("../../config");
+const Modules = require("../util/modules");
+const PVPAreas = require("./areas/pvpareas");
+const MusicAreas = require("./areas/musicareas");
+const ChestAreas = require("./areas/chestareas");
+const map = require("../../data/map/world_server");
+const OverlayAreas = require("./areas/overlayareas");
+const CameraAreas = require("./areas/cameraareas");
+const ClientMap = require("../../data/map/world_client");
 
 class Map {
   constructor(world) {
-    let self = this;
+    const self = this;
 
     self.world = world;
 
@@ -29,7 +29,7 @@ class Map {
   }
 
   load() {
-    let self = this;
+    const self = this;
 
     self.width = map.width;
     self.height = map.height;
@@ -55,17 +55,18 @@ class Map {
     self.ready = true;
 
     self.readyInterval = setInterval(function() {
-      if (!self.world.ready)
+      if (!self.world.ready) {
         if (self.readyCallback) self.readyCallback();
         else {
           clearInterval(self.readyInterval);
           self.readyInterval = null;
         }
+      }
     }, 50);
   }
 
   loadAreas() {
-    let self = this;
+    const self = this;
 
     /**
      * The structure for the new self.areas is as follows:
@@ -83,15 +84,15 @@ class Map {
      * }
      */
 
-    self.areas["PVP"] = new PVPAreas();
-    self.areas["Music"] = new MusicAreas();
-    self.areas["Chests"] = new ChestAreas(self.world);
-    self.areas["Overlays"] = new OverlayAreas();
-    self.areas["Cameras"] = new CameraAreas();
+    self.areas.PVP = new PVPAreas();
+    self.areas.Music = new MusicAreas();
+    self.areas.Chests = new ChestAreas(self.world);
+    self.areas.Overlays = new OverlayAreas();
+    self.areas.Cameras = new CameraAreas();
   }
 
   loadDoors() {
-    let self = this;
+    const self = this;
 
     self.doors = {};
 
@@ -129,12 +130,12 @@ class Map {
   }
 
   indexToGridPosition(tileIndex) {
-    let self = this;
+    const self = this;
 
     tileIndex -= 1;
 
-    let x = self.getX(tileIndex + 1, self.width),
-      y = Math.floor(tileIndex / self.width);
+    const x = self.getX(tileIndex + 1, self.width);
+    const y = Math.floor(tileIndex / self.width);
 
     return {
       x: x,
@@ -153,9 +154,9 @@ class Map {
   }
 
   getRandomPosition(area) {
-    let self = this,
-      pos = {},
-      valid = false;
+    const self = this;
+    const pos = {};
+    let valid = false;
 
     while (!valid) {
       pos.x = area.x + Utils.randomInt(0, area.width + 1);
@@ -180,12 +181,12 @@ class Map {
   }
 
   nearLight(light, x, y) {
-    let self = this,
-      diff = Math.round(light.distance / 16),
-      startX = light.x - self.zoneWidth - diff,
-      startY = light.y - self.zoneHeight - diff,
-      endX = light.x + self.zoneWidth + diff,
-      endY = light.y + self.zoneHeight + diff;
+    const self = this;
+    const diff = Math.round(light.distance / 16);
+    const startX = light.x - self.zoneWidth - diff;
+    const startY = light.y - self.zoneHeight - diff;
+    const endX = light.x + self.zoneWidth + diff;
+    const endY = light.y + self.zoneHeight + diff;
 
     return x > startX && y > startY && x < endX && y < endY;
   }
@@ -212,18 +213,18 @@ class Map {
   }
 
   isColliding(x, y) {
-    let self = this;
+    const self = this;
 
     if (self.isOutOfBounds(x, y)) return false;
 
-    let tileIndex = self.gridPositionToIndex(x - 1, y);
+    const tileIndex = self.gridPositionToIndex(x - 1, y);
 
     return self.collisions.indexOf(tileIndex) > -1;
   }
 
   getActualTileIndex(tileIndex) {
-    let self = this,
-      tileset = self.getTileset(tileIndex);
+    const self = this;
+    const tileset = self.getTileset(tileIndex);
 
     if (!tileset) return;
 
@@ -231,20 +232,23 @@ class Map {
   }
 
   getTileset(tileIndex) {
-    let self = this;
+    const self = this;
     /**
          * if (id > self.tilesets[idx].firstGID - 1 &&
          id < self.tilesets[idx].lastGID + 1)
          return self.tilesets[idx];
          */
 
-    for (let id in self.tilesets)
-      if (self.tilesets.hasOwnProperty(id))
+    for (const id in self.tilesets) {
+      if (self.tilesets.hasOwnProperty(id)) {
         if (
           tileIndex > self.tilesets[id].firstGID - 1 &&
           tileIndex < self.tilesets[id].lastGID + 1
-        )
+        ) {
           return self.tilesets[id];
+        }
+      }
+    }
 
     return null;
   }

@@ -3,7 +3,7 @@
 define(["jquery"], function($) {
   return Class.extend({
     init: function() {
-      let self = this;
+      const self = this;
 
       log.info("Loading the main application...");
 
@@ -53,7 +53,7 @@ define(["jquery"], function($) {
     },
 
     load: function() {
-      let self = this;
+      const self = this;
 
       self.loginButton.click(function() {
         self.login();
@@ -97,7 +97,7 @@ define(["jquery"], function($) {
       self.rememberMe.click(function() {
         if (!self.game || !self.game.storage) return;
 
-        let active = self.rememberMe.hasClass("active");
+        const active = self.rememberMe.hasClass("active");
 
         self.rememberMe.toggleClass("active");
 
@@ -133,7 +133,7 @@ define(["jquery"], function($) {
       });
 
       $(document).keydown(function(e) {
-        let key = e.which;
+        const key = e.which;
 
         if (!self.game) return;
 
@@ -148,7 +148,7 @@ define(["jquery"], function($) {
       });
 
       $(document).keyup(function(e) {
-        let key = e.which;
+        const key = e.which;
 
         if (!self.game || !self.game.started) return;
 
@@ -162,7 +162,7 @@ define(["jquery"], function($) {
           !self.game.started ||
           event.target.id !== "textCanvas"
         )
-          return;
+        { return; }
 
         self.game.input.setCoords(event);
         self.game.input.moveCursor();
@@ -176,13 +176,13 @@ define(["jquery"], function($) {
         self.game.input.handle(Modules.InputType.LeftClick, event);
       });
 
-      $('input[type="range"]').on("input", function() {
+      $("input[type=\"range\"]").on("input", function() {
         self.updateRange($(this));
       });
     },
 
     login: function() {
-      let self = this;
+      const self = this;
 
       if (
         self.loggingIn ||
@@ -191,28 +191,28 @@ define(["jquery"], function($) {
         self.statusMessage ||
         !self.verifyForm()
       )
-        return;
+      { return; }
 
       self.toggleLogin(true);
       self.game.connect();
     },
 
     zoom: function() {
-      let self = this;
+      const self = this;
 
-      let containerWidth = self.container.width(),
-        containerHeight = self.container.height(),
-        windowWidth = self.window.width(),
-        windowHeight = self.window.height(),
-        zoomFactor = windowWidth / containerWidth;
+      const containerWidth = self.container.width();
+      const containerHeight = self.container.height();
+      const windowWidth = self.window.width();
+      const windowHeight = self.window.height();
+      let zoomFactor = windowWidth / containerWidth;
 
       if (containerHeight + 50 >= windowHeight)
-        zoomFactor = windowHeight / containerHeight;
+      { zoomFactor = windowHeight / containerHeight; }
 
       if (self.getScaleFactor() === 3) zoomFactor -= 0.1;
 
       if (self.getScaleFactor() === 1 && windowWidth > windowHeight)
-        zoomFactor -= 0.32;
+      { zoomFactor -= 0.32; }
 
       self.body.css({
         zoom: zoomFactor,
@@ -225,7 +225,7 @@ define(["jquery"], function($) {
     },
 
     fadeMenu: function() {
-      let self = this;
+      const self = this;
 
       self.updateLoader(null);
 
@@ -237,7 +237,7 @@ define(["jquery"], function($) {
     },
 
     showMenu: function() {
-      let self = this;
+      const self = this;
 
       self.body.removeClass("game");
       self.body.removeClass("started");
@@ -247,7 +247,7 @@ define(["jquery"], function($) {
     showDeath: function() {},
 
     openScroll: function(origin, destination) {
-      let self = this;
+      const self = this;
 
       if (!destination || self.loggingIn) return;
 
@@ -271,8 +271,8 @@ define(["jquery"], function($) {
     },
 
     displayScroll: function(content) {
-      let self = this,
-        state = self.parchment.attr("class");
+      const self = this;
+      const state = self.parchment.attr("class");
 
       if (self.game.started) {
         self.parchment.removeClass().addClass(content);
@@ -283,22 +283,22 @@ define(["jquery"], function($) {
 
         if (content !== "about") self.helpButton.removeClass("active");
       } else if (state !== "animate")
-        self.openScroll(state, state === content ? "loadCharacter" : content);
+      { self.openScroll(state, state === content ? "loadCharacter" : content); }
     },
 
     verifyForm: function() {
-      let self = this,
-        activeForm = self.getActiveForm();
+      const self = this;
+      const activeForm = self.getActiveForm();
 
       if (activeForm === "null") return;
 
       switch (activeForm) {
         case "loadCharacter":
-          let nameInput = $("#loginNameInput"),
-            passwordInput = $("#loginPasswordInput");
+          const nameInput = $("#loginNameInput");
+          const passwordInput = $("#loginPasswordInput");
 
           if (self.loginFields.length === 0)
-            self.loginFields = [nameInput, passwordInput];
+          { self.loginFields = [nameInput, passwordInput]; }
 
           if (!nameInput.val() && !self.isGuest()) {
             self.sendError(nameInput, "Please enter a username.");
@@ -313,20 +313,20 @@ define(["jquery"], function($) {
           break;
 
         case "createCharacter":
-          let characterName = $("#registerNameInput"),
-            registerPassword = $("#registerPasswordInput"),
-            registerPasswordConfirmation = $(
-              "#registerPasswordConfirmationInput"
-            ),
-            email = $("#registerEmailInput");
+          const characterName = $("#registerNameInput");
+          const registerPassword = $("#registerPasswordInput");
+          const registerPasswordConfirmation = $(
+            "#registerPasswordConfirmationInput"
+          );
+          const email = $("#registerEmailInput");
 
           if (self.registerFields.length === 0)
-            self.registerFields = [
-              characterName,
-              registerPassword,
-              registerPasswordConfirmation,
-              email
-            ];
+          { self.registerFields = [
+            characterName,
+            registerPassword,
+            registerPasswordConfirmation,
+            email
+          ]; }
 
           if (!characterName.val()) {
             self.sendError(characterName, "A username is necessary you silly.");
@@ -364,7 +364,7 @@ define(["jquery"], function($) {
     },
 
     sendStatus: function(message) {
-      let self = this;
+      const self = this;
 
       self.cleanErrors();
 
@@ -378,7 +378,7 @@ define(["jquery"], function($) {
       }).appendTo(".validation-summary");
 
       $(".status").append(
-        '<span class="loader__dot">.</span><span class="loader__dot">.</span><span class="loader__dot">.</span>'
+        "<span class=\"loader__dot\">.</span><span class=\"loader__dot\">.</span><span class=\"loader__dot\">.</span>"
       );
     },
 
@@ -403,15 +403,15 @@ define(["jquery"], function($) {
     },
 
     cleanErrors: function() {
-      let self = this,
-        activeForm = self.getActiveForm(),
-        fields =
+      const self = this;
+      const activeForm = self.getActiveForm();
+      const fields =
           activeForm === "loadCharacter"
             ? self.loginFields
             : self.registerFields;
 
       for (let i = 0; i < fields.length; i++)
-        fields[i].removeClass("field-error");
+      { fields[i].removeClass("field-error"); }
 
       $(".validation-error").remove();
       $(".status").remove();
@@ -430,7 +430,7 @@ define(["jquery"], function($) {
     },
 
     resize: function() {
-      let self = this;
+      const self = this;
 
       if (self.game) self.game.resize();
     },
@@ -444,8 +444,8 @@ define(["jquery"], function($) {
     },
 
     getScaleFactor: function() {
-      let width = window.innerWidth,
-        height = window.innerHeight;
+      const width = window.innerWidth;
+      const height = window.innerHeight;
 
       /**
        * These are raw scales, we can adjust
@@ -461,20 +461,20 @@ define(["jquery"], function($) {
     },
 
     updateLoader: function(message) {
-      let self = this;
+      const self = this;
 
       if (!message) {
         self.loading.html("");
         return;
       }
 
-      let dots =
-        '<span class="loader__dot">.</span><span class="loader__dot">.</span><span class="loader__dot">.</span>';
+      const dots =
+        "<span class=\"loader__dot\">.</span><span class=\"loader__dot\">.</span><span class=\"loader__dot\">.</span>";
       self.loading.html(message + dots);
     },
 
     toggleLogin: function(toggle) {
-      let self = this;
+      const self = this;
 
       self.revertLoader();
 
@@ -496,22 +496,22 @@ define(["jquery"], function($) {
     },
 
     toggleTyping: function(state) {
-      let self = this;
+      const self = this;
 
       if (self.loginFields)
-        _.each(self.loginFields, function(field) {
-          field.prop("readonly", state);
-        });
+      { _.each(self.loginFields, function(field) {
+        field.prop("readonly", state);
+      }); }
 
       if (self.registerFields)
-        _.each(self.registerFields, function(field) {
-          field.prop("readOnly", state);
-        });
+      { _.each(self.registerFields, function(field) {
+        field.prop("readOnly", state);
+      }); }
     },
 
     updateRange: function(obj) {
-      let self = this,
-        val =
+      const self = this;
+      const val =
           (obj.val() - obj.attr("min")) / (obj.attr("max") - obj.attr("min"));
 
       obj.css(

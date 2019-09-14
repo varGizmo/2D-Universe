@@ -3,7 +3,7 @@
 define(function() {
   return Class.extend({
     init: function(renderer) {
-      let self = this;
+      const self = this;
 
       self.renderer = renderer;
       self.map = renderer.map;
@@ -35,8 +35,8 @@ define(function() {
     },
 
     update: function() {
-      let self = this,
-        factor = self.renderer.getUpscale();
+      const self = this;
+      const factor = self.renderer.getUpscale();
 
       self.gridWidth = 15 * factor;
       self.gridHeight = 8 * factor;
@@ -48,7 +48,7 @@ define(function() {
     },
 
     setPosition: function(x, y) {
-      let self = this;
+      const self = this;
 
       self.x = x;
       self.y = y;
@@ -65,7 +65,7 @@ define(function() {
     },
 
     center: function() {
-      let self = this;
+      const self = this;
 
       if (self.centered) return;
 
@@ -76,7 +76,7 @@ define(function() {
     },
 
     decenter: function() {
-      let self = this;
+      const self = this;
 
       if (!self.centered) return;
 
@@ -87,7 +87,7 @@ define(function() {
     },
 
     setGridPosition: function(x, y) {
-      let self = this;
+      const self = this;
 
       self.prevGridX = self.gridX;
       self.prevGridY = self.gridY;
@@ -100,7 +100,7 @@ define(function() {
     },
 
     setPlayer: function(player) {
-      let self = this;
+      const self = this;
 
       self.player = player;
 
@@ -108,7 +108,7 @@ define(function() {
     },
 
     handlePanning: function(direction) {
-      let self = this;
+      const self = this;
 
       if (!self.panning) return;
 
@@ -132,14 +132,14 @@ define(function() {
     },
 
     centreOn: function(entity) {
-      let self = this;
+      const self = this;
 
       if (!entity) return;
 
-      let width = Math.floor(self.gridWidth / 2),
-        height = Math.floor(self.gridHeight / 2),
-        nextX = entity.x - width * self.tileSize,
-        nextY = entity.y - height * self.tileSize;
+      const width = Math.floor(self.gridWidth / 2);
+      const height = Math.floor(self.gridHeight / 2);
+      const nextX = entity.x - width * self.tileSize;
+      const nextY = entity.y - height * self.tileSize;
 
       if (nextX >= 0 && nextX <= self.borderX && !self.lockX) {
         self.x = nextX;
@@ -153,12 +153,12 @@ define(function() {
     },
 
     forceCentre: function(entity) {
-      let self = this;
+      const self = this;
 
       if (!entity) return;
 
-      let width = Math.floor(self.gridWidth / 2),
-        height = Math.floor(self.gridHeight / 2);
+      const width = Math.floor(self.gridWidth / 2);
+      const height = Math.floor(self.gridHeight / 2);
 
       self.x = entity.x - width * self.tileSize;
       self.gridX = Math.round(entity.x / 16) - width;
@@ -168,7 +168,7 @@ define(function() {
     },
 
     offsetX: function(nextX) {
-      let self = this;
+      const self = this;
 
       if (nextX <= 16) {
         self.x = 0;
@@ -180,7 +180,7 @@ define(function() {
     },
 
     offsetY: function(nextY) {
-      let self = this;
+      const self = this;
 
       if (nextY <= 16) {
         self.y = 0;
@@ -192,7 +192,7 @@ define(function() {
     },
 
     zone: function(direction) {
-      let self = this;
+      const self = this;
 
       switch (direction) {
         case Modules.Orientation.Up:
@@ -218,7 +218,7 @@ define(function() {
     },
 
     forEachVisiblePosition: function(callback, offset) {
-      let self = this;
+      const self = this;
 
       if (!offset) offset = 1;
 
@@ -227,12 +227,12 @@ define(function() {
         y < maxY;
         y++
       )
-        for (
-          let x = self.gridX - offset, maxX = x + self.gridWidth + offset * 2;
-          x < maxX;
-          x++
-        )
-          callback(x, y);
+      { for (
+        let x = self.gridX - offset, maxX = x + self.gridWidth + offset * 2;
+        x < maxX;
+        x++
+      )
+      { callback(x, y); } }
     }
   });
 });

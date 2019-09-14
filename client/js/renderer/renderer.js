@@ -1,9 +1,9 @@
 /* global _, m4, log, Detect */
 
-let DarkMask = illuminated.DarkMask,
-  Lamp = illuminated.Lamp,
-  Lighting = illuminated.Lighting,
-  Vec2 = illuminated.Vec2;
+const DarkMask = illuminated.DarkMask;
+const Lamp = illuminated.Lamp;
+const Lighting = illuminated.Lighting;
+const Vec2 = illuminated.Vec2;
 
 define([
   "jquery",
@@ -23,7 +23,7 @@ define([
       cursor,
       game
     ) {
-      let self = this;
+      const self = this;
 
       self.canvas = document.getElementById("canvas");
       self.background = background;
@@ -111,7 +111,7 @@ define([
     },
 
     stop: function() {
-      let self = this;
+      const self = this;
 
       self.camera = null;
       self.input = null;
@@ -124,7 +124,7 @@ define([
     },
 
     load: function() {
-      let self = this;
+      const self = this;
 
       self.scale = self.getScale();
       self.drawingScale = self.getDrawingScale();
@@ -135,7 +135,7 @@ define([
     },
 
     removeSmoothing: function() {
-      let self = this;
+      const self = this;
 
       self.forAllContexts(function(context) {
         context.imageSmoothingQuality = "low";
@@ -148,7 +148,7 @@ define([
     },
 
     loadSizes: function() {
-      let self = this;
+      const self = this;
 
       if (!self.camera) return;
 
@@ -157,8 +157,8 @@ define([
       self.screenWidth = self.camera.gridWidth * self.tileSize;
       self.screenHeight = self.camera.gridHeight * self.tileSize;
 
-      let width = self.screenWidth * self.superScaling,
-        height = self.screenHeight * self.superScaling;
+      const width = self.screenWidth * self.superScaling;
+      const height = self.screenHeight * self.superScaling;
 
       self.forEachCanvas(function(canvas) {
         canvas.width = width;
@@ -167,8 +167,8 @@ define([
     },
 
     loadCamera: function() {
-      let self = this,
-        storage = self.game.storage;
+      const self = this;
+      const storage = self.game.storage;
 
       self.camera = new Camera(this);
 
@@ -189,7 +189,7 @@ define([
     },
 
     loadLights: function() {
-      let self = this;
+      const self = this;
 
       self.darkMask = new DarkMask({
         lights: [],
@@ -200,7 +200,7 @@ define([
     },
 
     resize: function() {
-      let self = this;
+      const self = this;
 
       self.stopRendering = true;
 
@@ -209,31 +209,31 @@ define([
       self.checkDevice();
 
       if (!self.resizeTimeout)
-        self.resizeTimeout = setTimeout(function() {
-          self.scale = self.getScale();
-          self.drawingScale = self.getDrawingScale();
-          self.clearScreen(self.cursorContext);
+      { self.resizeTimeout = setTimeout(function() {
+        self.scale = self.getScale();
+        self.drawingScale = self.getDrawingScale();
+        self.clearScreen(self.cursorContext);
 
-          if (self.camera) self.camera.update();
+        if (self.camera) self.camera.update();
 
-          self.loadSizes();
+        self.loadSizes();
 
-          if (self.entities) self.entities.update();
+        if (self.entities) self.entities.update();
 
-          if (self.camera) self.camera.centreOn(self.game.player);
+        if (self.camera) self.camera.centreOn(self.game.player);
 
-          if (self.game.interface) self.game.interface.resize();
+        if (self.game.interface) self.game.interface.resize();
 
-          self.stopRendering = false;
-          self.resizeTimeout = null;
+        self.stopRendering = false;
+        self.resizeTimeout = null;
 
-          self.handleScaling();
-          self.updateAnimatedTiles();
-        }, 500);
+        self.handleScaling();
+        self.updateAnimatedTiles();
+      }, 500); }
     },
 
     render: function() {
-      let self = this;
+      const self = this;
 
       if (self.stopRendering) return;
 
@@ -275,33 +275,33 @@ define([
      */
 
     draw: function() {
-      let self = this;
+      const self = this;
 
       self.updateDrawingView();
 
       self.forEachVisibleTile(function(id, index) {
-        let isHighTile = self.map.isHighTile(id),
-          isLightTile = self.map.isLightTile(id),
-          context = isLightTile
-            ? self.overlayContext
-            : isHighTile
+        const isHighTile = self.map.isHighTile(id);
+        const isLightTile = self.map.isLightTile(id);
+        const context = isLightTile
+          ? self.overlayContext
+          : isHighTile
             ? self.foreContext
             : self.backContext;
 
         if (!self.map.isAnimatedTile(id) || !self.animateTiles)
-          self.drawTile(context, id, self.map.width, index);
+        { self.drawTile(context, id, self.map.width, index); }
       });
 
       if (self.animateTiles)
-        self.forEachAnimatedTile(function(tile) {
-          self.drawTile(self.backContext, tile.id, self.map.width, tile.index);
-          tile.loaded = true;
-        });
+      { self.forEachAnimatedTile(function(tile) {
+        self.drawTile(self.backContext, tile.id, self.map.width, tile.index);
+        tile.loaded = true;
+      }); }
     },
 
     drawOverlays: function() {
-      let self = this,
-        overlay = self.game.overlays.getFog();
+      const self = this;
+      const overlay = self.game.overlays.getFog();
 
       if (overlay) {
         self.overlayContext.save();
@@ -334,12 +334,12 @@ define([
     },
 
     drawInfos: function() {
-      let self = this;
+      const self = this;
 
       if (self.game.info.getCount() === 0) return;
 
       self.game.info.forEachInfo(function(info) {
-        let factor = self.mobile ? 2 : 1;
+        const factor = self.mobile ? 2 : 1;
 
         self.textContext.save();
         self.textContext.font = "20px AdvoCut";
@@ -358,7 +358,7 @@ define([
     },
 
     drawDebugging: function() {
-      let self = this;
+      const self = this;
 
       if (!self.debugging) return;
 
@@ -371,7 +371,7 @@ define([
     },
 
     drawEntities: function() {
-      let self = this;
+      const self = this;
 
       self.forEachVisibleEntity(function(entity) {
         if (entity.spriteLoaded) self.drawEntity(entity);
@@ -379,26 +379,26 @@ define([
     },
 
     drawEntity: function(entity) {
-      let self = this,
-        sprite = entity.sprite,
-        animation = entity.currentAnimation,
-        data = entity.renderingData;
+      const self = this;
+      const sprite = entity.sprite;
+      const animation = entity.currentAnimation;
+      const data = entity.renderingData;
 
       if (!sprite || !animation || !entity.isVisible()) return;
 
-      let frame = animation.currentFrame,
-        x = frame.x * self.superScaling,
-        y = frame.y * self.superScaling,
-        dx = entity.x * self.superScaling,
-        dy = entity.y * self.superScaling,
-        flipX = dx + self.tileSize * self.superScaling,
-        flipY = dy + data.height;
+      const frame = animation.currentFrame;
+      const x = frame.x * self.superScaling;
+      const y = frame.y * self.superScaling;
+      const dx = entity.x * self.superScaling;
+      const dy = entity.y * self.superScaling;
+      const flipX = dx + self.tileSize * self.superScaling;
+      const flipY = dy + data.height;
 
       self.context.save();
       self.setCameraView(self.context);
 
       if (entity.id !== self.game.player.id)
-        self.context.globalCompositeOperation = "destination-over";
+      { self.context.globalCompositeOperation = "destination-over"; }
 
       if (data.scale !== self.scale || data.sprite !== sprite) {
         data.scale = self.scale;
@@ -467,20 +467,20 @@ define([
         !entity.teleporting &&
         entity.hasWeapon()
       ) {
-        let weapon = self.entities.getSprite(entity.weapon.getString());
+        const weapon = self.entities.getSprite(entity.weapon.getString());
 
         if (weapon) {
           if (!weapon.loaded) weapon.load();
 
-          let weaponAnimationData = weapon.animationData[animation.name],
-            index =
+          const weaponAnimationData = weapon.animationData[animation.name];
+          const index =
               frame.index < weaponAnimationData.length
                 ? frame.index
-                : frame.index % weaponAnimationData.length,
-            weaponX = weapon.width * index * self.superScaling,
-            weaponY = weapon.height * animation.row * self.superScaling,
-            weaponWidth = weapon.width * self.superScaling,
-            weaponHeight = weapon.height * self.superScaling;
+                : frame.index % weaponAnimationData.length;
+          const weaponX = weapon.width * index * self.superScaling;
+          const weaponY = weapon.height * animation.row * self.superScaling;
+          const weaponWidth = weapon.width * self.superScaling;
+          const weaponHeight = weapon.height * self.superScaling;
 
           self.context.drawImage(
             weapon.image,
@@ -497,8 +497,8 @@ define([
       }
 
       if (entity instanceof Item) {
-        let sparksAnimation = self.entities.sprites.sparksAnimation,
-          sparksFrame = sparksAnimation.currentFrame;
+        const sparksAnimation = self.entities.sprites.sparksAnimation;
+        const sparksFrame = sparksAnimation.currentFrame;
 
         if (data.scale !== self.scale) {
           data.sparksX =
@@ -533,7 +533,7 @@ define([
     },
 
     drawEntityBack: function(entity) {
-      let self = this;
+      const self = this;
 
       /**
        * Function used to draw special effects prior
@@ -542,7 +542,7 @@ define([
     },
 
     drawEntityFore: function(entity) {
-      let self = this;
+      const self = this;
 
       /**
        * Function used to draw special effects after
@@ -555,19 +555,19 @@ define([
         entity.critical ||
         entity.explosion
       ) {
-        let sprite = self.entities.getSprite(entity.getActiveEffect());
+        const sprite = self.entities.getSprite(entity.getActiveEffect());
 
         if (!sprite.loaded) sprite.load();
 
         if (sprite) {
-          let animation = entity.getEffectAnimation(),
-            index = animation.currentFrame.index,
-            x = sprite.width * index * self.superScaling,
-            y = sprite.height * animation.row * self.superScaling,
-            width = sprite.width * self.superScaling,
-            height = sprite.height * self.superScaling,
-            offsetX = sprite.offsetX * self.superScaling,
-            offsetY = sprite.offsetY * self.superScaling;
+          const animation = entity.getEffectAnimation();
+          const index = animation.currentFrame.index;
+          const x = sprite.width * index * self.superScaling;
+          const y = sprite.height * animation.row * self.superScaling;
+          const width = sprite.width * self.superScaling;
+          const height = sprite.height * self.superScaling;
+          const offsetX = sprite.offsetX * self.superScaling;
+          const offsetY = sprite.offsetY * self.superScaling;
 
           self.context.drawImage(
             sprite.image,
@@ -585,20 +585,20 @@ define([
     },
 
     drawHealth: function(entity) {
-      let self = this;
+      const self = this;
 
       if (!entity.hitPoints || entity.hitPoints < 0 || !entity.healthBarVisible)
-        return;
+      { return; }
 
-      let barLength = 16,
-        healthX = entity.x * self.superScaling - barLength / 2 + 8,
-        healthY = (entity.y - 9) * self.superScaling,
-        healthWidth = Math.round(
-          (entity.hitPoints / entity.maxHitPoints) *
+      const barLength = 16;
+      const healthX = entity.x * self.superScaling - barLength / 2 + 8;
+      const healthY = (entity.y - 9) * self.superScaling;
+      const healthWidth = Math.round(
+        (entity.hitPoints / entity.maxHitPoints) *
             barLength *
             self.superScaling
-        ),
-        healthHeight = 2 * self.superScaling;
+      );
+      const healthHeight = 2 * self.superScaling;
 
       self.context.save();
       self.setCameraView(self.context);
@@ -616,12 +616,12 @@ define([
     },
 
     drawName: function(entity) {
-      let self = this;
+      const self = this;
 
       if (entity.hidden || (!self.drawNames && !self.drawLevels)) return;
 
-      let colour = entity.wanted ? "red" : "white",
-        factor = self.mobile ? 2 : 1;
+      let colour = entity.wanted ? "red" : "white";
+      const factor = self.mobile ? 2 : 1;
 
       if (entity.rights > 1) colour = "#ba1414";
       else if (entity.rights > 0) colour = "#a59a9a";
@@ -638,36 +638,36 @@ define([
             self.drawNames &&
             (entity.type === "mob" || entity.type === "player")
           )
-            self.drawText(
-              entity.type === "player" ? entity.username : entity.name,
-              (entity.x + 8) * factor,
-              (entity.y - (self.drawLevels ? 20 : 10)) * factor,
-              true,
-              colour,
-              "#000"
-            );
+          { self.drawText(
+            entity.type === "player" ? entity.username : entity.name,
+            (entity.x + 8) * factor,
+            (entity.y - (self.drawLevels ? 20 : 10)) * factor,
+            true,
+            colour,
+            "#000"
+          ); }
 
           if (
             self.drawLevels &&
             (entity.type === "mob" || entity.type === "player")
           )
-            self.drawText(
-              "Level " + entity.level,
-              (entity.x + 8) * factor,
-              (entity.y - (entity.type === "player" ? 12 : 10)) * factor,
-              true,
-              colour,
-              "#000"
-            );
+          { self.drawText(
+            "Level " + entity.level,
+            (entity.x + 8) * factor,
+            (entity.y - (entity.type === "player" ? 12 : 10)) * factor,
+            true,
+            colour,
+            "#000"
+          ); }
 
           if (entity.type === "item" && entity.count > 1)
-            self.drawText(
-              entity.count,
-              (entity.x + 8) * factor,
-              (entity.y - 10) * factor,
-              true,
-              colour
-            );
+          { self.drawText(
+            entity.count,
+            (entity.x + 8) * factor,
+            (entity.y - 10) * factor,
+            true,
+            colour
+          ); }
         } else {
           if (self.game.time - entity.countdownTime > 1000) {
             entity.countdownTime = self.game.time;
@@ -690,12 +690,12 @@ define([
     },
 
     drawLighting: function(lighting) {
-      let self = this;
+      const self = this;
 
       if (lighting.relative) {
-        let lightX =
-            (lighting.light.origX - self.camera.x / 16) * self.lightTileSize,
-          lightY =
+        const lightX =
+            (lighting.light.origX - self.camera.x / 16) * self.lightTileSize;
+        const lightY =
             (lighting.light.origY - self.camera.y / 16) * self.lightTileSize;
 
         lighting.light.position = new Vec2(lightX, lightY);
@@ -710,7 +710,7 @@ define([
     },
 
     drawCursor: function() {
-      let self = this;
+      const self = this;
 
       if (
         self.tablet ||
@@ -718,10 +718,10 @@ define([
         self.hasRenderedMouse() ||
         self.input.cursorMoved
       )
-        return;
+      { return; }
 
-      let cursor = self.input.cursor,
-        scaling = 14 * self.superScaling;
+      const cursor = self.input.cursor;
+      const scaling = 14 * self.superScaling;
 
       self.clearScreen(self.cursorContext);
       self.cursorContext.save();
@@ -730,17 +730,17 @@ define([
         if (!cursor.loaded) cursor.load();
 
         if (cursor.loaded)
-          self.cursorContext.drawImage(
-            cursor.image,
-            0,
-            0,
-            scaling,
-            scaling,
-            self.input.mouse.x,
-            self.input.mouse.y,
-            scaling,
-            scaling
-          );
+        { self.cursorContext.drawImage(
+          cursor.image,
+          0,
+          0,
+          scaling,
+          scaling,
+          self.input.mouse.x,
+          self.input.mouse.y,
+          scaling,
+          scaling
+        ); }
       }
 
       self.cursorContext.restore();
@@ -749,12 +749,12 @@ define([
     },
 
     calculateFPS: function() {
-      let self = this;
+      const self = this;
 
       if (!self.debugging) return;
 
-      let currentTime = new Date(),
-        timeDiff = currentTime - self.time;
+      const currentTime = new Date();
+      const timeDiff = currentTime - self.time;
 
       if (timeDiff >= 1000) {
         self.realFPS = self.frameCount;
@@ -771,8 +771,8 @@ define([
     },
 
     drawPosition: function() {
-      let self = this,
-        player = self.game.player;
+      const self = this;
+      const player = self.game.player;
 
       self.drawText(
         "x: " + player.gridX + " y: " + player.gridY,
@@ -784,32 +784,32 @@ define([
     },
 
     drawPathing: function() {
-      let self = this,
-        pathingGrid = self.entities.grids.pathingGrid;
+      const self = this;
+      const pathingGrid = self.entities.grids.pathingGrid;
 
       if (!pathingGrid) return;
 
       self.camera.forEachVisiblePosition(function(x, y) {
         if (x < 0 || y < 0 || x > self.map.width - 1 || y > self.map.height - 1)
-          return;
+        { return; }
 
         if (pathingGrid[y][x] !== 0)
-          self.drawCellHighlight(x, y, "rgba(50, 50, 255, 0.5)");
+        { self.drawCellHighlight(x, y, "rgba(50, 50, 255, 0.5)"); }
       });
     },
 
     drawSelectedCell: function() {
-      let self = this;
+      const self = this;
 
       if (!self.input.selectedCellVisible || self.input.keyMovement) return;
 
-      let posX = self.input.selectedX,
-        posY = self.input.selectedY;
+      const posX = self.input.selectedX;
+      const posY = self.input.selectedY;
 
       if (self.mobile)
-        self.drawCellHighlight(posX, posY, self.input.mobileTargetColour);
+      { self.drawCellHighlight(posX, posY, self.input.mobileTargetColour); }
       else {
-        let tD = self.input.getTargetData();
+        const tD = self.input.getTargetData();
 
         if (tD) {
           self.context.save();
@@ -837,17 +837,17 @@ define([
      */
 
     drawTile: function(context, tileId, gridWidth, cellId) {
-      let self = this;
+      const self = this;
 
       if (tileId < 0) return;
 
-      let tileset = self.map.getTilesetFromId(tileId);
+      const tileset = self.map.getTilesetFromId(tileId);
 
       if (!tileset) return;
 
       tileId -= tileset.firstGID - 1;
 
-      let setWidth = tileset.width / self.tileSize / tileset.scale;
+      const setWidth = tileset.width / self.tileSize / tileset.scale;
 
       self.drawScaledImage(
         context,
@@ -862,9 +862,9 @@ define([
     },
 
     drawScaledImage: function(context, image, x, y, width, height, dx, dy) {
-      let self = this,
-        tilesetScale = image.scale,
-        scale = self.superScaling;
+      const self = this;
+      const tilesetScale = image.scale;
+      const scale = self.superScaling;
 
       if (!context) return;
 
@@ -882,9 +882,9 @@ define([
     },
 
     drawText: function(text, x, y, centered, colour, strokeColour) {
-      let self = this,
-        strokeSize = 1,
-        context = self.textContext;
+      const self = this;
+      let strokeSize = 1;
+      const context = self.textContext;
 
       if (self.scale > 2) strokeSize = 3;
 
@@ -904,11 +904,11 @@ define([
     },
 
     updateAnimatedTiles: function() {
-      let self = this;
+      const self = this;
 
       if (!self.animateTiles) return;
 
-      let newTiles = [];
+      const newTiles = [];
 
       self.forEachVisibleTile(function(id, index) {
         /**
@@ -923,15 +923,15 @@ define([
          * Push the pre-existing tiles.
          */
 
-        let tileIndex = self.animatedTiles.indexOf(id);
+        const tileIndex = self.animatedTiles.indexOf(id);
 
         if (tileIndex > -1) {
           newTiles.push(self.animatedTiles[tileIndex]);
           return;
         }
 
-        let tile = new Tile(id, index, self.map),
-          position = self.map.indexToGridPosition(tile.index);
+        const tile = new Tile(id, index, self.map);
+        const position = self.map.indexToGridPosition(tile.index);
 
         tile.setPosition(position);
 
@@ -942,8 +942,8 @@ define([
     },
 
     drawCellRect: function(x, y, colour) {
-      let self = this,
-        multiplier = self.tileSize * self.superScaling;
+      const self = this;
+      const multiplier = self.tileSize * self.superScaling;
 
       self.context.save();
       self.setCameraView(self.context);
@@ -959,7 +959,7 @@ define([
     },
 
     drawCellHighlight: function(x, y, colour) {
-      let self = this;
+      const self = this;
 
       self.drawCellRect(
         x * self.superScaling * self.tileSize,
@@ -969,7 +969,7 @@ define([
     },
 
     drawTargetCell: function() {
-      let self = this;
+      const self = this;
 
       if (
         self.mobile ||
@@ -980,9 +980,9 @@ define([
         !self.map ||
         self.input.keyMovement
       )
-        return;
+      { return; }
 
-      let location = self.input.getCoords();
+      const location = self.input.getCoords();
 
       if (
         !(
@@ -990,7 +990,7 @@ define([
           location.y === self.input.selectedY
         )
       ) {
-        let isColliding = self.map.isColliding(location.x, location.y);
+        const isColliding = self.map.isColliding(location.x, location.y);
 
         self.drawCellHighlight(
           location.x,
@@ -1005,28 +1005,28 @@ define([
      */
 
     forEachVisibleIndex: function(callback, offset) {
-      let self = this;
+      const self = this;
 
       self.camera.forEachVisiblePosition(function(x, y) {
         if (!self.map.isOutOfBounds(x, y))
-          callback(self.map.gridPositionToIndex(x, y) - 1);
+        { callback(self.map.gridPositionToIndex(x, y) - 1); }
       }, offset);
     },
 
     forEachVisibleTile: function(callback, offset) {
-      let self = this;
+      const self = this;
 
       if (!self.map || !self.map.mapLoaded) return;
 
       self.forEachVisibleIndex(function(index) {
-        let indexData = self.map.data[index];
+        const indexData = self.map.data[index];
 
         if (Array.isArray(indexData))
-          _.each(indexData, function(id) {
-            callback(id - 1, index);
-          });
+        { _.each(indexData, function(id) {
+          callback(id - 1, index);
+        }); }
         else if (!isNaN(self.map.data[index] - 1))
-          callback(self.map.data[index] - 1, index);
+        { callback(self.map.data[index] - 1, index); }
       }, offset);
     },
 
@@ -1037,17 +1037,17 @@ define([
     },
 
     forEachVisibleEntity: function(callback) {
-      let self = this;
+      const self = this;
 
       if (!self.entities || !self.camera) return;
 
-      let grids = self.entities.grids;
+      const grids = self.entities.grids;
 
       self.camera.forEachVisiblePosition(function(x, y) {
         if (!self.map.isOutOfBounds(x, y) && grids.renderingGrid[y][x])
-          _.each(grids.renderingGrid[y][x], function(entity) {
-            callback(entity);
-          });
+        { _.each(grids.renderingGrid[y][x], function(entity) {
+          callback(entity);
+        }); }
       });
     },
 
@@ -1065,8 +1065,8 @@ define([
     },
 
     getDrawingScale: function() {
-      let self = this,
-        scale = self.getScale();
+      const self = this;
+      let scale = self.getScale();
 
       if (self.mobile) scale = 2;
 
@@ -1074,8 +1074,8 @@ define([
     },
 
     getUpscale: function() {
-      let self = this,
-        scale = self.getScale();
+      const self = this;
+      let scale = self.getScale();
 
       if (scale > 2) scale = 2;
 
@@ -1129,7 +1129,7 @@ define([
     },
 
     handleScaling: function() {
-      let self = this;
+      const self = this;
 
       self.canvas.style.transformOrigin = "0 0";
       self.canvas.style.transform =
@@ -1164,11 +1164,11 @@ define([
     },
 
     transition: function(duration, forward, callback) {
-      let self = this,
-        textCanvas = $("#textCanvas"),
-        hasThreshold = function() {
-          return forward ? self.brightness > 99 : self.brightness < 1;
-        };
+      const self = this;
+      const textCanvas = $("#textCanvas");
+      const hasThreshold = function() {
+        return forward ? self.brightness > 99 : self.brightness < 1;
+      };
 
       self.transitioning = true;
 
@@ -1196,7 +1196,7 @@ define([
      */
 
     updateView: function() {
-      let self = this;
+      const self = this;
 
       self.forEachContext(function(context) {
         self.setCameraView(context);
@@ -1204,7 +1204,7 @@ define([
     },
 
     updateDrawingView: function() {
-      let self = this;
+      const self = this;
 
       self.forEachDrawingContext(function(context) {
         self.setCameraView(context);
@@ -1212,7 +1212,7 @@ define([
     },
 
     setCameraView: function(context) {
-      let self = this;
+      const self = this;
 
       if (!self.camera || self.stopRendering) return;
 
@@ -1239,14 +1239,14 @@ define([
     },
 
     saveMouse: function() {
-      let self = this;
+      const self = this;
 
       self.input.lastMousePosition.x = self.input.mouse.x;
       self.input.lastMousePosition.y = self.input.mouse.y;
     },
 
     adjustBrightness: function(level) {
-      let self = this;
+      const self = this;
 
       if (level < 0 || level > 100) return;
 
@@ -1257,7 +1257,7 @@ define([
     },
 
     loadStaticSprites: function() {
-      let self = this;
+      const self = this;
 
       self.shadowSprite = self.entities.getSprite("shadow16");
 
@@ -1313,7 +1313,7 @@ define([
     },
 
     checkDevice: function() {
-      let self = this;
+      const self = this;
 
       self.mobile = self.game.app.isMobile();
       self.tablet = self.game.app.isTablet();
@@ -1330,20 +1330,20 @@ define([
     },
 
     updateDarkMask: function(color) {
-      let self = this;
+      const self = this;
 
       self.darkMask.color = color;
       self.darkMask.compute(self.overlay.width, self.overlay.height);
     },
 
     addLight: function(x, y, distance, diffuse, color, relative) {
-      let self = this,
-        light = new Lamp(self.getLightData(x, y, distance, diffuse, color)),
-        lighting = new Lighting({
-          light: light,
-          objects: [],
-          diffuse: light.diffuse
-        });
+      const self = this;
+      const light = new Lamp(self.getLightData(x, y, distance, diffuse, color));
+      const lighting = new Lighting({
+        light: light,
+        objects: [],
+        diffuse: light.diffuse
+      });
 
       light.origX = light.position.x;
       light.origY = light.position.y;
@@ -1362,7 +1362,7 @@ define([
     },
 
     removeAllLights: function() {
-      let self = this;
+      const self = this;
 
       self.lightings = [];
       self.darkMask.lights = [];
@@ -1371,7 +1371,7 @@ define([
     },
 
     removeNonRelativeLights: function() {
-      let self = this;
+      const self = this;
 
       _.each(self.lightings, function(lighting) {
         if (!lighting.light.relative) {
@@ -1397,29 +1397,29 @@ define([
     },
 
     hasLighting: function(lighting) {
-      let self = this;
+      const self = this;
 
       for (let i = 0; i < self.lightings.length; i++) {
-        let light = self.lightings[i].light;
+        const light = self.lightings[i].light;
 
         if (
           lighting.light.origX === light.origX &&
           lighting.light.origY === light.origY &&
           lighting.light.distance === light.distance
         )
-          return true;
+        { return true; }
       }
 
       return false;
     },
 
     inRadius: function(lighting) {
-      let self = this,
-        position = {
-          x: lighting.light.origX,
-          y: lighting.light.origY,
-          diff: lighting.light.diff
-        };
+      const self = this;
+      const position = {
+        x: lighting.light.origX,
+        y: lighting.light.origY,
+        diff: lighting.light.diff
+      };
 
       return (
         position.x > self.camera.gridX - position.diff &&
@@ -1462,10 +1462,10 @@ define([
      */
 
     getTargetBounds: function(x, y) {
-      let self = this,
-        bounds = {},
-        tx = x || self.input.selectedX,
-        ty = y || self.input.selectedY;
+      const self = this;
+      const bounds = {};
+      const tx = x || self.input.selectedX;
+      const ty = y || self.input.selectedY;
 
       bounds.x = (tx * self.tileSize - self.camera.x) * self.superScaling;
       bounds.y = (ty * self.tileSize - self.camera.y) * self.superScaling;

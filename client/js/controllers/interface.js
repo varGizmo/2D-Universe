@@ -12,7 +12,7 @@ define([
 ], function($, Inventory, Profile, Actions, Bank, Enchant, Warp, Shop) {
   return Class.extend({
     init: function(game) {
-      let self = this;
+      const self = this;
 
       self.game = game;
 
@@ -39,7 +39,7 @@ define([
     },
 
     resize: function() {
-      let self = this;
+      const self = this;
 
       if (self.inventory) self.inventory.resize();
 
@@ -53,7 +53,7 @@ define([
     },
 
     loadInventory: function(size, data) {
-      let self = this;
+      const self = this;
 
       /**
        * This can be called multiple times and can be used
@@ -66,7 +66,7 @@ define([
     },
 
     loadBank: function(size, data) {
-      let self = this;
+      const self = this;
 
       /**
        * Similar structure as the inventory, just that it
@@ -81,40 +81,40 @@ define([
     },
 
     loadProfile: function() {
-      let self = this;
+      const self = this;
 
       if (!self.profile) self.profile = new Profile(self.game);
     },
 
     loadActions: function() {
-      let self = this;
+      const self = this;
 
       if (!self.actions) self.actions = new Actions(self);
     },
 
     loadEnchant: function() {
-      let self = this;
+      const self = this;
 
       if (!self.enchant) self.enchant = new Enchant(self.game, self);
     },
 
     loadWarp: function() {
-      let self = this;
+      const self = this;
 
       if (!self.warp) self.warp = new Warp(self.game, self);
     },
 
     loadShop: function() {
-      let self = this;
+      const self = this;
 
       if (!self.shop) self.shop = new Shop(self.game, self);
     },
 
     loadNotifications: function() {
-      let self = this,
-        ok = $("#ok"),
-        cancel = $("#cancel"),
-        done = $("#done");
+      const self = this;
+      const ok = $("#ok");
+      const cancel = $("#cancel");
+      const done = $("#done");
 
       /**
        * Simple warning dialogue
@@ -141,7 +141,7 @@ define([
     },
 
     hideAll: function() {
-      let self = this;
+      const self = this;
 
       if (self.inventory && self.inventory.isVisible()) self.inventory.hide();
 
@@ -151,14 +151,14 @@ define([
         self.profile &&
         (self.profile.isVisible() || self.profile.settings.isVisible())
       )
-        self.profile.hide();
+      { self.profile.hide(); }
 
       if (
         self.game.input &&
         self.game.input.chatHandler &&
         self.game.input.chatHandler.input.is(":visible")
       )
-        self.game.input.chatHandler.hideInput();
+      { self.game.input.chatHandler.hideInput(); }
 
       if (self.bank && self.bank.isVisible()) self.bank.hide();
 
@@ -170,7 +170,7 @@ define([
     },
 
     displayNotify: function(message) {
-      let self = this;
+      const self = this;
 
       if (self.isNotifyVisible()) return;
 
@@ -182,7 +182,7 @@ define([
     },
 
     displayConfirm: function(message) {
-      let self = this;
+      const self = this;
 
       if (self.isConfirmVisible()) return;
 
@@ -191,7 +191,7 @@ define([
     },
 
     hideNotify: function() {
-      let self = this;
+      const self = this;
 
       self.fade.css("display", "none");
       self.notify.css("display", "none");

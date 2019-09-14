@@ -3,7 +3,7 @@
 define(["../lib/astar"], function(AStar) {
   return Class.extend({
     init: function(width, height) {
-      let self = this;
+      const self = this;
 
       self.width = width;
       self.height = height;
@@ -16,7 +16,7 @@ define(["../lib/astar"], function(AStar) {
     },
 
     load: function() {
-      let self = this;
+      const self = this;
 
       for (let i = 0; i < self.height; i++) {
         self.blankGrid[i] = [];
@@ -28,10 +28,10 @@ define(["../lib/astar"], function(AStar) {
     },
 
     find: function(grid, entity, x, y, incomplete) {
-      let self = this,
-        start = [entity.gridX, entity.gridY],
-        end = [x, y],
-        path;
+      const self = this;
+      const start = [entity.gridX, entity.gridY];
+      const end = [x, y];
+      let path;
 
       self.grid = grid;
       self.applyIgnore(true);
@@ -39,17 +39,17 @@ define(["../lib/astar"], function(AStar) {
       path = AStar(self.grid, start, end);
 
       if (path.length === 0 && incomplete)
-        path = self.findIncomplete(start, end);
+      { path = self.findIncomplete(start, end); }
 
       return path;
     },
 
     findIncomplete: function(start, end) {
-      let self = this,
-        incomplete = [],
-        perfect,
-        x,
-        y;
+      const self = this;
+      let incomplete = [];
+      let perfect;
+      let x;
+      let y;
 
       perfect = AStar(self.blankGrid, start, end);
 
@@ -67,10 +67,10 @@ define(["../lib/astar"], function(AStar) {
     },
 
     applyIgnore: function(ignored) {
-      let self = this,
-        x,
-        y,
-        g;
+      const self = this;
+      let x;
+      let y;
+      let g;
 
       _.each(self.ignores, function(entity) {
         x = entity.hasPath() ? entity.nextGridX : entity.gridX;
@@ -81,7 +81,7 @@ define(["../lib/astar"], function(AStar) {
     },
 
     ignoreEntity: function(entity) {
-      let self = this;
+      const self = this;
 
       if (!entity) return;
 
@@ -89,7 +89,7 @@ define(["../lib/astar"], function(AStar) {
     },
 
     clearIgnores: function() {
-      let self = this;
+      const self = this;
 
       self.applyIgnore(false);
       self.ignores = [];

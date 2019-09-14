@@ -7,7 +7,7 @@ onmessage = function(event) {
 };
 
 function loadCollisionGrid() {
-  let tileIndex = 0;
+  const tileIndex = 0;
 
   mapData.grid = [];
 
@@ -17,20 +17,20 @@ function loadCollisionGrid() {
   }
 
   _.each(mapData.collisions, function(tileIndex) {
-    let position = indexToGridPosition(tileIndex + 1);
+    const position = indexToGridPosition(tileIndex + 1);
     mapData.grid[position.y][position.x] = 1;
   });
 
   _.each(mapData.blocking, function(tileIndex) {
-    let position = indexToGridPosition(tileIndex + 1);
+    const position = indexToGridPosition(tileIndex + 1);
 
     if (mapData.grid[position.y]) mapData.grid[position.y][position.x] = 1;
   });
 }
 
 function indexToGridPosition(index) {
-  let x = 0,
-    y = 0;
+  let x = 0;
+  let y = 0;
 
   index -= 1;
 

@@ -1,14 +1,14 @@
-let Combat = require("../../js/game/entity/character/combat/combat"),
-  Utils = require("../../js/util/utils"),
-  Messages = require("../../js/network/messages"),
-  Modules = require("../../js/util/modules");
+const Combat = require("../../js/game/entity/character/combat/combat");
+const Utils = require("../../js/util/utils");
+const Messages = require("../../js/network/messages");
+const Modules = require("../../js/util/modules");
 
 class PirateCaptain extends Combat {
   constructor(character) {
     character.spawnDistance = 20;
     super(character);
 
-    let self = this;
+    const self = this;
 
     self.character = character;
 
@@ -26,24 +26,24 @@ class PirateCaptain extends Combat {
   }
 
   load() {
-    let self = this,
-      south = { x: 251, y: 574 },
-      west = { x: 243, y: 569 },
-      east = { x: 258, y: 568 },
-      north = { x: 251, y: 563 };
+    const self = this;
+    const south = { x: 251, y: 574 };
+    const west = { x: 243, y: 569 };
+    const east = { x: 258, y: 568 };
+    const north = { x: 251, y: 563 };
 
     self.teleportLocations.push(north, south, west, east);
   }
 
   hit(character, target, hitInfo) {
-    let self = this;
+    const self = this;
     if (self.canTeleport()) self.teleport();
     else self._super(character, target, hitInfo);
   }
 
   teleport() {
-    let self = this,
-      position = self.getRandomPosition();
+    const self = this;
+    const position = self.getRandomPosition();
 
     if (!position) return;
 
@@ -54,7 +54,7 @@ class PirateCaptain extends Combat {
 
     self.character.setPosition(position.x, position.y);
 
-    if (self.world)
+    if (self.world) {
       self.world.pushToGroup(
         self.character.group,
         new Messages.Teleport({
@@ -64,6 +64,7 @@ class PirateCaptain extends Combat {
           withAnimation: true
         })
       );
+    }
 
     self.forEachAttacker(function(attacker) {
       attacker.removeTarget();
@@ -73,9 +74,9 @@ class PirateCaptain extends Combat {
   }
 
   getRandomPosition() {
-    let self = this,
-      random = Utils.randomInt(0, self.teleportLocations.length - 1),
-      position = self.teleportLocations[random];
+    const self = this;
+    const random = Utils.randomInt(0, self.teleportLocations.length - 1);
+    const position = self.teleportLocations[random];
 
     if (!position || random === self.lastTeleportIndex) return null;
 
@@ -87,7 +88,7 @@ class PirateCaptain extends Combat {
   }
 
   canTeleport() {
-    //Just randomize the teleportation for shits and giggles.
+    // Just randomize the teleportation for shits and giggles.
     return (
       new Date().getTime() - this.lastTeleport > 10000 &&
       Utils.randomInt(0, 4) === 2
@@ -95,7 +96,7 @@ class PirateCaptain extends Combat {
   }
 
   getHealthPercentage() {
-    //Floor it to avoid random floats
+    // Floor it to avoid random floats
     return Math.floor(
       (this.character.hitPoints / self.character.maxHitPoints) * 100
     );

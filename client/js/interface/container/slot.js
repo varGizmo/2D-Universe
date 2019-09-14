@@ -1,7 +1,7 @@
 define(function() {
   return Class.extend({
     init: function(index) {
-      let self = this;
+      const self = this;
 
       self.index = index;
 
@@ -15,7 +15,7 @@ define(function() {
     },
 
     load: function(string, count, ability, abilityLevel, edible, equippable) {
-      let self = this;
+      const self = this;
 
       self.string = string;
       self.count = count;
@@ -27,7 +27,7 @@ define(function() {
     },
 
     empty: function() {
-      let self = this;
+      const self = this;
 
       self.string = null;
       self.count = -1;

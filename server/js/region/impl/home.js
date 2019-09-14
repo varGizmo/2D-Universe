@@ -1,6 +1,6 @@
 /* global module */
 
-let MapClient = require("../../../data/map/world_client");
+const MapClient = require("../../../data/map/world_client");
 
 class Home {
   /**
@@ -19,25 +19,25 @@ class Home {
    * we can trick the user into thinking they're alone.
    */
 
-  startRegion = "0-4";
-  endRegion = "4-10";
-
   constructor(region) {
-    let self = this;
+    const self = this;
+
+    self.startRegion = "0-4";
+    self.endRegion = "4-10";
 
     self.region = region;
     self.map = region.map;
   }
 
   get() {
-    let self = this,
-      startPosition = self.region.getRegionBounds(self.startRegion),
-      endPosition = self.region.getRegionBounds(self.endRegion),
-      info = {
-        indexes: [],
-        data: [],
-        collisions: []
-      };
+    const self = this;
+    const startPosition = self.region.getRegionBounds(self.startRegion);
+    const endPosition = self.region.getRegionBounds(self.endRegion);
+    const info = {
+      indexes: [],
+      data: [],
+      collisions: []
+    };
 
     /**
      * Clones the region we're starting off with. After which we'll be hard-coding data into it.
@@ -45,7 +45,7 @@ class Home {
 
     for (let y = startPosition.startY; y < endPosition.endY; y++) {
       for (let x = startPosition.startX; x < endPosition.endX; x++) {
-        let tileIndex = self.region.gridPositionToIndex(x, y);
+        const tileIndex = self.region.gridPositionToIndex(x, y);
 
         info.indexes.push(tileIndex);
         info.data.push(MapClient.data[data]);

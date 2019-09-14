@@ -1,24 +1,24 @@
 /* global module */
 
-let Messages = require("../../../../network/messages"),
-  Packets = require("../../../../network/packets");
+const Messages = require("../../../../network/messages");
+const Packets = require("../../../../network/packets");
 
 class Guild {
   constructor(player, data) {
-    let self = this;
+    const self = this;
 
     self.player = player;
     self.data = data;
   }
 
   join() {
-    let self = this;
+    const self = this;
 
     if (self.data && self.data.name) self.leave();
   }
 
   leave() {
-    let self = this;
+    const self = this;
 
     if (!self.data) {
       self.player.notify("You are not in a guild.");
@@ -38,7 +38,7 @@ class Guild {
    */
 
   update(data) {
-    let self = this;
+    const self = this;
 
     // Do a server-sided update.
     self.data = data;

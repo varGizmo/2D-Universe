@@ -1,8 +1,8 @@
-let Combat = require("../../js/game/entity/character/combat/combat"),
-  Packets = require("../../js/network/packets"),
-  Messages = require("../../js/network/messages"),
-  Utils = require("../../js/util/utils"),
-  _ = require("underscore");
+const Combat = require("../../js/game/entity/character/combat/combat");
+const Packets = require("../../js/network/packets");
+const Messages = require("../../js/network/messages");
+const Utils = require("../../js/util/utils");
+const _ = require("underscore");
 
 class QueenAnt extends Combat {
   /*
@@ -14,11 +14,11 @@ class QueenAnt extends Combat {
     character.spawnDistance = 18;
     super(character);
 
-    let self = this;
+    const self = this;
 
     self.character = character;
 
-    self.lastActionThreshold = 10000; //AoE Attack Threshold.
+    self.lastActionThreshold = 10000; // AoE Attack Threshold.
 
     self.aoeTimeout = null;
 
@@ -45,7 +45,7 @@ class QueenAnt extends Combat {
         self.aoeTimeout = null;
       }
 
-      let listCopy = self.minions.slice();
+      const listCopy = self.minions.slice();
 
       for (let i = 0; i < listCopy.length; i++) self.world.kill(listCopy[i]);
     });
@@ -57,7 +57,7 @@ class QueenAnt extends Combat {
   }
 
   begin(attacker) {
-    let self = this;
+    const self = this;
 
     self.resetAoE();
 
@@ -65,7 +65,7 @@ class QueenAnt extends Combat {
   }
 
   hit(attacker, target, hitInfo) {
-    let self = this;
+    const self = this;
 
     if (self.frozen) return;
 
@@ -82,7 +82,7 @@ class QueenAnt extends Combat {
   }
 
   doAoE() {
-    let self = this;
+    const self = this;
 
     /**
      * The reason this function does not use its superclass
@@ -106,14 +106,15 @@ class QueenAnt extends Combat {
   }
 
   spawnMinions() {
-    let self = this;
+    const self = this;
 
     self.lastSpawn = new Date().getTime();
 
-    for (let i = 0; i < self.minionCount; i++)
+    for (let i = 0; i < self.minionCount; i++) {
       self.minions.push(
         self.world.spawnMob(13, self.character.x, self.character.y)
       );
+    }
 
     _.each(self.minions, function(minion) {
       minion.aggressive = true;
@@ -130,15 +131,16 @@ class QueenAnt extends Combat {
   }
 
   beginMinionAttack() {
-    let self = this;
+    const self = this;
 
     if (!self.hasMinions()) return;
 
     _.each(self.minions, function(minion) {
-      let randomTarget = self.getRandomTarget();
+      const randomTarget = self.getRandomTarget();
 
-      if (!minion.hasTarget() && randomTarget)
+      if (!minion.hasTarget() && randomTarget) {
         minion.combat.begin(randomTarget);
+      }
     });
   }
 
@@ -147,11 +149,12 @@ class QueenAnt extends Combat {
   }
 
   getRandomTarget() {
-    let self = this;
+    const self = this;
 
     if (self.isAttacked()) {
-      let keys = Object.keys(self.attackers),
-        randomAttacker = self.attackers[keys[Utils.randomInt(0, keys.length)]];
+      const keys = Object.keys(self.attackers);
+      const randomAttacker =
+        self.attackers[keys[Utils.randomInt(0, keys.length)]];
 
       if (randomAttacker) return randomAttacker;
     }
@@ -162,14 +165,14 @@ class QueenAnt extends Combat {
   }
 
   pushFreeze(state) {
-    let self = this;
+    const self = this;
 
     self.character.frozen = state;
     self.character.stunned = state;
   }
 
   pushCountdown(count) {
-    let self = this;
+    const self = this;
 
     self.world.pushToAdjacentGroups(
       self.character.group,
@@ -181,8 +184,8 @@ class QueenAnt extends Combat {
   }
 
   getMinions() {
-    let self = this,
-      grids = self.world.getGrids();
+    const self = this;
+    const grids = self.world.getGrids();
   }
 
   isLast() {

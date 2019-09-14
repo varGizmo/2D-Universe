@@ -1,14 +1,14 @@
 /* global module */
 
-let _ = require("underscore"),
-  Messages = require("../../../../network/messages"),
-  Packets = require("../../../../network/packets"),
-  Npcs = require("../../../../util/npcs"),
-  Shops = require("../../../../util/shops");
+const _ = require("underscore");
+const Messages = require("../../../../network/messages");
+const Packets = require("../../../../network/packets");
+const Npcs = require("../../../../util/npcs");
+const Shops = require("../../../../util/shops");
 
 class Handler {
   constructor(player) {
-    let self = this;
+    const self = this;
 
     self.player = player;
     self.world = player.world;
@@ -18,7 +18,7 @@ class Handler {
   }
 
   load() {
-    let self = this;
+    const self = this;
 
     self.player.onMovement(function(x, y) {
       self.player.checkRegions();
@@ -39,16 +39,18 @@ class Handler {
        * instance is hit by 'damage' amount
        */
 
-      if (self.player.combat.isRetaliating())
+      if (self.player.combat.isRetaliating()) {
         self.player.combat.begin(attacker);
+      }
     });
 
     self.player.onKill(function(character) {
       if (self.player.quests.isAchievementMob(character)) {
-        let achievement = self.player.quests.getAchievementByMob(character);
+        const achievement = self.player.quests.getAchievementByMob(character);
 
-        if (achievement && achievement.isStarted())
+        if (achievement && achievement.isStarted()) {
           self.player.quests.getAchievementByMob(character).step();
+        }
       }
     });
 
@@ -93,7 +95,7 @@ class Handler {
           break;
       }
 
-      let text = Npcs.getText(npc.id);
+      const text = Npcs.getText(npc.id);
 
       if (!text) return;
 
@@ -109,14 +111,14 @@ class Handler {
   }
 
   detectAggro() {
-    let self = this,
-      region = self.world.region.regions[self.player.region];
+    const self = this;
+    const region = self.world.region.regions[self.player.region];
 
     if (!region) return;
 
     _.each(region.entities, function(entity) {
       if (entity && entity.type === "mob" && self.canEntitySee(entity)) {
-        let aggro = entity.canAggro(self.player);
+        const aggro = entity.canAggro(self.player);
 
         if (aggro) entity.combat.begin(self.player);
       }
@@ -124,44 +126,45 @@ class Handler {
   }
 
   detectMusic(x, y) {
-    let self = this,
-      musicArea = _.find(self.world.getMusicAreas(), function(area) {
-        return area.contains(x, y);
-      });
+    const self = this;
+    const musicArea = _.find(self.world.getMusicAreas(), function(area) {
+      return area.contains(x, y);
+    });
 
-    if (musicArea && self.player.currentSong !== musicArea.id)
+    if (musicArea && self.player.currentSong !== musicArea.id) {
       self.player.updateMusic(musicArea.id);
+    }
   }
 
   detectPVP(x, y) {
-    let self = this,
-      pvpArea = _.find(self.world.getPVPAreas(), function(area) {
-        return area.contains(x, y);
-      });
+    const self = this;
+    const pvpArea = _.find(self.world.getPVPAreas(), function(area) {
+      return area.contains(x, y);
+    });
 
     self.player.updatePVP(!!pvpArea);
   }
 
   detectOverlay(x, y) {
-    let self = this,
-      overlayArea = _.find(self.world.getOverlayAreas(), function(area) {
-        return area.contains(x, y);
-      });
+    const self = this;
+    const overlayArea = _.find(self.world.getOverlayAreas(), function(area) {
+      return area.contains(x, y);
+    });
 
     self.player.updateOverlay(overlayArea);
   }
 
   detectCamera(x, y) {
-    let self = this,
-      cameraArea = _.find(self.world.getCameraAreas(), function(area) {
-        return area.contains(x, y);
-      });
+    const self = this;
+    const cameraArea = _.find(self.world.getCameraAreas(), function(area) {
+      return area.contains(x, y);
+    });
 
     self.player.updateCamera(cameraArea);
   }
 
   detectLights(x, y) {
-    let self = this;
+    const self = this;
 
     _.each(self.map.lights, function(light) {
       if (

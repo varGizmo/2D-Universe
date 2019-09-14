@@ -10,7 +10,7 @@ define([
 ], function(Character, Armour, Weapon, Pendant, Boots, Ring) {
   return Character.extend({
     init: function() {
-      let self = this;
+      const self = this;
 
       self._super(-1, Modules.Types.Player);
 
@@ -48,7 +48,7 @@ define([
     },
 
     load: function(data) {
-      let self = this;
+      const self = this;
 
       self.setId(data.instance);
       self.setGridPosition(data.x, data.y);
@@ -66,7 +66,7 @@ define([
     },
 
     loadHandler: function(game) {
-      let self = this;
+      const self = this;
 
       /**
        * This is for other player characters
@@ -93,7 +93,7 @@ define([
     },
 
     loadEquipment: function() {
-      let self = this;
+      const self = this;
 
       self.armour = null;
       self.weapon = null;
@@ -123,7 +123,7 @@ define([
     },
 
     setName: function(name) {
-      let self = this;
+      const self = this;
 
       self.username = name;
       self.name = name;
@@ -170,11 +170,11 @@ define([
     },
 
     setPointsData: function(hitPointsData, manaData) {
-      let self = this,
-        hitPoints = hitPointsData.shift(),
-        maxHitPoints = hitPointsData.shift(),
-        mana = manaData.shift(),
-        maxMana = manaData.shift();
+      const self = this;
+      const hitPoints = hitPointsData.shift();
+      const maxHitPoints = hitPointsData.shift();
+      const mana = manaData.shift();
+      const maxMana = manaData.shift();
 
       self.setHitPoints(hitPoints);
       self.setMana(mana);
@@ -184,18 +184,18 @@ define([
     },
 
     setEquipment: function(type, name, string, count, ability, abilityLevel) {
-      let self = this;
+      const self = this;
 
       switch (type) {
         case Modules.Equipment.Armour:
           if (!self.armour)
-            self.armour = new Armour(
-              name,
-              string,
-              count,
-              ability,
-              abilityLevel
-            );
+          { self.armour = new Armour(
+            name,
+            string,
+            count,
+            ability,
+            abilityLevel
+          ); }
           else self.armour.update(name, string, count, ability, abilityLevel);
 
           if (self.updateArmourCallback) self.updateArmourCallback(string);
@@ -204,13 +204,13 @@ define([
 
         case Modules.Equipment.Weapon:
           if (!self.weapon)
-            self.weapon = new Weapon(
-              name,
-              string,
-              count,
-              ability,
-              abilityLevel
-            );
+          { self.weapon = new Weapon(
+            name,
+            string,
+            count,
+            ability,
+            abilityLevel
+          ); }
           else self.weapon.update(name, string, count, ability, abilityLevel);
 
           self.weapon.ranged = string.includes("bow");
@@ -219,27 +219,27 @@ define([
 
         case Modules.Equipment.Pendant:
           if (!self.pendant)
-            self.pendant = new Pendant(
-              name,
-              string,
-              count,
-              ability,
-              abilityLevel
-            );
+          { self.pendant = new Pendant(
+            name,
+            string,
+            count,
+            ability,
+            abilityLevel
+          ); }
           else self.pendant.update(name, string, count, ability, abilityLevel);
 
           break;
 
         case Modules.Equipment.Ring:
           if (!self.ring)
-            self.ring = new Ring(name, string, count, ability, abilityLevel);
+          { self.ring = new Ring(name, string, count, ability, abilityLevel); }
           else self.ring.update(name, string, count, ability, abilityLevel);
 
           break;
 
         case Modules.Equipment.Boots:
           if (!self.boots)
-            self.boots = new Boots(name, string, count, ability, abilityLevel);
+          { self.boots = new Boots(name, string, count, ability, abilityLevel); }
           else self.boots.update(name, string, count, ability, abilityLevel);
 
           break;
@@ -247,7 +247,7 @@ define([
     },
 
     unequip: function(type) {
-      let self = this;
+      const self = this;
 
       switch (type) {
         case "armour":
@@ -273,14 +273,14 @@ define([
     },
 
     tempBlink: function() {
-      let self = this;
+      const self = this;
 
       self.blink(90);
 
       if (!self.tempBlinkTimeout)
-        self.tempBlinkTimeout = setTimeout(function() {
-          self.stopBlinking();
-        }, 500);
+      { self.tempBlinkTimeout = setTimeout(function() {
+        self.stopBlinking();
+      }, 500); }
     },
 
     getDistance: function(entity) {

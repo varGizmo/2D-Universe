@@ -6,21 +6,22 @@ class Loader {
   }
 
   getInventory(player, callback) {
-    let self = this;
+    const self = this;
 
     self.database.getDatabase(function(database) {
-      let inventory = database.collection("player_inventory"),
-        cursor = inventory.find({ username: player.username });
+      const inventory = database.collection("player_inventory");
+      const cursor = inventory.find({ username: player.username });
 
       cursor.toArray().then(function(inventoryArray) {
-        let info = inventoryArray[0];
+        const info = inventoryArray[0];
 
         if (info) {
-          if (info.username !== player.username)
+          if (info.username !== player.username) {
             log.notice(
               "[Loader] Mismatch in usernames whilst retrieving inventory data for: " +
                 player.username
             );
+          }
 
           callback(
             info.ids.split(" "),
@@ -34,21 +35,22 @@ class Loader {
   }
 
   getBank(player, callback) {
-    let self = this;
+    const self = this;
 
     self.database.getDatabase(function(database) {
-      let bank = database.collection("player_bank"),
-        cursor = bank.find({ username: player.username });
+      const bank = database.collection("player_bank");
+      const cursor = bank.find({ username: player.username });
 
       cursor.toArray().then(function(bankArray) {
-        let info = bankArray[0];
+        const info = bankArray[0];
 
         if (info) {
-          if (info.username !== player.username)
+          if (info.username !== player.username) {
             log.notice(
               "[Loader] Mismatch in usernames whilst retrieving bank data for: " +
                 player.username
             );
+          }
 
           callback(
             info.ids.split(" "),
@@ -62,21 +64,22 @@ class Loader {
   }
 
   getQuests(player, callback) {
-    let self = this;
+    const self = this;
 
     self.database.getDatabase(function(database) {
-      let quests = database.collection("player_quests"),
-        cursor = quests.find({ username: player.username });
+      const quests = database.collection("player_quests");
+      const cursor = quests.find({ username: player.username });
 
       cursor.toArray().then(function(questArray) {
-        let info = questArray[0];
+        const info = questArray[0];
 
         if (info) {
-          if (info.username !== player.username)
+          if (info.username !== player.username) {
             log.notice(
               "[Loader] Mismatch in usernames whilst retrieving quest data for: " +
                 player.username
             );
+          }
 
           callback(info.ids.split(" "), info.stages.split(" "));
         } else callback(null, null);
@@ -85,21 +88,22 @@ class Loader {
   }
 
   getAchievements(player, callback) {
-    let self = this;
+    const self = this;
 
     self.database.getDatabase(function(database) {
-      let achievements = database.collection("player_achievements"),
-        cursor = achievements.find({ username: player.username });
+      const achievements = database.collection("player_achievements");
+      const cursor = achievements.find({ username: player.username });
 
       cursor.toArray().then(function(achievementsArray) {
-        let info = achievementsArray[0];
+        const info = achievementsArray[0];
 
         if (info) {
-          if (info.username !== player.username)
+          if (info.username !== player.username) {
             log.notice(
               "[Loader] Mismatch in usernames whilst retrieving achievement data for: " +
                 player.username
             );
+          }
 
           callback(info.ids.split(" "), info.progress.split(" "));
         }

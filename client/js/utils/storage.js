@@ -1,10 +1,10 @@
 define(function() {
-  let storage = window.localStorage,
-    name = "data";
+  const storage = window.localStorage;
+  const name = "data";
 
   return Class.extend({
     init: function(app) {
-      let self = this;
+      const self = this;
 
       self.app = app;
       self.data = null;
@@ -13,7 +13,7 @@ define(function() {
     },
 
     load: function() {
-      let self = this;
+      const self = this;
 
       if (storage.data) self.data = JSON.parse(storage.getItem(name));
       else self.data = self.create();
@@ -66,15 +66,15 @@ define(function() {
     },
 
     toggleRemember: function(toggle) {
-      let self = this;
+      const self = this;
 
       self.data.player.rememberMe = toggle;
       self.save();
     },
 
     setOrientation: function(orientation) {
-      let self = this,
-        player = self.getPlayer();
+      const self = this;
+      const player = self.getPlayer();
 
       player.orientation = orientation;
 
@@ -82,8 +82,8 @@ define(function() {
     },
 
     setPlayer: function(option, value) {
-      let self = this,
-        pData = self.getPlayer();
+      const self = this;
+      const pData = self.getPlayer();
 
       if (pData.hasOwnProperty(option)) pData[option] = value;
 
@@ -91,8 +91,8 @@ define(function() {
     },
 
     setSettings: function(option, value) {
-      let self = this,
-        sData = self.getSettings();
+      const self = this;
+      const sData = self.getSettings();
 
       if (sData.hasOwnProperty(option)) sData[option] = value;
 
@@ -100,7 +100,7 @@ define(function() {
     },
 
     setRegionData: function(regionData, collisionData) {
-      let self = this;
+      const self = this;
 
       self.data.map.regionData = regionData;
       self.data.map.collisions = collisionData;

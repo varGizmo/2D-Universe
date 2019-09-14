@@ -1,26 +1,26 @@
 /* global module */
 
-let Socket = require("./socket"),
-  Connection = require("./connection"),
-  connect = require("connect"),
-  serve = require("serve-static"),
-  request = require("request"),
-  SocketIO = require("socket.io"),
-  http = require("http"),
-  Utils = require("../util/utils");
+const Socket = require("./socket");
+const Connection = require("./connection");
+const connect = require("connect");
+const serve = require("serve-static");
+const request = require("request");
+const SocketIO = require("socket.io");
+const http = require("http");
+const Utils = require("../util/utils");
 
 class WebSocket extends Socket {
   constructor(host, port, version) {
     super(port);
 
-    let self = this;
+    const self = this;
 
     self.host = host;
     self.version = version;
 
     self.ips = {};
 
-    let app = connect();
+    const app = connect();
     app.use(serve("client", { index: ["index.html"] }), null);
 
     self.httpServer = http
@@ -35,7 +35,7 @@ class WebSocket extends Socket {
     self.io.on("connection", function webSocketListener(socket) {
       log.info("Received connection from: " + socket.conn.remoteAddress);
 
-      let client = new Connection(self.createId(), socket, self);
+      const client = new Connection(self.createId(), socket, self);
 
       socket.on("client", function(data) {
         if (data.gVer !== self.version) {

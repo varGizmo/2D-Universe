@@ -43,7 +43,7 @@ define([
 ) {
   return Class.extend({
     init: function(app) {
-      let self = this;
+      const self = this;
 
       self.app = app;
 
@@ -83,7 +83,7 @@ define([
     },
 
     start: function() {
-      let self = this;
+      const self = this;
 
       if (self.started) return;
 
@@ -94,7 +94,7 @@ define([
     },
 
     stop: function() {
-      let self = this;
+      const self = this;
 
       self.stopped = false;
       self.started = false;
@@ -102,7 +102,7 @@ define([
     },
 
     tick: function() {
-      let self = this;
+      const self = this;
 
       if (self.ready) {
         self.time = new Date().getTime();
@@ -115,7 +115,7 @@ define([
     },
 
     unload: function() {
-      let self = this;
+      const self = this;
 
       self.socket = null;
       self.messages = null;
@@ -137,13 +137,13 @@ define([
     },
 
     loadRenderer: function() {
-      let self = this,
-        background = document.getElementById("background"),
-        foreground = document.getElementById("foreground"),
-        overlay = document.getElementById("overlay"),
-        textCanvas = document.getElementById("textCanvas"),
-        entities = document.getElementById("entities"),
-        cursor = document.getElementById("cursor");
+      const self = this;
+      const background = document.getElementById("background");
+      const foreground = document.getElementById("foreground");
+      const overlay = document.getElementById("overlay");
+      const textCanvas = document.getElementById("textCanvas");
+      const entities = document.getElementById("entities");
+      const cursor = document.getElementById("cursor");
 
       self.app.sendStatus("Initializing render engine");
 
@@ -161,8 +161,8 @@ define([
     },
 
     loadControllers: function() {
-      let self = this,
-        hasWorker = self.app.hasWorker();
+      const self = this;
+      const hasWorker = self.app.hasWorker();
 
       self.app.sendStatus("Loading local storage");
 
@@ -201,7 +201,7 @@ define([
     },
 
     loadMap: function() {
-      let self = this;
+      const self = this;
 
       self.map = new Map(self);
       self.overlays = new Overlay(self);
@@ -231,7 +231,7 @@ define([
     },
 
     connect: function() {
-      let self = this;
+      const self = this;
 
       self.app.cleanErrors();
 
@@ -243,7 +243,7 @@ define([
     },
 
     postLoad: function() {
-      let self = this;
+      const self = this;
 
       /**
        * Call this after the player has been welcomed
@@ -258,7 +258,7 @@ define([
 
       self.entities.addEntity(self.player);
 
-      let defaultSprite = self.getSprite(self.player.getSpriteName());
+      const defaultSprite = self.getSprite(self.player.getSpriteName());
 
       self.player.setSprite(defaultSprite);
       self.player.setOrientation(self.storage.data.player.orientation);
@@ -285,9 +285,9 @@ define([
     },
 
     implementStorage: function() {
-      let self = this,
-        loginName = $("#loginNameInput"),
-        loginPassword = $("#loginPasswordInput");
+      const self = this;
+      const loginName = $("#loginNameInput");
+      const loginPassword = $("#loginPasswordInput");
 
       loginName.prop("readonly", false);
       loginPassword.prop("readonly", false);
@@ -295,10 +295,10 @@ define([
       if (!self.hasRemember()) return;
 
       if (self.getStorageUsername() !== "")
-        loginName.val(self.getStorageUsername());
+      { loginName.val(self.getStorageUsername()); }
 
       if (self.getStoragePassword() !== "")
-        loginPassword.val(self.getStoragePassword());
+      { loginPassword.val(self.getStoragePassword()); }
 
       $("#rememberMe").addClass("active");
     },
@@ -318,17 +318,17 @@ define([
     },
 
     findPath: function(character, x, y, ignores) {
-      let self = this,
-        grid = self.entities.grids.pathingGrid,
-        path = [];
+      const self = this;
+      const grid = self.entities.grids.pathingGrid;
+      let path = [];
 
       if (self.map.isColliding(x, y) || !self.pathfinder || !character)
-        return path;
+      { return path; }
 
       if (ignores)
-        _.each(ignores, function(entity) {
-          self.pathfinder.ignoreEntity(entity);
-        });
+      { _.each(ignores, function(entity) {
+        self.pathfinder.ignoreEntity(entity);
+      }); }
 
       path = self.pathfinder.find(grid, character, x, y, false);
 
@@ -342,7 +342,7 @@ define([
     },
 
     handleDisconnection: function(noError) {
-      let self = this;
+      const self = this;
 
       /**
        * This function is responsible for handling sudden
@@ -372,7 +372,7 @@ define([
     },
 
     respawn: function() {
-      let self = this;
+      const self = this;
 
       self.audio.play(Modules.AudioTypes.SFX, "revive");
       self.app.body.removeClass("death");
@@ -381,7 +381,7 @@ define([
     },
 
     tradeWith: function(player) {
-      let self = this;
+      const self = this;
 
       if (!player || player.id === self.player.id) return;
 
@@ -389,7 +389,7 @@ define([
     },
 
     resize: function() {
-      let self = this;
+      const self = this;
 
       self.renderer.resize();
 
@@ -417,13 +417,13 @@ define([
     },
 
     getEntityAt: function(x, y, ignoreSelf) {
-      let self = this,
-        entities = self.entities.grids.renderingGrid[y][x];
+      const self = this;
+      const entities = self.entities.grids.renderingGrid[y][x];
 
       if (_.size(entities) > 0)
-        return entities[_.keys(entities)[ignoreSelf ? 1 : 0]];
+      { return entities[_.keys(entities)[ignoreSelf ? 1 : 0]]; }
 
-      let items = self.entities.grids.itemGrid[y][x];
+      const items = self.entities.grids.itemGrid[y][x];
 
       if (_.size(items) > 0) {
         _.each(items, function(item) {
@@ -471,7 +471,7 @@ define([
     },
 
     setInput: function(input) {
-      let self = this;
+      const self = this;
 
       if (!self.input) {
         self.input = input;

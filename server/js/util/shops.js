@@ -1,7 +1,7 @@
 /* global module */
 
-let Shops = {},
-  _ = require("underscore");
+const Shops = {};
+const _ = require("underscore");
 
 Shops.Data = {};
 Shops.Ids = {};
@@ -19,19 +19,19 @@ Shops.getItemCount = function(id) {
 };
 
 Shops.increment = function(shopId, itemId, count) {
-  let shop = Shops.Ids[shopId],
-    index = shop.items.indexOf(itemId);
+  const shop = Shops.Ids[shopId];
+  const index = shop.items.indexOf(itemId);
 
   if (index < 0) return;
 
-  let shopData = Shops.Data[shop.key];
+  const shopData = Shops.Data[shop.key];
 
   shopData.count[index] += count;
 };
 
 Shops.decrement = function(shopId, itemId, count) {
-  let shop = Shops.Ids[shopId],
-    index = shop.items.indexOf(itemId);
+  const shop = Shops.Ids[shopId];
+  const index = shop.items.indexOf(itemId);
 
   if (index < 0) return;
 
@@ -40,7 +40,7 @@ Shops.decrement = function(shopId, itemId, count) {
    * remember.... Pointersssssssss
    */
 
-  let shopData = Shops.Data[shop.key];
+  const shopData = Shops.Data[shop.key];
 
   shopData.count[index] -= count;
 
@@ -54,8 +54,8 @@ Shops.getCost = function(shopId, itemId, count) {
    * spice up the game.
    */
 
-  let shop = Shops.Ids[shopId],
-    index = shop.items.indexOf(itemId);
+  const shop = Shops.Ids[shopId];
+  const index = shop.items.indexOf(itemId);
 
   if (index < 0) return;
 
@@ -63,8 +63,8 @@ Shops.getCost = function(shopId, itemId, count) {
 };
 
 Shops.getStock = function(shopId, itemId) {
-  let shop = Shops.Ids[shopId],
-    index = shop.items.indexOf(itemId);
+  const shop = Shops.Ids[shopId];
+  const index = shop.items.indexOf(itemId);
 
   if (index < 0) return;
 
@@ -72,8 +72,8 @@ Shops.getStock = function(shopId, itemId) {
 };
 
 Shops.getOriginalStock = function(shopId, itemId) {
-  let shop = Shops.Ids[shopId],
-    index = shop.index.indexOf(itemId);
+  const shop = Shops.Ids[shopId];
+  const index = shop.index.indexOf(itemId);
 
   if (index < 0) return;
 
@@ -81,8 +81,8 @@ Shops.getOriginalStock = function(shopId, itemId) {
 };
 
 Shops.getCount = function(id) {
-  let count = Shops.Ids[id].count,
-    counts = [];
+  const count = Shops.Ids[id].count;
+  const counts = [];
 
   if (_.isArray(count)) return count;
 

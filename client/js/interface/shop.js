@@ -1,7 +1,7 @@
 define(["jquery", "./container/container"], function($, Container) {
   return Class.extend({
     init: function(game, intrface) {
-      let self = this;
+      const self = this;
 
       self.game = game;
 
@@ -22,14 +22,14 @@ define(["jquery", "./container/container"], function($, Container) {
     },
 
     buy: function(event) {
-      let self = this,
-        id = event.currentTarget.id.substring(11);
+      const self = this;
+      const id = event.currentTarget.id.substring(11);
 
       self.game.socket.send(Packets.Shop, [Packets.ShopOpcode.Buy, id, 1, 1]);
     },
 
     sell: function() {
-      let self = this;
+      const self = this;
     },
 
     /**
@@ -40,7 +40,7 @@ define(["jquery", "./container/container"], function($, Container) {
      */
 
     resize: function() {
-      let self = this;
+      const self = this;
 
       self.getInventoryList().empty();
       self.getShopList().empty();
@@ -49,44 +49,44 @@ define(["jquery", "./container/container"], function($, Container) {
     },
 
     update: function(data) {
-      let self = this;
+      const self = this;
 
       self.reset();
 
       self.container = new Container(data.strings.length);
 
-      //Update the global data to current revision
+      // Update the global data to current revision
       self.data = data;
 
       self.load();
     },
 
     load: function() {
-      let self = this;
+      const self = this;
 
       for (let i = 0; i < self.container.size; i++) {
-        let shopItem = $('<div id="shopItem' + i + '" class="shopItem"></div>'),
-          string = self.data.strings[i],
-          name = self.data.names[i],
-          count = self.data.counts[i],
-          itemImage,
-          itemCount,
-          itemName,
-          itemBuy;
+        const shopItem = $("<div id=\"shopItem" + i + "\" class=\"shopItem\"></div>");
+        const string = self.data.strings[i];
+        const name = self.data.names[i];
+        const count = self.data.counts[i];
+        let itemImage;
+        let itemCount;
+        let itemName;
+        let itemBuy;
 
         if (!string || !name || !count) continue;
 
         itemImage = $(
-          '<div id="shopItemImage' + i + '" class="shopItemImage"></div>'
+          "<div id=\"shopItemImage" + i + "\" class=\"shopItemImage\"></div>"
         );
         itemCount = $(
-          '<div id="shopItemCount' + i + '" class="shopItemCount"></div>'
+          "<div id=\"shopItemCount" + i + "\" class=\"shopItemCount\"></div>"
         );
         itemName = $(
-          '<div id="shopItemName' + i + '" class="shopItemName"></div>'
+          "<div id=\"shopItemName" + i + "\" class=\"shopItemName\"></div>"
         );
         itemBuy = $(
-          '<div id="shopItemBuy' + i + '" class="shopItemBuy"></div>'
+          "<div id=\"shopItemBuy" + i + "\" class=\"shopItemBuy\"></div>"
         );
 
         itemImage.css(
@@ -107,7 +107,7 @@ define(["jquery", "./container/container"], function($, Container) {
           self.buy(event);
         });
 
-        let listItem = $("<li></li>");
+        const listItem = $("<li></li>");
 
         shopItem.append(itemImage, itemCount, itemName, itemBuy);
 
@@ -116,19 +116,19 @@ define(["jquery", "./container/container"], function($, Container) {
         self.getShopList().append(listItem);
       }
 
-      let inventoryItems = self.interface.bank.getInventoryList(),
-        inventorySize = self.interface.inventory.getSize();
+      const inventoryItems = self.interface.bank.getInventoryList();
+      const inventorySize = self.interface.inventory.getSize();
 
       for (let j = 0; j < inventorySize; j++) {
-        let item = $(inventoryItems[j]).clone(),
-          slot = item.find("#bankInventorySlot" + j);
+        const item = $(inventoryItems[j]).clone();
+        const slot = item.find("#bankInventorySlot" + j);
 
         self.getInventoryList().append(slot);
       }
     },
 
     reset: function() {
-      let self = this;
+      const self = this;
 
       self.items = [];
       self.counts = [];
@@ -140,7 +140,7 @@ define(["jquery", "./container/container"], function($, Container) {
     },
 
     open: function(id) {
-      let self = this;
+      const self = this;
 
       if (!id) return;
 
@@ -150,7 +150,7 @@ define(["jquery", "./container/container"], function($, Container) {
     },
 
     hide: function() {
-      let self = this;
+      const self = this;
 
       self.openShop = -1;
 

@@ -1,7 +1,7 @@
 define(function() {
   return Class.extend({
     init: function(id, index, map) {
-      let self = this;
+      const self = this;
 
       self.id = id;
       self.index = index;
@@ -25,7 +25,7 @@ define(function() {
     },
 
     animate: function(time) {
-      let self = this;
+      const self = this;
 
       if (
         time - self.lastTime >
@@ -35,7 +35,7 @@ define(function() {
         self.lastTime = time;
 
         if (self.animationIndex >= self.animationInfo.length - 1)
-          self.animationIndex = 0;
+        { self.animationIndex = 0; }
         else self.animationIndex++;
       }
     },

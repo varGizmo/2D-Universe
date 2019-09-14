@@ -1,14 +1,14 @@
 /* global module */
 
-let Quest = require("../quest"),
-  Packets = require("../../../../../../network/packets"),
-  Messages = require("../../../../../../network/messages");
+const Quest = require("../quest");
+const Packets = require("../../../../../../network/packets");
+const Messages = require("../../../../../../network/messages");
 
 class BulkySituation extends Quest {
   constructor(player, data) {
     super(player, data);
 
-    let self = this;
+    const self = this;
 
     self.player = player;
     self.data = data;
@@ -17,7 +17,7 @@ class BulkySituation extends Quest {
   }
 
   load(stage) {
-    let self = this;
+    const self = this;
 
     if (!stage) self.update();
     else self.stage = stage;
@@ -26,7 +26,7 @@ class BulkySituation extends Quest {
   }
 
   loadCallbacks() {
-    let self = this;
+    const self = this;
 
     if (self.stage > 9999) return;
 
@@ -36,7 +36,7 @@ class BulkySituation extends Quest {
         return;
       }
 
-      let conversation = self.getConversation(npc.id);
+      const conversation = self.getConversation(npc.id);
 
       self.player.send(
         new Messages.NPC(Packets.NPCOpcode.Talk, {
@@ -54,8 +54,8 @@ class BulkySituation extends Quest {
   }
 
   progress(type) {
-    let self = this,
-      task = self.data.task[self.stage];
+    const self = this;
+    const task = self.data.task[self.stage];
 
     if (!task || task !== type) return;
 

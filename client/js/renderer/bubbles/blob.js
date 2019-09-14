@@ -1,7 +1,7 @@
 define(["../../utils/timer"], function(Timer) {
   return Class.extend({
     init: function(id, element, duration) {
-      let self = this;
+      const self = this;
 
       self.id = id;
       self.element = element;

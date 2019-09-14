@@ -1,12 +1,12 @@
 /* global module */
 
-let Entity = require("../entity");
+const Entity = require("../entity");
 
 class Projectile extends Entity {
   constructor(id, instance) {
     super(id, "projectile", instance);
 
-    let self = this;
+    const self = this;
 
     self.startX = -1;
     self.startY = -1;
@@ -24,7 +24,7 @@ class Projectile extends Entity {
   }
 
   setStart(x, y) {
-    let self = this;
+    const self = this;
 
     self.x = x;
     self.y = y;
@@ -35,7 +35,7 @@ class Projectile extends Entity {
    */
 
   setTarget(target) {
-    let self = this;
+    const self = this;
 
     self.target = target;
 
@@ -44,7 +44,7 @@ class Projectile extends Entity {
   }
 
   setStaticTarget(x, y) {
-    let self = this;
+    const self = this;
 
     self.static = true;
 
@@ -53,7 +53,7 @@ class Projectile extends Entity {
   }
 
   getData() {
-    let self = this;
+    const self = this;
 
     /**
      * Refrain from creating a projectile unless

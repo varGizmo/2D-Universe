@@ -5,7 +5,7 @@ define(function() {
      */
 
     init: function(name, length, row, width, height) {
-      let self = this;
+      const self = this;
 
       self.name = name;
       self.length = length;
@@ -17,8 +17,8 @@ define(function() {
     },
 
     tick: function() {
-      let self = this,
-        i = self.currentFrame.index;
+      const self = this;
+      let i = self.currentFrame.index;
 
       i = i < self.length - 1 ? i + 1 : 0;
 
@@ -39,10 +39,10 @@ define(function() {
     },
 
     update: function(time) {
-      let self = this;
+      const self = this;
 
       if (self.lastTime === 0 && self.name.substr(0, 3) === "atk")
-        self.lastTime = time;
+      { self.lastTime = time; }
 
       if (self.readyToAnimate(time)) {
         self.lastTime = time;
@@ -53,7 +53,7 @@ define(function() {
     },
 
     setCount: function(count, onEndCount) {
-      let self = this;
+      const self = this;
 
       self.count = count;
       self.endCountCallback = onEndCount;
@@ -72,7 +72,7 @@ define(function() {
     },
 
     reset: function() {
-      let self = this;
+      const self = this;
 
       self.lastTime = 0;
       self.currentFrame = {
