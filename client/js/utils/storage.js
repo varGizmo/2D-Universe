@@ -3,7 +3,7 @@ define(function() {
   const name = "data";
 
   return Class.extend({
-    init: function(app) {
+    init(app) {
       const self = this;
 
       self.app = app;
@@ -12,7 +12,7 @@ define(function() {
       self.load();
     },
 
-    load: function() {
+    load() {
       const self = this;
 
       if (storage.data) self.data = JSON.parse(storage.getItem(name));
@@ -24,7 +24,7 @@ define(function() {
       }
     },
 
-    create: function() {
+    create() {
       return {
         new: true,
         clientVersion: this.app.config.version,
@@ -56,23 +56,23 @@ define(function() {
       };
     },
 
-    save: function() {
+    save() {
       if (this.data) storage.setItem(name, JSON.stringify(this.data));
     },
 
-    clear: function() {
+    clear() {
       storage.removeItem(name);
       this.data = this.create();
     },
 
-    toggleRemember: function(toggle) {
+    toggleRemember(toggle) {
       const self = this;
 
       self.data.player.rememberMe = toggle;
       self.save();
     },
 
-    setOrientation: function(orientation) {
+    setOrientation(orientation) {
       const self = this;
       const player = self.getPlayer();
 
@@ -81,7 +81,7 @@ define(function() {
       self.save();
     },
 
-    setPlayer: function(option, value) {
+    setPlayer(option, value) {
       const self = this;
       const pData = self.getPlayer();
 
@@ -90,7 +90,7 @@ define(function() {
       self.save();
     },
 
-    setSettings: function(option, value) {
+    setSettings(option, value) {
       const self = this;
       const sData = self.getSettings();
 
@@ -99,7 +99,7 @@ define(function() {
       self.save();
     },
 
-    setRegionData: function(regionData, collisionData) {
+    setRegionData(regionData, collisionData) {
       const self = this;
 
       self.data.map.regionData = regionData;
@@ -108,19 +108,19 @@ define(function() {
       self.save();
     },
 
-    getPlayer: function() {
+    getPlayer() {
       return this.data.player;
     },
 
-    getSettings: function() {
+    getSettings() {
       return this.data ? this.data.settings : null;
     },
 
-    getRegionData: function() {
+    getRegionData() {
       return this.data.map.regionData;
     },
 
-    getCollisions: function() {
+    getCollisions() {
       return this.data.map.collisions;
     }
   });

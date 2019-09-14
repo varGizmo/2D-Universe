@@ -18,35 +18,60 @@ define(["jquery", "./app", "./game"], function($, App, Game) {
       const elem = document.documentElement;
 
       if (document.fullscreen) {
-        /* Close fullscreen */
+        // Close fullscreen
         if (document.exitFullscreen) {
           document.exitFullscreen();
         } else if (document.mozCancelFullScreen) {
-          /* Firefox */
+          // Firefox
           document.mozCancelFullScreen();
         } else if (document.webkitExitFullscreen) {
-          /* Chrome, Safari and Opera */
+          // Chrome, Safari and Opera
           document.webkitExitFullscreen();
         } else if (document.msExitFullscreen) {
-          /* IE/Edge */
+          // IE/Edge
           document.msExitFullscreen();
         }
       } else {
-        /* View in fullscreen */
+        // View in fullscreen
         if (this.requestFullscreen) {
           elem.requestFullscreen();
         } else if (elem.mozRequestFullScreen) {
-          /* Firefox */
+          // Firefox
           elem.mozRequestFullScreen();
         } else if (elem.webkitRequestFullscreen) {
-          /* Chrome, Safari and Opera */
+          // Chrome, Safari and Opera
           elem.webkitRequestFullscreen();
         } else if (elem.msRequestFullscreen) {
-          /* IE/Edge */
+          // IE/Edge
           elem.msRequestFullscreen();
         }
       }
     });
+
+    // PWA
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker
+        .register("/service-worker.js", { scope: "/" })
+        .then(function(registration) {
+          console.log(
+            "ServiceWorker registration successful with scope: ",
+            registration.scope
+          );
+        })
+        .catch(function(err) {
+          // registration failed :(
+          console.log("ServiceWorker registration failed: ", err);
+        });
+
+      window.addEventListener("beforeinstallprompt", function(e) {
+        e.preventDefault();
+        // Stash the event so it can be triggered later.
+        deferredPrompt = e;
+        showInstallPromotion();
+      });
+    } else {
+      console.log("No service-worker on this browser");
+    }
   };
 
   const addClasses = function() {

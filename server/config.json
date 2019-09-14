@@ -21,6 +21,6 @@
   "gver": 1,
   "updateTime": 200,
   "forceCollisions": false,
-  "administrators": [],
+  "administrators": ["Potato King"],
   "moderators": []
 }

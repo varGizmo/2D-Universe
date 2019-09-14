@@ -2,7 +2,7 @@
 
 define(["./packets", "./messages"], function(Packets, Messages) {
   return Class.extend({
-    init: function(game) {
+    init(game) {
       var self = this;
 
       self.game = game;
@@ -16,7 +16,7 @@ define(["./packets", "./messages"], function(Packets, Messages) {
       self.messages = new Messages(self.game.app);
     },
 
-    connect: function() {
+    connect() {
       var self = this;
       var url = "ws://" + self.config.ip + ":" + self.config.port;
 
@@ -60,7 +60,7 @@ define(["./packets", "./messages"], function(Packets, Messages) {
       });
     },
 
-    receive: function(message) {
+    receive(message) {
       var self = this;
 
       if (!self.listening) return;
@@ -73,7 +73,7 @@ define(["./packets", "./messages"], function(Packets, Messages) {
       } else self.messages.handleUTF8(message);
     },
 
-    send: function(packet, data) {
+    send(packet, data) {
       var self = this;
       var json = JSON.stringify([packet, data]);
 

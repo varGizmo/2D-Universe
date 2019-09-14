@@ -1,6 +1,6 @@
 define(function() {
   return Class.extend({
-    init: function(id, element, type) {
+    init(id, element, type) {
       const self = this;
 
       self.id = id;
@@ -16,7 +16,7 @@ define(function() {
       self.load();
     },
 
-    load: function() {
+    load() {
       const self = this;
 
       self.blinkInterval = setInterval(function() {
@@ -27,25 +27,25 @@ define(function() {
       }, 600);
     },
 
-    destroy: function() {
+    destroy() {
       const self = this;
 
       clearInterval(self.blinkInterval);
       self.element.remove();
     },
 
-    setPosition: function(x, y) {
+    setPosition(x, y) {
       const self = this;
 
       self.x = x;
       self.y = y;
     },
 
-    show: function() {
+    show() {
       this.element.css("display", "block");
     },
 
-    hide: function() {
+    hide() {
       this.element.css("display", "none");
     }
   });

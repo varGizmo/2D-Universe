@@ -16,7 +16,10 @@
     <meta property="og:site_name" content="Gizmo" />
     <meta property="og:description" content="Description." />
 
+    <title>Gizmo</title>
+
     <link rel="icon" type="image/png" href="img/favicon.png" />
+    <link rel="manifest" href="manifest.json">
 
     <link rel="stylesheet" type="text/css" href="css/animations.css" />
     <link rel="stylesheet" type="text/css" href="css/game.css" />
@@ -25,8 +28,6 @@
     <link rel="stylesheet" type="text/css" href="css/interface.css" />
 
     <script src="js/lib/modernizr.js" type="text/javascript"></script>
-
-    <title>Gizmo</title>
   </head>
   <body class="intro">
     <noscript>
@@ -34,6 +35,10 @@
         You must enable JavaScript to play Gizmo.
       </div>
     </noscript>
+    <audio autoplay loop>
+      <source src="audio/music/mainscreen.mp3" type="audio/mpeg" />
+      Your browser does not support the audio element.
+    </audio>
 
     <img
       id="fullscreen-icon"
@@ -432,7 +437,7 @@
 
       <div id="discord-link" class="clickable">
         <span class="dash">&ndash;</span>
-        <a href="https://discord.gg/eCXfEJD">Discord</a>
+        <a href="https://discord.gg/eCXfEJD" target="_blank">Discord</a>
       </div>
     </footer>
 

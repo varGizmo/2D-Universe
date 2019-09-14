@@ -14,7 +14,7 @@ define([
   "../entity/objects/item"
 ], function($, Camera, Tile, Player, Character, Item) {
   return Class.extend({
-    init: function(
+    init(
       background,
       entities,
       foreground,
@@ -110,7 +110,7 @@ define([
       self.load();
     },
 
-    stop: function() {
+    stop() {
       const self = this;
 
       self.camera = null;
@@ -123,7 +123,7 @@ define([
       });
     },
 
-    load: function() {
+    load() {
       const self = this;
 
       self.scale = self.getScale();
@@ -134,7 +134,7 @@ define([
       self.handleScaling();
     },
 
-    removeSmoothing: function() {
+    removeSmoothing() {
       const self = this;
 
       self.forAllContexts(function(context) {
@@ -147,7 +147,7 @@ define([
       });
     },
 
-    loadSizes: function() {
+    loadSizes() {
       const self = this;
 
       if (!self.camera) return;
@@ -166,7 +166,7 @@ define([
       });
     },
 
-    loadCamera: function() {
+    loadCamera() {
       const self = this;
       const storage = self.game.storage;
 
@@ -188,7 +188,7 @@ define([
       }
     },
 
-    loadLights: function() {
+    loadLights() {
       const self = this;
 
       self.darkMask = new DarkMask({
@@ -199,7 +199,7 @@ define([
       self.darkMask.compute(self.overlay.width, self.overlay.height);
     },
 
-    resize: function() {
+    resize() {
       const self = this;
 
       self.stopRendering = true;
@@ -232,7 +232,7 @@ define([
       }, 500); }
     },
 
-    render: function() {
+    render() {
       const self = this;
 
       if (self.stopRendering) return;
@@ -274,7 +274,7 @@ define([
      * Context Drawing
      */
 
-    draw: function() {
+    draw() {
       const self = this;
 
       self.updateDrawingView();
@@ -299,7 +299,7 @@ define([
       }); }
     },
 
-    drawOverlays: function() {
+    drawOverlays() {
       const self = this;
       const overlay = self.game.overlays.getFog();
 
@@ -333,7 +333,7 @@ define([
       }
     },
 
-    drawInfos: function() {
+    drawInfos() {
       const self = this;
 
       if (self.game.info.getCount() === 0) return;
@@ -357,7 +357,7 @@ define([
       });
     },
 
-    drawDebugging: function() {
+    drawDebugging() {
       const self = this;
 
       if (!self.debugging) return;
@@ -370,7 +370,7 @@ define([
       }
     },
 
-    drawEntities: function() {
+    drawEntities() {
       const self = this;
 
       self.forEachVisibleEntity(function(entity) {
@@ -378,7 +378,7 @@ define([
       });
     },
 
-    drawEntity: function(entity) {
+    drawEntity(entity) {
       const self = this;
       const sprite = entity.sprite;
       const animation = entity.currentAnimation;
@@ -532,7 +532,7 @@ define([
       if (!self.game.overlays.getFog()) self.drawName(entity);
     },
 
-    drawEntityBack: function(entity) {
+    drawEntityBack(entity) {
       const self = this;
 
       /**
@@ -541,7 +541,7 @@ define([
        */
     },
 
-    drawEntityFore: function(entity) {
+    drawEntityFore(entity) {
       const self = this;
 
       /**
@@ -584,7 +584,7 @@ define([
       }
     },
 
-    drawHealth: function(entity) {
+    drawHealth(entity) {
       const self = this;
 
       if (!entity.hitPoints || entity.hitPoints < 0 || !entity.healthBarVisible)
@@ -615,7 +615,7 @@ define([
       self.context.restore();
     },
 
-    drawName: function(entity) {
+    drawName(entity) {
       const self = this;
 
       if (entity.hidden || (!self.drawNames && !self.drawLevels)) return;
@@ -689,7 +689,7 @@ define([
       self.textContext.restore();
     },
 
-    drawLighting: function(lighting) {
+    drawLighting(lighting) {
       const self = this;
 
       if (lighting.relative) {
@@ -709,7 +709,7 @@ define([
       lighting.render(self.overlayContext);
     },
 
-    drawCursor: function() {
+    drawCursor() {
       const self = this;
 
       if (
@@ -748,7 +748,7 @@ define([
       self.saveMouse();
     },
 
-    calculateFPS: function() {
+    calculateFPS() {
       const self = this;
 
       if (!self.debugging) return;
@@ -766,11 +766,11 @@ define([
       self.frameCount++;
     },
 
-    drawFPS: function() {
+    drawFPS() {
       this.drawText("FPS: " + this.realFPS, 10, 11, false, "white");
     },
 
-    drawPosition: function() {
+    drawPosition() {
       const self = this;
       const player = self.game.player;
 
@@ -783,7 +783,7 @@ define([
       );
     },
 
-    drawPathing: function() {
+    drawPathing() {
       const self = this;
       const pathingGrid = self.entities.grids.pathingGrid;
 
@@ -798,7 +798,7 @@ define([
       });
     },
 
-    drawSelectedCell: function() {
+    drawSelectedCell() {
       const self = this;
 
       if (!self.input.selectedCellVisible || self.input.keyMovement) return;
@@ -836,7 +836,7 @@ define([
      * Primitive drawing functions
      */
 
-    drawTile: function(context, tileId, gridWidth, cellId) {
+    drawTile(context, tileId, gridWidth, cellId) {
       const self = this;
 
       if (tileId < 0) return;
@@ -861,7 +861,7 @@ define([
       );
     },
 
-    drawScaledImage: function(context, image, x, y, width, height, dx, dy) {
+    drawScaledImage(context, image, x, y, width, height, dx, dy) {
       const self = this;
       const tilesetScale = image.scale;
       const scale = self.superScaling;
@@ -881,7 +881,7 @@ define([
       ); // Destination Height
     },
 
-    drawText: function(text, x, y, centered, colour, strokeColour) {
+    drawText(text, x, y, centered, colour, strokeColour) {
       const self = this;
       let strokeSize = 1;
       const context = self.textContext;
@@ -903,7 +903,7 @@ define([
       }
     },
 
-    updateAnimatedTiles: function() {
+    updateAnimatedTiles() {
       const self = this;
 
       if (!self.animateTiles) return;
@@ -941,7 +941,7 @@ define([
       self.animatedTiles = newTiles;
     },
 
-    drawCellRect: function(x, y, colour) {
+    drawCellRect(x, y, colour) {
       const self = this;
       const multiplier = self.tileSize * self.superScaling;
 
@@ -958,7 +958,7 @@ define([
       self.context.restore();
     },
 
-    drawCellHighlight: function(x, y, colour) {
+    drawCellHighlight(x, y, colour) {
       const self = this;
 
       self.drawCellRect(
@@ -968,7 +968,7 @@ define([
       );
     },
 
-    drawTargetCell: function() {
+    drawTargetCell() {
       const self = this;
 
       if (
@@ -1004,7 +1004,7 @@ define([
      * Primordial Rendering functions
      */
 
-    forEachVisibleIndex: function(callback, offset) {
+    forEachVisibleIndex(callback, offset) {
       const self = this;
 
       self.camera.forEachVisiblePosition(function(x, y) {
@@ -1013,7 +1013,7 @@ define([
       }, offset);
     },
 
-    forEachVisibleTile: function(callback, offset) {
+    forEachVisibleTile(callback, offset) {
       const self = this;
 
       if (!self.map || !self.map.mapLoaded) return;
@@ -1030,13 +1030,13 @@ define([
       }, offset);
     },
 
-    forEachAnimatedTile: function(callback) {
+    forEachAnimatedTile(callback) {
       _.each(this.animatedTiles, function(tile) {
         callback(tile);
       });
     },
 
-    forEachVisibleEntity: function(callback) {
+    forEachVisibleEntity(callback) {
       const self = this;
 
       if (!self.entities || !self.camera) return;
@@ -1051,7 +1051,7 @@ define([
       });
     },
 
-    isVisiblePosition: function(x, y) {
+    isVisiblePosition(x, y) {
       return (
         y >= this.camera.gridY &&
         y < this.camera.gridY + this.camera.gridHeight &&
@@ -1060,11 +1060,11 @@ define([
       );
     },
 
-    getScale: function() {
+    getScale() {
       return this.game.getScaleFactor();
     },
 
-    getDrawingScale: function() {
+    getDrawingScale() {
       const self = this;
       let scale = self.getScale();
 
@@ -1073,7 +1073,7 @@ define([
       return scale;
     },
 
-    getUpscale: function() {
+    getUpscale() {
       const self = this;
       let scale = self.getScale();
 
@@ -1082,11 +1082,11 @@ define([
       return scale;
     },
 
-    getSuperScaling: function() {
+    getSuperScaling() {
       return 2;
     },
 
-    clearContext: function() {
+    clearContext() {
       this.context.clearRect(
         0,
         0,
@@ -1095,7 +1095,7 @@ define([
       );
     },
 
-    clearText: function() {
+    clearText() {
       this.textContext.clearRect(
         0,
         0,
@@ -1110,25 +1110,25 @@ define([
       );
     },
 
-    restore: function() {
+    restore() {
       this.forEachContext(function(context) {
         context.restore();
       });
     },
 
-    clearAll: function() {
+    clearAll() {
       this.forEachContext(function(context) {
         context.clearRect(0, 0, context.canvas.width, context.canvas.height);
       });
     },
 
-    clear: function() {
+    clear() {
       this.forEachContext(function(context) {
         context.clearRect(0, 0, context.canvas.width, context.canvas.height);
       });
     },
 
-    handleScaling: function() {
+    handleScaling() {
       const self = this;
 
       self.canvas.style.transformOrigin = "0 0";
@@ -1136,19 +1136,19 @@ define([
         self.drawingScale === 3 ? "scale(1.5)" : "scale(1)";
     },
 
-    saveAll: function() {
+    saveAll() {
       this.forEachContext(function(context) {
         context.save();
       });
     },
 
-    restoreAll: function() {
+    restoreAll() {
       this.forEachContext(function(context) {
         context.restore();
       });
     },
 
-    isIntersecting: function(rectOne, rectTwo) {
+    isIntersecting(rectOne, rectTwo) {
       return (
         rectTwo.left > rectOne.right ||
         rectTwo.right < rectOne.left ||
@@ -1157,13 +1157,13 @@ define([
       );
     },
 
-    focus: function() {
+    focus() {
       this.forEachContext(function(context) {
         context.focus();
       });
     },
 
-    transition: function(duration, forward, callback) {
+    transition(duration, forward, callback) {
       const self = this;
       const textCanvas = $("#textCanvas");
       const hasThreshold = function() {
@@ -1195,7 +1195,7 @@ define([
      * Rendering Functions
      */
 
-    updateView: function() {
+    updateView() {
       const self = this;
 
       self.forEachContext(function(context) {
@@ -1203,7 +1203,7 @@ define([
       });
     },
 
-    updateDrawingView: function() {
+    updateDrawingView() {
       const self = this;
 
       self.forEachDrawingContext(function(context) {
@@ -1211,7 +1211,7 @@ define([
       });
     },
 
-    setCameraView: function(context) {
+    setCameraView(context) {
       const self = this;
 
       if (!self.camera || self.stopRendering) return;
@@ -1222,7 +1222,7 @@ define([
       );
     },
 
-    clearScreen: function(context) {
+    clearScreen(context) {
       context.clearRect(
         0,
         0,
@@ -1231,21 +1231,21 @@ define([
       );
     },
 
-    hasRenderedMouse: function() {
+    hasRenderedMouse() {
       return (
         this.input.lastMousePosition.x === this.input.mouse.x &&
         this.input.lastMousePosition.y === this.input.mouse.y
       );
     },
 
-    saveMouse: function() {
+    saveMouse() {
       const self = this;
 
       self.input.lastMousePosition.x = self.input.mouse.x;
       self.input.lastMousePosition.y = self.input.mouse.y;
     },
 
-    adjustBrightness: function(level) {
+    adjustBrightness(level) {
       const self = this;
 
       if (level < 0 || level > 100) return;
@@ -1256,7 +1256,7 @@ define([
       );
     },
 
-    loadStaticSprites: function() {
+    loadStaticSprites() {
       const self = this;
 
       self.shadowSprite = self.entities.getSprite("shadow16");
@@ -1268,7 +1268,7 @@ define([
       if (!self.sparksSprite.loaded) self.sparksSprite.load();
     },
 
-    hasDrawnTile: function(id) {
+    hasDrawnTile(id) {
       return this.drawnTiles.indexOf(id) > -1;
     },
 
@@ -1276,43 +1276,43 @@ define([
      * Miscellaneous functions
      */
 
-    forAllContexts: function(callback) {
+    forAllContexts(callback) {
       _.each(this.allContexts, function(context) {
         callback(context);
       });
     },
 
-    forEachContext: function(callback) {
+    forEachContext(callback) {
       _.each(this.contexts, function(context) {
         callback(context);
       });
     },
 
-    forEachDrawingContext: function(callback) {
+    forEachDrawingContext(callback) {
       _.each(this.contexts, function(context) {
         if (context.canvas.id !== "entities") callback(context);
       });
     },
 
-    forEachCanvas: function(callback) {
+    forEachCanvas(callback) {
       _.each(this.canvases, function(canvas) {
         callback(canvas);
       });
     },
 
-    forEachLighting: function(callback) {
+    forEachLighting(callback) {
       _.each(this.lightings, function(lighting) {
         callback(lighting);
       });
     },
 
-    getX: function(index, width) {
+    getX(index, width) {
       if (index === 0) return 0;
 
       return index % width === 0 ? width - 1 : (index % width) - 1;
     },
 
-    checkDevice: function() {
+    checkDevice() {
       const self = this;
 
       self.mobile = self.game.app.isMobile();
@@ -1320,23 +1320,23 @@ define([
       self.firefox = Detect.isFirefox();
     },
 
-    verifyCentration: function() {
+    verifyCentration() {
       this.forceRendering =
         (this.mobile || this.tablet) && this.camera.centered;
     },
 
-    isPortableDevice: function() {
+    isPortableDevice() {
       return this.mobile || this.tablet;
     },
 
-    updateDarkMask: function(color) {
+    updateDarkMask(color) {
       const self = this;
 
       self.darkMask.color = color;
       self.darkMask.compute(self.overlay.width, self.overlay.height);
     },
 
-    addLight: function(x, y, distance, diffuse, color, relative) {
+    addLight(x, y, distance, diffuse, color, relative) {
       const self = this;
       const light = new Lamp(self.getLightData(x, y, distance, diffuse, color));
       const lighting = new Lighting({
@@ -1361,7 +1361,7 @@ define([
       self.darkMask.compute(self.overlay.width, self.overlay.height);
     },
 
-    removeAllLights: function() {
+    removeAllLights() {
       const self = this;
 
       self.lightings = [];
@@ -1370,7 +1370,7 @@ define([
       self.darkMask.compute(self.overlay.width, self.overlay.height);
     },
 
-    removeNonRelativeLights: function() {
+    removeNonRelativeLights() {
       const self = this;
 
       _.each(self.lightings, function(lighting) {
@@ -1383,7 +1383,7 @@ define([
       self.darkMask.compute(self.overlay.width, self.overlay.height);
     },
 
-    getLightData: function(x, y, distance, diffuse, color) {
+    getLightData(x, y, distance, diffuse, color) {
       return {
         position: new Vec2(x, y),
         distance: distance,
@@ -1396,7 +1396,7 @@ define([
       };
     },
 
-    hasLighting: function(lighting) {
+    hasLighting(lighting) {
       const self = this;
 
       for (let i = 0; i < self.lightings.length; i++) {
@@ -1413,7 +1413,7 @@ define([
       return false;
     },
 
-    inRadius: function(lighting) {
+    inRadius(lighting) {
       const self = this;
       const position = {
         x: lighting.light.origX,
@@ -1430,7 +1430,7 @@ define([
       );
     },
 
-    getMiddle: function() {
+    getMiddle() {
       return {
         x: this.overlay.width / 2,
         y: this.overlay.height / 2
@@ -1441,19 +1441,19 @@ define([
      * Setters
      */
 
-    setTileset: function(tileset) {
+    setTileset(tileset) {
       this.tileset = tileset;
     },
 
-    setMap: function(map) {
+    setMap(map) {
       this.map = map;
     },
 
-    setEntities: function(entities) {
+    setEntities(entities) {
       this.entities = entities;
     },
 
-    setInput: function(input) {
+    setInput(input) {
       this.input = input;
     },
 
@@ -1461,7 +1461,7 @@ define([
      * Getters
      */
 
-    getTargetBounds: function(x, y) {
+    getTargetBounds(x, y) {
       const self = this;
       const bounds = {};
       const tx = x || self.input.selectedX;
@@ -1479,7 +1479,7 @@ define([
       return bounds;
     },
 
-    getTileset: function() {
+    getTileset() {
       return this.tileset;
     }
   });

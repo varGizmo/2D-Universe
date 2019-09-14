@@ -1,6 +1,6 @@
 define(function() {
   return Class.extend({
-    init: function(index) {
+    init(index) {
       const self = this;
 
       self.index = index;
@@ -14,7 +14,7 @@ define(function() {
       self.equippable = false;
     },
 
-    load: function(string, count, ability, abilityLevel, edible, equippable) {
+    load(string, count, ability, abilityLevel, edible, equippable) {
       const self = this;
 
       self.string = string;
@@ -26,7 +26,7 @@ define(function() {
       self.equippable = equippable;
     },
 
-    empty: function() {
+    empty() {
       const self = this;
 
       self.string = null;
@@ -38,15 +38,15 @@ define(function() {
       self.equippable = false;
     },
 
-    isEmpty: function() {
+    isEmpty() {
       return !this.string || this.count < 1;
     },
 
-    setCount: function(count) {
+    setCount(count) {
       this.count = count;
     },
 
-    setString: function(string) {
+    setString(string) {
       this.string = string;
     }
   });

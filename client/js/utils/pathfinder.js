@@ -2,7 +2,7 @@
 
 define(["../lib/astar"], function(AStar) {
   return Class.extend({
-    init: function(width, height) {
+    init(width, height) {
       const self = this;
 
       self.width = width;
@@ -15,7 +15,7 @@ define(["../lib/astar"], function(AStar) {
       self.load();
     },
 
-    load: function() {
+    load() {
       const self = this;
 
       for (let i = 0; i < self.height; i++) {
@@ -27,7 +27,7 @@ define(["../lib/astar"], function(AStar) {
       log.info("Sucessfully loaded the pathfinder!");
     },
 
-    find: function(grid, entity, x, y, incomplete) {
+    find(grid, entity, x, y, incomplete) {
       const self = this;
       const start = [entity.gridX, entity.gridY];
       const end = [x, y];
@@ -44,7 +44,7 @@ define(["../lib/astar"], function(AStar) {
       return path;
     },
 
-    findIncomplete: function(start, end) {
+    findIncomplete(start, end) {
       const self = this;
       let incomplete = [];
       let perfect;
@@ -66,7 +66,7 @@ define(["../lib/astar"], function(AStar) {
       return incomplete;
     },
 
-    applyIgnore: function(ignored) {
+    applyIgnore(ignored) {
       const self = this;
       let x;
       let y;
@@ -80,7 +80,7 @@ define(["../lib/astar"], function(AStar) {
       });
     },
 
-    ignoreEntity: function(entity) {
+    ignoreEntity(entity) {
       const self = this;
 
       if (!entity) return;
@@ -88,7 +88,7 @@ define(["../lib/astar"], function(AStar) {
       self.ignores.push(entity);
     },
 
-    clearIgnores: function() {
+    clearIgnores() {
       const self = this;
 
       self.applyIgnore(false);

@@ -2,7 +2,7 @@
 
 define(function() {
   return Class.extend({
-    init: function(renderer) {
+    init(renderer) {
       const self = this;
 
       self.renderer = renderer;
@@ -34,7 +34,7 @@ define(function() {
       self.update();
     },
 
-    update: function() {
+    update() {
       const self = this;
       const factor = self.renderer.getUpscale();
 
@@ -47,7 +47,7 @@ define(function() {
         self.map.height * self.tileSize - self.gridHeight * self.tileSize;
     },
 
-    setPosition: function(x, y) {
+    setPosition(x, y) {
       const self = this;
 
       self.x = x;
@@ -60,11 +60,11 @@ define(function() {
       self.gridY = Math.floor(y / 16);
     },
 
-    clip: function() {
+    clip() {
       this.setGridPosition(Math.round(this.x / 16), Math.round(this.y / 16));
     },
 
-    center: function() {
+    center() {
       const self = this;
 
       if (self.centered) return;
@@ -75,7 +75,7 @@ define(function() {
       self.renderer.verifyCentration();
     },
 
-    decenter: function() {
+    decenter() {
       const self = this;
 
       if (!self.centered) return;
@@ -86,7 +86,7 @@ define(function() {
       self.renderer.verifyCentration();
     },
 
-    setGridPosition: function(x, y) {
+    setGridPosition(x, y) {
       const self = this;
 
       self.prevGridX = self.gridX;
@@ -99,7 +99,7 @@ define(function() {
       self.y = self.gridY * 16;
     },
 
-    setPlayer: function(player) {
+    setPlayer(player) {
       const self = this;
 
       self.player = player;
@@ -107,7 +107,7 @@ define(function() {
       self.centreOn(self.player);
     },
 
-    handlePanning: function(direction) {
+    handlePanning(direction) {
       const self = this;
 
       if (!self.panning) return;
@@ -131,7 +131,7 @@ define(function() {
       }
     },
 
-    centreOn: function(entity) {
+    centreOn(entity) {
       const self = this;
 
       if (!entity) return;
@@ -152,7 +152,7 @@ define(function() {
       } else self.offsetY(nextY);
     },
 
-    forceCentre: function(entity) {
+    forceCentre(entity) {
       const self = this;
 
       if (!entity) return;
@@ -167,7 +167,7 @@ define(function() {
       self.gridY = Math.round(entity.y / 16) - height;
     },
 
-    offsetX: function(nextX) {
+    offsetX(nextX) {
       const self = this;
 
       if (nextX <= 16) {
@@ -179,7 +179,7 @@ define(function() {
       }
     },
 
-    offsetY: function(nextY) {
+    offsetY(nextY) {
       const self = this;
 
       if (nextY <= 16) {
@@ -191,7 +191,7 @@ define(function() {
       }
     },
 
-    zone: function(direction) {
+    zone(direction) {
       const self = this;
 
       switch (direction) {
@@ -217,7 +217,7 @@ define(function() {
       }
     },
 
-    forEachVisiblePosition: function(callback, offset) {
+    forEachVisiblePosition(callback, offset) {
       const self = this;
 
       if (!offset) offset = 1;

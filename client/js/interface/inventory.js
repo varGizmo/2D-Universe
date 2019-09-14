@@ -2,7 +2,7 @@
 
 define(["jquery", "./container/container"], function($, Container) {
   return Class.extend({
-    init: function(game, size) {
+    init(game, size) {
       const self = this;
 
       self.game = game;
@@ -20,7 +20,7 @@ define(["jquery", "./container/container"], function($, Container) {
       self.selectedItem = null;
     },
 
-    load: function(data) {
+    load(data) {
       const self = this;
       const list = $("#inventory").find("ul");
 
@@ -69,7 +69,7 @@ define(["jquery", "./container/container"], function($, Container) {
       });
     },
 
-    click: function(event) {
+    click(event) {
       const self = this;
       const index = event.currentTarget.id.substring(4);
       const slot = self.container.slots[index];
@@ -100,7 +100,7 @@ define(["jquery", "./container/container"], function($, Container) {
       self.actions.hideDrop();
     },
 
-    clickDouble: function(event) {
+    clickDouble(event) {
       const self = this;
       const index = event.currentTarget.id.substring(4);
       const slot = self.container.slots[index];
@@ -120,7 +120,7 @@ define(["jquery", "./container/container"], function($, Container) {
       self.actions.hideDrop();
     },
 
-    clickAction: function(event, dAction) {
+    clickAction(event, dAction) {
       const self = this;
       const action = event.currentTarget ? event.currentTarget.id : event;
 
@@ -176,7 +176,7 @@ define(["jquery", "./container/container"], function($, Container) {
       self.actions.hide();
     },
 
-    add: function(info) {
+    add(info) {
       const self = this;
       const item = $(self.getList()[info.index]);
       const slot = self.container.slots[info.index];
@@ -207,7 +207,7 @@ define(["jquery", "./container/container"], function($, Container) {
         .text(slot.count > 1 ? slot.count : "");
     },
 
-    remove: function(info) {
+    remove(info) {
       const self = this;
       const item = $(self.getList()[info.index]);
       const slot = self.container.slots[info.index];
@@ -225,7 +225,7 @@ define(["jquery", "./container/container"], function($, Container) {
       }
     },
 
-    resize: function() {
+    resize() {
       const self = this;
       const list = self.getList();
 
@@ -244,7 +244,7 @@ define(["jquery", "./container/container"], function($, Container) {
       }
     },
 
-    clearSelection: function() {
+    clearSelection() {
       const self = this;
 
       if (!self.selectedSlot) return;
@@ -254,14 +254,14 @@ define(["jquery", "./container/container"], function($, Container) {
       self.selectedItem = null;
     },
 
-    display: function() {
+    display() {
       const self = this;
 
       self.body.fadeIn("fast");
       self.button.addClass("active");
     },
 
-    hide: function() {
+    hide() {
       const self = this;
 
       self.button.removeClass("active");
@@ -271,21 +271,21 @@ define(["jquery", "./container/container"], function($, Container) {
       self.clearSelection();
     },
 
-    getScale: function() {
+    getScale() {
       return this.game.renderer.getDrawingScale();
     },
 
-    getSize: function() {
+    getSize() {
       return this.container.size;
     },
 
-    getList: function() {
+    getList() {
       return $("#inventory")
         .find("ul")
         .find("li");
     },
 
-    isVisible: function() {
+    isVisible() {
       return this.body.css("display") === "block";
     }
   });

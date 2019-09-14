@@ -1,6 +1,6 @@
 define(["jquery", "../page"], function($, Page) {
   return Page.extend({
-    init: function() {
+    init() {
       const self = this;
 
       self._super("#questPage");
@@ -15,7 +15,7 @@ define(["jquery", "../page"], function($, Page) {
       self.questList = self.quests.find("ul");
     },
 
-    load: function(quests, achievements) {
+    load(quests, achievements) {
       const self = this;
       let finishedAchievements = 0;
       let finishedQuests = 0;
@@ -89,7 +89,7 @@ define(["jquery", "../page"], function($, Page) {
       self.questCount.html(finishedQuests + "/" + quests.length);
     },
 
-    progress: function(info) {
+    progress(info) {
       const self = this;
       const item = info.isQuest
         ? self.getQuest(info.id)
@@ -110,7 +110,7 @@ define(["jquery", "../page"], function($, Page) {
       name.css("background", "rgba(255, 255, 10, 0.4)");
     },
 
-    finish: function(info) {
+    finish(info) {
       const self = this;
       const item = info.isQuest
         ? self.getQuest(info.id)
@@ -129,11 +129,11 @@ define(["jquery", "../page"], function($, Page) {
       name.css("background", "rgba(10, 255, 10, 0.3)");
     },
 
-    getQuest: function(id) {
+    getQuest(id) {
       return $(this.questList.find("li")[id]).find("#quest" + id);
     },
 
-    getAchievement: function(id) {
+    getAchievement(id) {
       return $(this.achievementsList.find("li")[id]).find("#achievement" + id);
     },
 
@@ -142,7 +142,7 @@ define(["jquery", "../page"], function($, Page) {
      * on their type of item and id (index).
      */
 
-    getItem: function(isQuest, id) {
+    getItem(isQuest, id) {
       return $(
         "<div id=\"" +
           (isQuest ? "quest" : "achievement") +
@@ -151,7 +151,7 @@ define(["jquery", "../page"], function($, Page) {
       );
     },
 
-    getName: function(isQuest, id) {
+    getName(isQuest, id) {
       return $(
         "<div id=\"" +
           (isQuest ? "quest" : "achievement") +

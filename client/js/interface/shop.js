@@ -1,6 +1,6 @@
 define(["jquery", "./container/container"], function($, Container) {
   return Class.extend({
-    init: function(game, intrface) {
+    init(game, intrface) {
       const self = this;
 
       self.game = game;
@@ -21,14 +21,14 @@ define(["jquery", "./container/container"], function($, Container) {
       self.counts = [];
     },
 
-    buy: function(event) {
+    buy(event) {
       const self = this;
       const id = event.currentTarget.id.substring(11);
 
       self.game.socket.send(Packets.Shop, [Packets.ShopOpcode.Buy, id, 1, 1]);
     },
 
-    sell: function() {
+    sell() {
       const self = this;
     },
 
@@ -39,7 +39,7 @@ define(["jquery", "./container/container"], function($, Container) {
      * do a full refresh when they buy an item or someone else buys an item.
      */
 
-    resize: function() {
+    resize() {
       const self = this;
 
       self.getInventoryList().empty();
@@ -48,7 +48,7 @@ define(["jquery", "./container/container"], function($, Container) {
       self.update(self.data);
     },
 
-    update: function(data) {
+    update(data) {
       const self = this;
 
       self.reset();
@@ -61,7 +61,7 @@ define(["jquery", "./container/container"], function($, Container) {
       self.load();
     },
 
-    load: function() {
+    load() {
       const self = this;
 
       for (let i = 0; i < self.container.size; i++) {
@@ -127,7 +127,7 @@ define(["jquery", "./container/container"], function($, Container) {
       }
     },
 
-    reset: function() {
+    reset() {
       const self = this;
 
       self.items = [];
@@ -139,7 +139,7 @@ define(["jquery", "./container/container"], function($, Container) {
       self.getInventoryList().empty();
     },
 
-    open: function(id) {
+    open(id) {
       const self = this;
 
       if (!id) return;
@@ -149,7 +149,7 @@ define(["jquery", "./container/container"], function($, Container) {
       self.body.fadeIn("slow");
     },
 
-    hide: function() {
+    hide() {
       const self = this;
 
       self.openShop = -1;
@@ -157,23 +157,23 @@ define(["jquery", "./container/container"], function($, Container) {
       self.body.fadeOut("fast");
     },
 
-    getScale: function() {
+    getScale() {
       return this.game.renderer.getDrawingScale();
     },
 
-    isVisible: function() {
+    isVisible() {
       return this.body.css("display") === "block";
     },
 
-    isShopOpen: function(shopId) {
+    isShopOpen(shopId) {
       return this.isVisible() && this.openShop === shopId;
     },
 
-    getShopList: function() {
+    getShopList() {
       return this.shop.find("ul");
     },
 
-    getInventoryList: function() {
+    getInventoryList() {
       return this.inventory.find("ul");
     }
   });

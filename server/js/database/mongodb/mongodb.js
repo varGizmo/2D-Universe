@@ -27,7 +27,10 @@ class MongoDB {
     const self = this;
     const URL =
       "mongodb://" + self.host + ":" + self.port + "/" + self.database;
-    const client = new MongoClient(URL, { useNewUrlParser: true });
+    const client = new MongoClient(URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    });
 
     if (self.connection) {
       callback(self.connection);

@@ -2,7 +2,7 @@
 
 define(function() {
   return Class.extend({
-    init: function(game) {
+    init(game) {
       const self = this;
 
       self.game = game;
@@ -25,7 +25,7 @@ define(function() {
       self.load();
     },
 
-    load: function() {
+    load() {
       const self = this;
 
       self.messages.onHandshake(function(data) {

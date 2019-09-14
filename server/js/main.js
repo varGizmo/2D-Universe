@@ -12,13 +12,7 @@ const worlds = [];
 let allowConnections = false;
 let worldsCreated = 0;
 
-log = new ColorfulChalkLogger(
-  "Gizmo",
-  {
-    date: true
-  },
-  process.argv
-);
+log = new ColorfulChalkLogger("Gizmo", { date: true });
 log.notice = log.info;
 log.formatHeader = function(level, date) {
   let { desc } = level;

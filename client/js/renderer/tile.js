@@ -1,6 +1,6 @@
 define(function() {
   return Class.extend({
-    init: function(id, index, map) {
+    init(id, index, map) {
       const self = this;
 
       self.id = id;
@@ -15,16 +15,16 @@ define(function() {
       self.loaded = false;
     },
 
-    setPosition: function(position) {
+    setPosition(position) {
       this.x = position.x;
       this.y = position.y;
     },
 
-    update: function() {
+    update() {
       this.id = this.animationInfo[this.animationIndex].tileID - 1;
     },
 
-    animate: function(time) {
+    animate(time) {
       const self = this;
 
       if (
@@ -40,7 +40,7 @@ define(function() {
       }
     },
 
-    getPosition: function() {
+    getPosition() {
       return this.x && this.y ? [this.x, this.y] : [0, 0];
     }
   });

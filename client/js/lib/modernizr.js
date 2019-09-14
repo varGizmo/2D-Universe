@@ -57,16 +57,16 @@
       usePrefixes: !0
     },
     _q: [],
-    on: function(e, n) {
+    on(e, n) {
       var a = this;
       setTimeout(function() {
         n(a[e]);
       }, 0);
     },
-    addTest: function(e, n, a) {
+    addTest(e, n, a) {
       i.push({ name: e, fn: n, options: a });
     },
-    addAsyncTest: function(e) {
+    addAsyncTest(e) {
       i.push({ name: null, fn: e });
     }
   };

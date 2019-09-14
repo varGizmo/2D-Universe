@@ -42,7 +42,7 @@ define([
   Connection
 ) {
   return Class.extend({
-    init: function(app) {
+    init(app) {
       const self = this;
 
       self.app = app;
@@ -82,7 +82,7 @@ define([
       self.loadControllers();
     },
 
-    start: function() {
+    start() {
       const self = this;
 
       if (self.started) return;
@@ -93,7 +93,7 @@ define([
       self.started = true;
     },
 
-    stop: function() {
+    stop() {
       const self = this;
 
       self.stopped = false;
@@ -101,7 +101,7 @@ define([
       self.ready = false;
     },
 
-    tick: function() {
+    tick() {
       const self = this;
 
       if (self.ready) {
@@ -114,7 +114,7 @@ define([
       }
     },
 
-    unload: function() {
+    unload() {
       const self = this;
 
       self.socket = null;
@@ -136,7 +136,7 @@ define([
       self.audio = null;
     },
 
-    loadRenderer: function() {
+    loadRenderer() {
       const self = this;
       const background = document.getElementById("background");
       const foreground = document.getElementById("foreground");
@@ -160,7 +160,7 @@ define([
       );
     },
 
-    loadControllers: function() {
+    loadControllers() {
       const self = this;
       const hasWorker = self.app.hasWorker();
 
@@ -200,7 +200,7 @@ define([
       }
     },
 
-    loadMap: function() {
+    loadMap() {
       const self = this;
 
       self.map = new Map(self);
@@ -230,7 +230,7 @@ define([
       });
     },
 
-    connect: function() {
+    connect() {
       const self = this;
 
       self.app.cleanErrors();
@@ -242,7 +242,7 @@ define([
       self.connectionHandler = new Connection(self);
     },
 
-    postLoad: function() {
+    postLoad() {
       const self = this;
 
       /**
@@ -284,7 +284,7 @@ define([
       }
     },
 
-    implementStorage: function() {
+    implementStorage() {
       const self = this;
       const loginName = $("#loginNameInput");
       const loginPassword = $("#loginPasswordInput");
@@ -294,41 +294,45 @@ define([
 
       if (!self.hasRemember()) return;
 
-      if (self.getStorageUsername() !== "")
-      { loginName.val(self.getStorageUsername()); }
+      if (self.getStorageUsername() !== "") {
+        loginName.val(self.getStorageUsername());
+      }
 
-      if (self.getStoragePassword() !== "")
-      { loginPassword.val(self.getStoragePassword()); }
+      if (self.getStoragePassword() !== "") {
+        loginPassword.val(self.getStoragePassword());
+      }
 
       $("#rememberMe").addClass("active");
     },
 
-    setPlayerMovement: function(direction) {
+    setPlayerMovement(direction) {
       this.player.direction = direction;
     },
 
-    movePlayer: function(x, y) {
+    movePlayer(x, y) {
       this.moveCharacter(this.player, x, y);
     },
 
-    moveCharacter: function(character, x, y) {
+    moveCharacter(character, x, y) {
       if (!character) return;
 
       character.go(x, y);
     },
 
-    findPath: function(character, x, y, ignores) {
+    findPath(character, x, y, ignores) {
       const self = this;
       const grid = self.entities.grids.pathingGrid;
       let path = [];
 
-      if (self.map.isColliding(x, y) || !self.pathfinder || !character)
-      { return path; }
+      if (self.map.isColliding(x, y) || !self.pathfinder || !character) {
+        return path;
+      }
 
-      if (ignores)
-      { _.each(ignores, function(entity) {
-        self.pathfinder.ignoreEntity(entity);
-      }); }
+      if (ignores) {
+        _.each(ignores, function(entity) {
+          self.pathfinder.ignoreEntity(entity);
+        });
+      }
 
       path = self.pathfinder.find(grid, character, x, y, false);
 
@@ -337,11 +341,11 @@ define([
       return path;
     },
 
-    onInput: function(inputType, data) {
+    onInput(inputType, data) {
       this.input.handle(inputType, data);
     },
 
-    handleDisconnection: function(noError) {
+    handleDisconnection(noError) {
       const self = this;
 
       /**
@@ -371,7 +375,7 @@ define([
       self.app.updateLoader("");
     },
 
-    respawn: function() {
+    respawn() {
       const self = this;
 
       self.audio.play(Modules.AudioTypes.SFX, "revive");
@@ -380,7 +384,7 @@ define([
       self.socket.send(Packets.Respawn, [self.player.id]);
     },
 
-    tradeWith: function(player) {
+    tradeWith(player) {
       const self = this;
 
       if (!player || player.id === self.player.id) return;
@@ -388,7 +392,7 @@ define([
       self.socket.send(Packets.Trade, [Packets.TradeOpcode.Request, player.id]);
     },
 
-    resize: function() {
+    resize() {
       const self = this;
 
       self.renderer.resize();
@@ -396,32 +400,33 @@ define([
       if (self.pointer) self.pointer.resize();
     },
 
-    createPlayer: function() {
+    createPlayer() {
       this.player = new Player();
     },
 
-    getScaleFactor: function() {
+    getScaleFactor() {
       return this.app.getScaleFactor();
     },
 
-    getStorage: function() {
+    getStorage() {
       return this.storage;
     },
 
-    getCamera: function() {
+    getCamera() {
       return this.renderer.camera;
     },
 
-    getSprite: function(spriteName) {
+    getSprite(spriteName) {
       return this.entities.getSprite(spriteName);
     },
 
-    getEntityAt: function(x, y, ignoreSelf) {
+    getEntityAt(x, y, ignoreSelf) {
       const self = this;
       const entities = self.entities.grids.renderingGrid[y][x];
 
-      if (_.size(entities) > 0)
-      { return entities[_.keys(entities)[ignoreSelf ? 1 : 0]]; }
+      if (_.size(entities) > 0) {
+        return entities[_.keys(entities)[ignoreSelf ? 1 : 0]];
+      }
 
       const items = self.entities.grids.itemGrid[y][x];
 
@@ -434,43 +439,43 @@ define([
       }
     },
 
-    getStorageUsername: function() {
+    getStorageUsername() {
       return this.storage.data.player.username;
     },
 
-    getStoragePassword: function() {
+    getStoragePassword() {
       return this.storage.data.player.password;
     },
 
-    hasRemember: function() {
+    hasRemember() {
       return this.storage.data.player.rememberMe;
     },
 
-    setRenderer: function(renderer) {
+    setRenderer(renderer) {
       if (!this.renderer) this.renderer = renderer;
     },
 
-    setStorage: function(storage) {
+    setStorage(storage) {
       if (!this.storage) this.storage = storage;
     },
 
-    setSocket: function(socket) {
+    setSocket(socket) {
       if (!this.socket) this.socket = socket;
     },
 
-    setMessages: function(messages) {
+    setMessages(messages) {
       if (!this.messages) this.messages = messages;
     },
 
-    setUpdater: function(updater) {
+    setUpdater(updater) {
       if (!this.updater) this.updater = updater;
     },
 
-    setEntityController: function(entities) {
+    setEntityController(entities) {
       if (!this.entities) this.entities = entities;
     },
 
-    setInput: function(input) {
+    setInput(input) {
       const self = this;
 
       if (!self.input) {
@@ -479,27 +484,27 @@ define([
       }
     },
 
-    setPathfinder: function(pathfinder) {
+    setPathfinder(pathfinder) {
       if (!this.pathfinder) this.pathfinder = pathfinder;
     },
 
-    setInfo: function(info) {
+    setInfo(info) {
       if (!this.info) this.info = info;
     },
 
-    setBubble: function(bubble) {
+    setBubble(bubble) {
       if (!this.bubble) this.bubble = bubble;
     },
 
-    setPointer: function(pointer) {
+    setPointer(pointer) {
       if (!this.pointer) this.pointer = pointer;
     },
 
-    setInterface: function(intrface) {
+    setInterface(intrface) {
       if (!this.interface) this.interface = intrface;
     },
 
-    setAudio: function(audio) {
+    setAudio(audio) {
       if (!this.audio) this.audio = audio;
     }
   });

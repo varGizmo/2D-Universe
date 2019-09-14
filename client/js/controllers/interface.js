@@ -11,7 +11,7 @@ define([
   "../interface/shop"
 ], function($, Inventory, Profile, Actions, Bank, Enchant, Warp, Shop) {
   return Class.extend({
-    init: function(game) {
+    init(game) {
       const self = this;
 
       self.game = game;
@@ -38,7 +38,7 @@ define([
       });
     },
 
-    resize: function() {
+    resize() {
       const self = this;
 
       if (self.inventory) self.inventory.resize();
@@ -52,7 +52,7 @@ define([
       if (self.shop && self.shop.isVisible()) self.shop.resize();
     },
 
-    loadInventory: function(size, data) {
+    loadInventory(size, data) {
       const self = this;
 
       /**
@@ -65,7 +65,7 @@ define([
       self.inventory.load(data);
     },
 
-    loadBank: function(size, data) {
+    loadBank(size, data) {
       const self = this;
 
       /**
@@ -80,37 +80,37 @@ define([
       self.loadEnchant();
     },
 
-    loadProfile: function() {
+    loadProfile() {
       const self = this;
 
       if (!self.profile) self.profile = new Profile(self.game);
     },
 
-    loadActions: function() {
+    loadActions() {
       const self = this;
 
       if (!self.actions) self.actions = new Actions(self);
     },
 
-    loadEnchant: function() {
+    loadEnchant() {
       const self = this;
 
       if (!self.enchant) self.enchant = new Enchant(self.game, self);
     },
 
-    loadWarp: function() {
+    loadWarp() {
       const self = this;
 
       if (!self.warp) self.warp = new Warp(self.game, self);
     },
 
-    loadShop: function() {
+    loadShop() {
       const self = this;
 
       if (!self.shop) self.shop = new Shop(self.game, self);
     },
 
-    loadNotifications: function() {
+    loadNotifications() {
       const self = this;
       const ok = $("#ok");
       const cancel = $("#cancel");
@@ -140,7 +140,7 @@ define([
       });
     },
 
-    hideAll: function() {
+    hideAll() {
       const self = this;
 
       if (self.inventory && self.inventory.isVisible()) self.inventory.hide();
@@ -169,7 +169,7 @@ define([
       if (self.shop && self.shop.isVisible()) self.shop.hide();
     },
 
-    displayNotify: function(message) {
+    displayNotify(message) {
       const self = this;
 
       if (self.isNotifyVisible()) return;
@@ -181,7 +181,7 @@ define([
       self.message.text(message);
     },
 
-    displayConfirm: function(message) {
+    displayConfirm(message) {
       const self = this;
 
       if (self.isConfirmVisible()) return;
@@ -190,7 +190,7 @@ define([
       self.confirm.text(message);
     },
 
-    hideNotify: function() {
+    hideNotify() {
       const self = this;
 
       self.fade.css("display", "none");
@@ -198,19 +198,19 @@ define([
       self.message.css("display", "none");
     },
 
-    hideConfirm: function() {
+    hideConfirm() {
       this.confirm.css("display", "none");
     },
 
-    getQuestPage: function() {
+    getQuestPage() {
       return this.profile.quests;
     },
 
-    isNotifyVisible: function() {
+    isNotifyVisible() {
       return this.notify.css("display") === "block";
     },
 
-    isConfirmVisible: function() {
+    isConfirmVisible() {
       return this.confirm.css("display") === "block";
     }
   });

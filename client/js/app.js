@@ -2,7 +2,7 @@
 
 define(["jquery"], function($) {
   return Class.extend({
-    init: function() {
+    init() {
       const self = this;
 
       log.info("Loading the main application...");
@@ -52,7 +52,7 @@ define(["jquery"], function($) {
       self.load();
     },
 
-    load: function() {
+    load() {
       const self = this;
 
       self.loginButton.click(function() {
@@ -161,8 +161,9 @@ define(["jquery"], function($) {
           !self.game.input ||
           !self.game.started ||
           event.target.id !== "textCanvas"
-        )
-        { return; }
+        ) {
+          return;
+        }
 
         self.game.input.setCoords(event);
         self.game.input.moveCursor();
@@ -181,7 +182,7 @@ define(["jquery"], function($) {
       });
     },
 
-    login: function() {
+    login() {
       const self = this;
 
       if (
@@ -190,14 +191,15 @@ define(["jquery"], function($) {
         !self.game.loaded ||
         self.statusMessage ||
         !self.verifyForm()
-      )
-      { return; }
+      ) {
+        return;
+      }
 
       self.toggleLogin(true);
       self.game.connect();
     },
 
-    zoom: function() {
+    zoom() {
       const self = this;
 
       const containerWidth = self.container.width();
@@ -206,13 +208,15 @@ define(["jquery"], function($) {
       const windowHeight = self.window.height();
       let zoomFactor = windowWidth / containerWidth;
 
-      if (containerHeight + 50 >= windowHeight)
-      { zoomFactor = windowHeight / containerHeight; }
+      if (containerHeight + 50 >= windowHeight) {
+        zoomFactor = windowHeight / containerHeight;
+      }
 
       if (self.getScaleFactor() === 3) zoomFactor -= 0.1;
 
-      if (self.getScaleFactor() === 1 && windowWidth > windowHeight)
-      { zoomFactor -= 0.32; }
+      if (self.getScaleFactor() === 1 && windowWidth > windowHeight) {
+        zoomFactor -= 0.32;
+      }
 
       self.body.css({
         zoom: zoomFactor,
@@ -224,7 +228,7 @@ define(["jquery"], function($) {
       self.zoomFactor = zoomFactor;
     },
 
-    fadeMenu: function() {
+    fadeMenu() {
       const self = this;
 
       self.updateLoader(null);
@@ -236,7 +240,7 @@ define(["jquery"], function($) {
       }, 500);
     },
 
-    showMenu: function() {
+    showMenu() {
       const self = this;
 
       self.body.removeClass("game");
@@ -244,9 +248,9 @@ define(["jquery"], function($) {
       self.body.addClass("intro");
     },
 
-    showDeath: function() {},
+    showDeath() {},
 
-    openScroll: function(origin, destination) {
+    openScroll(origin, destination) {
       const self = this;
 
       if (!destination || self.loggingIn) return;
@@ -270,7 +274,7 @@ define(["jquery"], function($) {
       } else self.parchment.removeClass(origin).addClass(destination);
     },
 
-    displayScroll: function(content) {
+    displayScroll(content) {
       const self = this;
       const state = self.parchment.attr("class");
 
@@ -282,11 +286,12 @@ define(["jquery"], function($) {
         if (self.game.player) self.body.toggleClass("death");
 
         if (content !== "about") self.helpButton.removeClass("active");
-      } else if (state !== "animate")
-      { self.openScroll(state, state === content ? "loadCharacter" : content); }
+      } else if (state !== "animate") {
+        self.openScroll(state, state === content ? "loadCharacter" : content);
+      }
     },
 
-    verifyForm: function() {
+    verifyForm() {
       const self = this;
       const activeForm = self.getActiveForm();
 
@@ -297,8 +302,9 @@ define(["jquery"], function($) {
           const nameInput = $("#loginNameInput");
           const passwordInput = $("#loginPasswordInput");
 
-          if (self.loginFields.length === 0)
-          { self.loginFields = [nameInput, passwordInput]; }
+          if (self.loginFields.length === 0) {
+            self.loginFields = [nameInput, passwordInput];
+          }
 
           if (!nameInput.val() && !self.isGuest()) {
             self.sendError(nameInput, "Please enter a username.");
@@ -320,13 +326,14 @@ define(["jquery"], function($) {
           );
           const email = $("#registerEmailInput");
 
-          if (self.registerFields.length === 0)
-          { self.registerFields = [
-            characterName,
-            registerPassword,
-            registerPasswordConfirmation,
-            email
-          ]; }
+          if (self.registerFields.length === 0) {
+            self.registerFields = [
+              characterName,
+              registerPassword,
+              registerPasswordConfirmation,
+              email
+            ];
+          }
 
           if (!characterName.val()) {
             self.sendError(characterName, "A username is necessary you silly.");
@@ -357,13 +364,13 @@ define(["jquery"], function($) {
       return true;
     },
 
-    verifyEmail: function(email) {
-      return /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+    verifyEmail(email) {
+      return /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
         email
       );
     },
 
-    sendStatus: function(message) {
+    sendStatus(message) {
       const self = this;
 
       self.cleanErrors();
@@ -382,7 +389,7 @@ define(["jquery"], function($) {
       );
     },
 
-    sendError: function(field, error) {
+    sendError(field, error) {
       this.cleanErrors();
 
       $("<span></span>", {
@@ -402,48 +409,47 @@ define(["jquery"], function($) {
       });
     },
 
-    cleanErrors: function() {
+    cleanErrors() {
       const self = this;
       const activeForm = self.getActiveForm();
       const fields =
-          activeForm === "loadCharacter"
-            ? self.loginFields
-            : self.registerFields;
+        activeForm === "loadCharacter" ? self.loginFields : self.registerFields;
 
-      for (let i = 0; i < fields.length; i++)
-      { fields[i].removeClass("field-error"); }
+      for (let i = 0; i < fields.length; i++) {
+        fields[i].removeClass("field-error");
+      }
 
       $(".validation-error").remove();
       $(".status").remove();
     },
 
-    getActiveForm: function() {
+    getActiveForm() {
       return this.parchment[0].className;
     },
 
-    isRegistering: function() {
+    isRegistering() {
       return this.getActiveForm() === "createCharacter";
     },
 
-    isGuest: function() {
+    isGuest() {
       return this.guest.hasClass("active");
     },
 
-    resize: function() {
+    resize() {
       const self = this;
 
       if (self.game) self.game.resize();
     },
 
-    setGame: function(game) {
+    setGame(game) {
       this.game = game;
     },
 
-    hasWorker: function() {
+    hasWorker() {
       return !!window.Worker;
     },
 
-    getScaleFactor: function() {
+    getScaleFactor() {
       const width = window.innerWidth;
       const height = window.innerHeight;
 
@@ -456,11 +462,11 @@ define(["jquery"], function($) {
       return width <= 1000 ? 1 : width <= 1500 || height <= 870 ? 2 : 3;
     },
 
-    revertLoader: function() {
+    revertLoader() {
       this.updateLoader("Connecting");
     },
 
-    updateLoader: function(message) {
+    updateLoader(message) {
       const self = this;
 
       if (!message) {
@@ -473,7 +479,7 @@ define(["jquery"], function($) {
       self.loading.html(message + dots);
     },
 
-    toggleLogin: function(toggle) {
+    toggleLogin(toggle) {
       const self = this;
 
       self.revertLoader();
@@ -495,24 +501,26 @@ define(["jquery"], function($) {
       }
     },
 
-    toggleTyping: function(state) {
+    toggleTyping(state) {
       const self = this;
 
-      if (self.loginFields)
-      { _.each(self.loginFields, function(field) {
-        field.prop("readonly", state);
-      }); }
+      if (self.loginFields) {
+        _.each(self.loginFields, function(field) {
+          field.prop("readonly", state);
+        });
+      }
 
-      if (self.registerFields)
-      { _.each(self.registerFields, function(field) {
-        field.prop("readOnly", state);
-      }); }
+      if (self.registerFields) {
+        _.each(self.registerFields, function(field) {
+          field.prop("readOnly", state);
+        });
+      }
     },
 
-    updateRange: function(obj) {
+    updateRange(obj) {
       const self = this;
       const val =
-          (obj.val() - obj.attr("min")) / (obj.attr("max") - obj.attr("min"));
+        (obj.val() - obj.attr("min")) / (obj.attr("max") - obj.attr("min"));
 
       obj.css(
         "background-image",
@@ -527,27 +535,27 @@ define(["jquery"], function($) {
       );
     },
 
-    updateOrientation: function() {
+    updateOrientation() {
       this.orientation = this.getOrientation();
     },
 
-    getOrientation: function() {
+    getOrientation() {
       return window.innerHeight > window.innerWidth ? "portrait" : "landscape";
     },
 
-    getZoom: function() {
+    getZoom() {
       return this.zoomFactor;
     },
 
-    onReady: function(callback) {
+    onReady(callback) {
       this.readyCallback = callback;
     },
 
-    isMobile: function() {
+    isMobile() {
       return this.getScaleFactor() < 2;
     },
 
-    isTablet: function() {
+    isTablet() {
       return (
         Detect.isIpad() || (Detect.isAndroid() && this.getScaleFactor() > 1)
       );

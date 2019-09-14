@@ -160,6 +160,7 @@
 
   display: none;
   position: absolute;
+  -ms-user-select: none;
   user-select: none;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -493,6 +494,8 @@
 }
 
 .shopItem {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
   display: inline-flex;
   width: 98%;
   height: 5%;
@@ -504,6 +507,7 @@
   width: 32px;
   height: 32px;
   border: 2px solid rgba(0, 0, 255, 0.3);
+  -webkit-transform: scale(0.9);
   transform: scale(0.9);
   border-radius: 100%;
 }
@@ -527,8 +531,6 @@
   position: relative;
   float: left;
   border: 2px solid rgba(0, 255, 0, 0.3);
-  -webkit-border-radius: 30%;
-  -moz-border-radius: 30%;
   border-radius: 30%;
   padding-top: 4%;
   left: 65%;
@@ -640,8 +642,6 @@
     margin-left: 3px;
     margin-top: 3px;
     margin-bottom: 21px;
-    -webkit-border-radius: 9px;
-    -moz-border-radius: 9px;
     border-radius: 9px;
     border: 3px solid #707070;
   }
@@ -999,8 +999,6 @@
   }
 
   .questName {
-    -webkit-border-radius: 12px;
-    -moz-border-radius: 12px;
     border-radius: 12px;
   }
 
@@ -1249,8 +1247,6 @@
     margin-left: 2px;
     margin-top: 2px;
     margin-bottom: 14px;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
     border-radius: 3px;
     border: 2px solid #707070;
   }
@@ -1630,8 +1626,6 @@
 
   .questName {
     font-size: 20px;
-    -webkit-border-radius: 8px;
-    -moz-border-radius: 8px;
     border-radius: 8px;
   }
 
@@ -1727,6 +1721,7 @@
   #buttons {
     width: 140px;
     height: 30px;
+    -webkit-transform: scale(0.8);
     transform: scale(0.8);
     margin-left: 350px;
     margin-top: 229px;
@@ -1875,8 +1870,6 @@
     margin-left: 1px;
     margin-top: 1px;
     margin-bottom: 7px;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
     border-radius: 3px;
     border: 1px solid #707070;
   }
@@ -2238,8 +2231,6 @@
   .questName {
     border: 1px solid #373737;
     font-size: 10px;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
     border-radius: 4px;
   }
 
@@ -2344,7 +2335,6 @@
     width: 16px;
     height: 16px;
     border: 1px solid rgba(0, 0, 255, 0.3);
-    -webkit-background-size: 600%;
     background-size: 600%;
   }
 

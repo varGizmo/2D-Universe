@@ -2,7 +2,7 @@
 
 define(["jquery"], function($) {
   return Class.extend({
-    init: function(game) {
+    init(game) {
       const self = this;
 
       self.game = game;
@@ -25,7 +25,7 @@ define(["jquery"], function($) {
       });
     },
 
-    add: function(source, text, colour) {
+    add(source, text, colour) {
       const self = this;
       const element = $("<p>" + source + ": " + text + "</p>");
 
@@ -41,7 +41,7 @@ define(["jquery"], function($) {
       self.log.scrollTop(99999);
     },
 
-    key: function(data) {
+    key(data) {
       const self = this;
 
       switch (data) {
@@ -53,14 +53,14 @@ define(["jquery"], function($) {
       }
     },
 
-    send: function() {
+    send() {
       const self = this;
 
       self.game.socket.send(Packets.Chat, [self.input.val()]);
       self.toggle();
     },
 
-    toggle: function() {
+    toggle() {
       const self = this;
 
       self.clean();
@@ -75,7 +75,7 @@ define(["jquery"], function($) {
       }
     },
 
-    showChat: function() {
+    showChat() {
       const self = this;
 
       self.chat.fadeIn("fast");
@@ -83,7 +83,7 @@ define(["jquery"], function($) {
       self.visible = true;
     },
 
-    showInput: function() {
+    showInput() {
       const self = this;
 
       self.button.addClass("active");
@@ -95,7 +95,7 @@ define(["jquery"], function($) {
       self.clean();
     },
 
-    hideChat: function() {
+    hideChat() {
       const self = this;
 
       if (self.fadingTimeout) {
@@ -112,7 +112,7 @@ define(["jquery"], function($) {
       }, self.fadingDuration);
     },
 
-    hideInput: function() {
+    hideInput() {
       const self = this;
 
       self.button.removeClass("active");
@@ -124,14 +124,14 @@ define(["jquery"], function($) {
       self.hideChat();
     },
 
-    clean: function() {
+    clean() {
       const self = this;
 
       clearTimeout(self.fadingTimeout);
       self.fadingTimeout = null;
     },
 
-    isActive: function() {
+    isActive() {
       return this.input.is(":focus");
     }
   });

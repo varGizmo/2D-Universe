@@ -1,6 +1,6 @@
 define(function() {
   return Class.extend({
-    init: function() {
+    init() {
       const self = this;
 
       self.startValue = 0;
@@ -9,7 +9,7 @@ define(function() {
       self.inProgress = false;
     },
 
-    start: function(
+    start(
       currentTime,
       updateFunction,
       stopFunction,
@@ -30,7 +30,7 @@ define(function() {
       self.count = 0;
     },
 
-    step: function(currentTime) {
+    step(currentTime) {
       const self = this;
 
       if (!self.inProgress) return;
@@ -53,7 +53,7 @@ define(function() {
       }
     },
 
-    restart: function(currentTime, startValue, endValue) {
+    restart(currentTime, startValue, endValue) {
       const self = this;
 
       self.start(
@@ -67,7 +67,7 @@ define(function() {
       self.step(currentTime);
     },
 
-    stop: function() {
+    stop() {
       this.inProgress = false;
     }
   });

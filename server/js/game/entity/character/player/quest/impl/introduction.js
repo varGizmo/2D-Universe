@@ -127,7 +127,8 @@ class Introduction extends Quest {
   }
 
   toggleChat() {
-    this.player.canTalk = !this.player.canTalk;
+    // TODO: Player Chat Lock
+    // this.player.canTalk = !this.player.canTalk;
   }
 
   setStage(stage) {

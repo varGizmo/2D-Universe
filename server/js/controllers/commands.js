@@ -44,16 +44,15 @@ class Commands {
 
     switch (command) {
       case "players":
-        {
-          const population = self.world.getPopulation();
-          const singular = population === 1;
+        const population = self.world.getPopulation();
+        const singular = population === 1;
 
-          self.player.notify(
-            `There ${singular ? "is" : "are"} currently ${population} ${
-              singular ? "person" : "people"
-            } online.`
-          );
-        }
+        self.player.notify(
+          `There ${singular ? "is" : "are"} currently ${population} ${
+            singular ? "person" : "people"
+          } online.`
+        );
+
         break;
 
       case "tutstage":
@@ -72,16 +71,15 @@ class Commands {
         break;
 
       case "progress":
-        {
-          const tutorialQuest = self.player.getTutorial();
+        const tutorialQuest = self.player.getTutorial();
 
-          self.player.send(
-            new Messages.Quest(Packets.QuestOpcode.Progress, {
-              id: tutorialQuest.id,
-              stage: tutorialQuest.stage
-            })
-          );
-        }
+        self.player.send(
+          new Messages.Quest(Packets.QuestOpcode.Progress, {
+            id: tutorialQuest.id,
+            stage: tutorialQuest.stage
+          })
+        );
+
         break;
 
       case "global":
@@ -106,17 +104,18 @@ class Commands {
         break;
 
       case "resetintro":
-        {
-          const introduction = self.player.quests.getQuest(0);
+        const introduction = self.player.quests.getQuest(0);
 
-          introduction.setStage(0);
-          introduction.clearPointers();
-          introduction.update();
-          introduction.updatePointers();
+        introduction.setStage(0);
+        introduction.clearPointers();
+        introduction.update();
+        introduction.updatePointers();
 
-          self.player.updateRegion(true);
-          self.player.save();
-        }
+        self.player.updateRegion(true);
+        self.player.save();
+        break;
+      case "mapedit": // TODO: Mapedit
+        self.player.notify("Mapedit... Coming soon");
         break;
     }
   }

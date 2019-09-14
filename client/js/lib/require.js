@@ -369,22 +369,22 @@ var requirejs, require, define;
     var A = 1;
     return (
       (E = {
-        require: function(e) {
+        require(e) {
           return e.require ? e.require : (e.require = q.makeRequire(e.map));
         },
-        exports: function(e) {
+        exports(e) {
           if (((e.usingExports = !0), e.map.isDefine))
           { return e.exports
             ? (j[e.map.id] = e.exports)
             : (e.exports = j[e.map.id] = {}); }
         },
-        module: function(e) {
+        module(e) {
           return e.module
             ? e.module
             : (e.module = {
               id: e.map.id,
               uri: e.map.url,
-              config: function() {
+              config() {
                 return getOwn(y.config, e.map.id) || {};
               },
               exports: e.exports || (e.exports = {})
@@ -402,7 +402,7 @@ var requirejs, require, define;
         (this.depCount = 0);
       }),
       (b.prototype = {
-        init: function(e, t, i, r) {
+        init(e, t, i, r) {
           (r = r || {}),
           this.inited ||
               ((this.factory = t),
@@ -418,13 +418,13 @@ var requirejs, require, define;
               (this.ignore = r.ignore),
               r.enabled || this.enabled ? this.enable() : this.check());
         },
-        defineDep: function(e, t) {
+        defineDep(e, t) {
           this.depMatched[e] ||
             ((this.depMatched[e] = !0),
             (this.depCount -= 1),
             (this.depExports[e] = t));
         },
-        fetch: function() {
+        fetch() {
           if (!this.fetched) {
             (this.fetched = !0), (q.startTime = new Date().getTime());
             var e = this.map;
@@ -440,11 +440,11 @@ var requirejs, require, define;
                 : this.load();
           }
         },
-        load: function() {
+        load() {
           var e = this.map.url;
           P[e] || ((P[e] = !0), q.load(this.map.id, e));
         },
-        check: function() {
+        check() {
           if (this.enabled && !this.enabling) {
             var e;
             var t;
@@ -513,7 +513,7 @@ var requirejs, require, define;
             } else hasProp(q.defQueueMap, i) || this.fetch();
           }
         },
-        callPlugin: function() {
+        callPlugin() {
           var e = this.map;
           var t = e.id;
           var r = a(e.prefix);
@@ -617,7 +617,7 @@ var requirejs, require, define;
           q.enable(r, this),
           (this.pluginMaps[r.id] = r);
         },
-        enable: function() {
+        enable() {
           (k[this.map.id] = this),
           (this.enabled = !0),
           (this.enabling = !0),
@@ -671,11 +671,11 @@ var requirejs, require, define;
           (this.enabling = !1),
           this.check();
         },
-        on: function(e, t) {
+        on(e, t) {
           var i = this.events[e];
           i || (i = this.events[e] = []), i.push(t);
         },
-        emit: function(e, t) {
+        emit(e, t) {
           each(this.events[e], function(e) {
             e(t);
           }),
@@ -694,7 +694,7 @@ var requirejs, require, define;
         makeModuleMap: a,
         nextTick: req.nextTick,
         onError: c,
-        configure: function(e) {
+        configure(e) {
           if (
             (e.baseUrl &&
               e.baseUrl.charAt(e.baseUrl.length - 1) !== "/" &&
@@ -745,7 +745,7 @@ var requirejs, require, define;
           }),
           (e.deps || e.callback) && q.require(e.deps || [], e.callback);
         },
-        makeShimExports: function(e) {
+        makeShimExports(e) {
           function t() {
             var t;
             return (
@@ -755,7 +755,7 @@ var requirejs, require, define;
           }
           return t;
         },
-        makeRequire: function(t, n) {
+        makeRequire(t, n) {
           function o(i, r, u) {
             var d, p, f;
             return (
@@ -799,7 +799,7 @@ var requirejs, require, define;
             (n = n || {}),
             mixin(o, {
               isBrowser: isBrowser,
-              toUrl: function(e) {
+              toUrl(e) {
                 var r;
                 var n = e.lastIndexOf(".");
                 var o = e.split("/")[0];
@@ -811,10 +811,10 @@ var requirejs, require, define;
                   q.nameToUrl(i(e, t && t.id, !0), r, !0)
                 );
               },
-              defined: function(e) {
+              defined(e) {
                 return hasProp(j, a(e, t, !1, !0).id);
               },
-              specified: function(e) {
+              specified(e) {
                 return (e = a(e, t, !1, !0).id), hasProp(j, e) || hasProp(S, e);
               }
             }),
@@ -837,11 +837,11 @@ var requirejs, require, define;
             o
           );
         },
-        enable: function(e) {
+        enable(e) {
           var t = getOwn(S, e.id);
           t && s(e).enable();
         },
-        completeLoad: function(e) {
+        completeLoad(e) {
           var t;
           var i;
           var r;
@@ -869,7 +869,7 @@ var requirejs, require, define;
           }
           l();
         },
-        nameToUrl: function(e, t, i) {
+        nameToUrl(e, t, i) {
           var r;
           var n;
           var o;
@@ -895,13 +895,13 @@ var requirejs, require, define;
           }
           return y.urlArgs && !/^blob\:/.test(s) ? s + y.urlArgs(e, s) : s;
         },
-        load: function(e, t) {
+        load(e, t) {
           req.load(q, e, t);
         },
-        execCb: function(e, t, i, r) {
+        execCb(e, t, i, r) {
           return t.apply(r, i);
         },
-        onScriptLoad: function(e) {
+        onScriptLoad(e) {
           if (
             e.type === "load" ||
             readyRegExp.test((e.currentTarget || e.srcElement).readyState)
@@ -911,7 +911,7 @@ var requirejs, require, define;
             q.completeLoad(t.id);
           }
         },
-        onScriptError: function(e) {
+        onScriptError(e) {
           var t = g(e);
           if (!n(t.id)) {
             var i = [];

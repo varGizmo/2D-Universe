@@ -4,7 +4,7 @@ define(["jquery", "../page"], function($, Page) {
   return Class.extend({
     // TODO - Hide crpyto mining option on mobiles and completely disable it.
 
-    init: function(game) {
+    init(game) {
       const self = this;
 
       self.game = game;
@@ -34,7 +34,7 @@ define(["jquery", "../page"], function($, Page) {
       self.load();
     },
 
-    load: function() {
+    load() {
       const self = this;
 
       if (self.loaded) return;
@@ -170,114 +170,114 @@ define(["jquery", "../page"], function($, Page) {
       self.loaded = true;
     },
 
-    show: function() {
+    show() {
       this.body.fadeIn("slow");
     },
 
-    hide: function() {
+    hide() {
       this.body.fadeOut("fast");
     },
 
-    setMusicLevel: function(musicLevel) {
+    setMusicLevel(musicLevel) {
       const self = this;
 
       self.storage.data.settings.music = musicLevel;
       self.storage.save();
     },
 
-    setSFXLevel: function(sfxLevel) {
+    setSFXLevel(sfxLevel) {
       const self = this;
 
       self.storage.data.settings.sfx = sfxLevel;
       self.storage.save();
     },
 
-    setBrightness: function(brightness) {
+    setBrightness(brightness) {
       const self = this;
 
       self.storage.data.settings.brightness = brightness;
       self.storage.save();
     },
 
-    setSound: function(state) {
+    setSound(state) {
       const self = this;
 
       self.storage.data.settings.soundEnabled = state;
       self.storage.save();
     },
 
-    setCamera: function(state) {
+    setCamera(state) {
       const self = this;
 
       self.storage.data.settings.centerCamera = state;
       self.storage.save();
     },
 
-    setDebug: function(state) {
+    setDebug(state) {
       const self = this;
 
       self.storage.data.settings.debug = state;
       self.storage.save();
     },
 
-    setCentre: function(state) {
+    setCentre(state) {
       const self = this;
 
       self.storage.data.settings.autoCentre = state;
       self.storage.save();
     },
 
-    setName: function(state) {
+    setName(state) {
       const self = this;
 
       self.storage.data.settings.showNames = state;
       self.storage.save();
     },
 
-    setLevel: function(state) {
+    setLevel(state) {
       const self = this;
 
       self.storage.data.settings.showLevels = state;
       self.storage.save();
     },
 
-    getMusicLevel: function() {
+    getMusicLevel() {
       return this.storage.data.settings.music;
     },
 
-    getSFXLevel: function() {
+    getSFXLevel() {
       return this.storage.data.settings.sfx;
     },
 
-    getBrightness: function() {
+    getBrightness() {
       return this.storage.data.settings.brightness;
     },
 
-    getSound: function() {
+    getSound() {
       return this.storage.data.settings.soundEnabled;
     },
 
-    getCamera: function() {
+    getCamera() {
       return this.storage.data.settings.centerCamera;
     },
 
-    getDebug: function() {
+    getDebug() {
       return this.storage.data.settings.debug;
     },
 
-    getCentreCap: function() {
+    getCentreCap() {
       return this.storage.data.settings.autoCentre;
     },
 
-    getName: function() {
+    getName() {
       return this.storage.data.settings.showNames;
     },
 
-    getLevel: function() {
+    getLevel() {
       return this.storage.data.settings.showLevels;
     },
 
-    isVisible: function() {
+    isVisible() {
       return this.body.css("display") === "block";
     }
   });

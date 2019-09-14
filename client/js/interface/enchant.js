@@ -1,6 +1,6 @@
 define(["jquery"], function($) {
   return Class.extend({
-    init: function(game, intrface) {
+    init(game, intrface) {
       const self = this;
 
       self.game = game;
@@ -29,13 +29,13 @@ define(["jquery"], function($) {
       });
     },
 
-    resize: function() {
+    resize() {
       const self = this;
 
       self.load();
     },
 
-    load: function() {
+    load() {
       const self = this;
       const list = self.getSlots();
       const inventoryList = self.interface.bank.getInventoryList();
@@ -62,7 +62,7 @@ define(["jquery"], function($) {
       });
     },
 
-    add: function(type, index) {
+    add(type, index) {
       const self = this;
       const image = self.getSlot(index).find("#inventoryImage" + index);
 
@@ -102,7 +102,7 @@ define(["jquery"], function($) {
         .text("");
     },
 
-    moveBack: function(type, index) {
+    moveBack(type, index) {
       const self = this;
       const image = self.getSlot(index).find("#inventoryImage" + index);
       const itemCount = self.getSlot(index).find("#inventoryItemCount" + index);
@@ -137,40 +137,40 @@ define(["jquery"], function($) {
       }
     },
 
-    enchant: function() {
+    enchant() {
       this.game.socket.send(Packets.Enchant, [Packets.EnchantOpcode.Enchant]);
     },
 
-    select: function(event) {
+    select(event) {
       this.game.socket.send(Packets.Enchant, [
         Packets.EnchantOpcode.Select,
         event.currentTarget.id.substring(17)
       ]);
     },
 
-    remove: function(type) {
+    remove(type) {
       this.game.socket.send(Packets.Enchant, [
         Packets.EnchantOpcode.Remove,
         type
       ]);
     },
 
-    getInventorySize: function() {
+    getInventorySize() {
       return this.interface.inventory.getSize();
     },
 
-    getItemSlot: function(index) {
+    getItemSlot(index) {
       return this.interface.inventory.container.slots[index];
     },
 
-    display: function() {
+    display() {
       const self = this;
 
       self.body.fadeIn("fast");
       self.load();
     },
 
-    hide: function() {
+    hide() {
       const self = this;
 
       self.selectedItem.css("background-image", "");
@@ -179,19 +179,19 @@ define(["jquery"], function($) {
       self.body.fadeOut("fast");
     },
 
-    hasImage: function(image) {
+    hasImage(image) {
       return image.css("background-image") !== "none";
     },
 
-    getSlot: function(index) {
+    getSlot(index) {
       return $(this.getSlots().find("li")[index]);
     },
 
-    getSlots: function() {
+    getSlots() {
       return this.enchantSlots.find("ul");
     },
 
-    isVisible: function() {
+    isVisible() {
       return this.body.css("display") === "block";
     }
   });

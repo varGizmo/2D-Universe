@@ -7,7 +7,7 @@ define(function() {
    */
 
   return Class.extend({
-    init: function(game, player) {
+    init(game, player) {
       const self = this;
 
       self.game = game;
@@ -21,7 +21,7 @@ define(function() {
       self.load();
     },
 
-    load: function() {
+    load() {
       const self = this;
 
       self.player.onRequestPath(function(x, y) {
@@ -152,7 +152,7 @@ define(function() {
       });
     },
 
-    isAttackable: function() {
+    isAttackable() {
       const self = this;
       const target = self.player.target;
 
@@ -161,7 +161,7 @@ define(function() {
       return target.type === "mob" || (target.type === "player" && target.pvp);
     },
 
-    checkBounds: function() {
+    checkBounds() {
       const self = this;
       const x = self.player.gridX - self.camera.gridX;
       const y = self.player.gridY - self.camera.gridY;

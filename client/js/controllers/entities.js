@@ -22,7 +22,7 @@ define([
   Projectile
 ) {
   return Class.extend({
-    init: function(game) {
+    init(game) {
       const self = this;
 
       self.game = game;
@@ -35,7 +35,7 @@ define([
       self.decrepit = {};
     },
 
-    load: function() {
+    load() {
       const self = this;
 
       self.game.app.sendStatus("Loading sprites");
@@ -53,13 +53,13 @@ define([
       if (!self.grids) self.grids = new Grids(self.game.map);
     },
 
-    update: function() {
+    update() {
       const self = this;
 
       if (self.sprites) self.sprites.updateSprites();
     },
 
-    create: function(info) {
+    create(info) {
       const self = this;
       let entity;
 
@@ -257,11 +257,11 @@ define([
        */
     },
 
-    isPlayer: function(id) {
+    isPlayer(id) {
       return this.game.player.id === id;
     },
 
-    get: function(id) {
+    get(id) {
       const self = this;
 
       if (id in self.entities) return self.entities[id];
@@ -269,11 +269,11 @@ define([
       return null;
     },
 
-    exists: function(id) {
+    exists(id) {
       return id in this.entities;
     },
 
-    removeEntity: function(entity) {
+    removeEntity(entity) {
       const self = this;
 
       self.grids.removeFromPathingGrid(entity.gridX, entity.gridY);
@@ -282,7 +282,7 @@ define([
       delete self.entities[entity.id];
     },
 
-    clean: function(ids) {
+    clean(ids) {
       const self = this;
 
       ids = ids[0];
@@ -300,7 +300,7 @@ define([
       self.grids.resetPathingGrid();
     },
 
-    clearPlayers: function(exception) {
+    clearPlayers(exception) {
       const self = this;
 
       _.each(self.entities, function(entity) {
@@ -311,7 +311,7 @@ define([
       self.grids.resetPathingGrid();
     },
 
-    addEntity: function(entity) {
+    addEntity(entity) {
       const self = this;
 
       if (self.entities[entity.id]) return;
@@ -326,7 +326,7 @@ define([
       { entity.fadeIn(self.game.time); }
     },
 
-    removeItem: function(item) {
+    removeItem(item) {
       const self = this;
 
       if (!item) return;
@@ -337,7 +337,7 @@ define([
       delete self.entities[item.id];
     },
 
-    registerPosition: function(entity) {
+    registerPosition(entity) {
       const self = this;
 
       if (!entity) return;
@@ -360,7 +360,7 @@ define([
       self.grids.addToRenderingGrid(entity, entity.gridX, entity.gridY);
     },
 
-    registerDuality: function(entity) {
+    registerDuality(entity) {
       const self = this;
 
       if (!entity) return;
@@ -379,7 +379,7 @@ define([
       }
     },
 
-    unregisterPosition: function(entity) {
+    unregisterPosition(entity) {
       const self = this;
 
       if (!entity) return;
@@ -387,21 +387,21 @@ define([
       self.grids.removeEntity(entity);
     },
 
-    getSprite: function(name) {
+    getSprite(name) {
       return this.sprites.sprites[name];
     },
 
-    getAll: function() {
+    getAll() {
       return this.entities;
     },
 
-    forEachEntity: function(callback) {
+    forEachEntity(callback) {
       _.each(this.entities, function(entity) {
         callback(entity);
       });
     },
 
-    forEachEntityAround: function(x, y, radius, callback) {
+    forEachEntityAround(x, y, radius, callback) {
       const self = this;
 
       for (let i = x - radius, max_i = x + radius; i <= max_i; i++) {

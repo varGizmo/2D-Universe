@@ -2,7 +2,7 @@
 
 define(["jquery"], function($) {
   return Class.extend({
-    init: function(game) {
+    init(game) {
       const self = this;
 
       self.game = game;
@@ -25,7 +25,7 @@ define(["jquery"], function($) {
       self.ready();
     },
 
-    ready: function() {
+    ready() {
       const self = this;
       const rC = function() {
         if (self.readyCallback) self.readyCallback();
@@ -39,7 +39,7 @@ define(["jquery"], function($) {
       }, 50); }
     },
 
-    load: function() {
+    load() {
       const self = this;
 
       if (self.supportsWorker) {
@@ -70,7 +70,7 @@ define(["jquery"], function($) {
       }
     },
 
-    synchronize: function(tileData) {
+    synchronize(tileData) {
       const self = this;
       // Use traditional for-loop instead of _
 
@@ -92,7 +92,7 @@ define(["jquery"], function($) {
       self.saveRegionData();
     },
 
-    loadTilesets: function() {
+    loadTilesets() {
       const self = this;
 
       if (self.rawTilesets.length < 1) return;
@@ -106,7 +106,7 @@ define(["jquery"], function($) {
       self.tilesetsLoaded = true;
     },
 
-    loadTileset: function(path, rawTileset) {
+    loadTileset(path, rawTileset) {
       const self = this;
       const tileset = new Image();
 
@@ -126,7 +126,7 @@ define(["jquery"], function($) {
       return tileset;
     },
 
-    parseMap: function(map) {
+    parseMap(map) {
       const self = this;
 
       self.width = map.width;
@@ -142,7 +142,7 @@ define(["jquery"], function($) {
       for (let i = 0; i < self.width * self.height - 20; i++) self.data.push(0);
     },
 
-    loadCollisions: function() {
+    loadCollisions() {
       const self = this;
 
       self.grid = [];
@@ -164,7 +164,7 @@ define(["jquery"], function($) {
       });
     },
 
-    updateCollisions: function() {
+    updateCollisions() {
       const self = this;
 
       _.each(self.collisions, function(index) {
@@ -178,7 +178,7 @@ define(["jquery"], function($) {
       });
     },
 
-    indexToGridPosition: function(index) {
+    indexToGridPosition(index) {
       const self = this;
 
       index -= 1;
@@ -192,11 +192,11 @@ define(["jquery"], function($) {
       };
     },
 
-    gridPositionToIndex: function(x, y) {
+    gridPositionToIndex(x, y) {
       return y * this.width + x + 1;
     },
 
-    isColliding: function(x, y) {
+    isColliding(x, y) {
       const self = this;
 
       if (self.isOutOfBounds(x, y) || !self.grid) return false;
@@ -204,19 +204,19 @@ define(["jquery"], function($) {
       return self.grid[y][x] === 1;
     },
 
-    isHighTile: function(id) {
+    isHighTile(id) {
       return this.high.indexOf(id + 1) > -1;
     },
 
-    isLightTile: function(id) {
+    isLightTile(id) {
       return this.lights.indexOf(id + 1) > -1;
     },
 
-    isAnimatedTile: function(id) {
+    isAnimatedTile(id) {
       return id + 1 in this.animatedTiles;
     },
 
-    isOutOfBounds: function(x, y) {
+    isOutOfBounds(x, y) {
       return (
         isInt(x) &&
         isInt(y) &&
@@ -224,17 +224,17 @@ define(["jquery"], function($) {
       );
     },
 
-    getX: function(index, width) {
+    getX(index, width) {
       if (index === 0) return 0;
 
       return index % width === 0 ? width - 1 : (index % width) - 1;
     },
 
-    getTileAnimation: function(id) {
+    getTileAnimation(id) {
       return this.animatedTiles[id + 1];
     },
 
-    getTilesetFromId: function(id) {
+    getTilesetFromId(id) {
       const self = this;
 
       for (const idx in self.tilesets)
@@ -268,7 +268,7 @@ define(["jquery"], function($) {
       self.updateCollisions();
     },
 
-    onReady: function(callback) {
+    onReady(callback) {
       this.readyCallback = callback;
     }
   });

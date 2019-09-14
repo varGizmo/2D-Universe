@@ -2,7 +2,7 @@
 
 define(["../entity/character/character"], function(Character) {
   return Class.extend({
-    init: function(game) {
+    init(game) {
       const self = this;
 
       self.game = game;
@@ -12,7 +12,7 @@ define(["../entity/character/character"], function(Character) {
       self.sprites = null;
     },
 
-    update: function() {
+    update() {
       this.timeDifferential = (new Date() - this.lastUpdate) / 1000;
 
       this.animateTiles();
@@ -26,7 +26,7 @@ define(["../entity/character/character"], function(Character) {
       this.lastUpdate = new Date();
     },
 
-    animateTiles: function() {
+    animateTiles() {
       const self = this;
       const time = self.game.time;
 
@@ -35,7 +35,7 @@ define(["../entity/character/character"], function(Character) {
       });
     },
 
-    updateEntities: function() {
+    updateEntities() {
       const self = this;
 
       self.game.entities.forEachEntity(function(entity) {
@@ -161,7 +161,7 @@ define(["../entity/character/character"], function(Character) {
       });
     },
 
-    updateFading: function(entity) {
+    updateFading(entity) {
       const self = this;
 
       if (!entity || !entity.fading) return;
@@ -176,7 +176,7 @@ define(["../entity/character/character"], function(Character) {
       } else entity.fadingAlpha = dt / duration;
     },
 
-    updateKeyboard: function() {
+    updateKeyboard() {
       const self = this;
       const player = self.game.player;
       const position = {
@@ -194,7 +194,7 @@ define(["../entity/character/character"], function(Character) {
       if (player.hasKeyboardMovement()) self.input.keyMove(position);
     },
 
-    updateAnimations: function() {
+    updateAnimations() {
       const self = this;
       const target = self.input.targetAnimation;
 
@@ -208,17 +208,17 @@ define(["../entity/character/character"], function(Character) {
       if (sparks) sparks.update(self.game.time);
     },
 
-    updateInfos: function() {
+    updateInfos() {
       if (this.game.info) this.game.info.update(this.game.time);
     },
 
-    updateBubbles: function() {
+    updateBubbles() {
       if (this.game.bubble) this.game.bubble.update(this.game.time);
 
       if (this.game.pointer) this.game.pointer.update();
     },
 
-    setSprites: function(sprites) {
+    setSprites(sprites) {
       this.sprites = sprites;
     }
   });

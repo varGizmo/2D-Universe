@@ -1,13 +1,13 @@
 define(function() {
   return Class.extend({
-    init: function(start, duration) {
+    init(start, duration) {
       const self = this;
 
       self.time = start;
       self.duration = duration;
     },
 
-    isOver: function(time) {
+    isOver(time) {
       const self = this;
       let over = false;
 

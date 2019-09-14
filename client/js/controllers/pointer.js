@@ -1,6 +1,6 @@
 define(["jquery", "../renderer/pointers/pointer"], function($, Pointer) {
   return Class.extend({
-    init: function(game) {
+    init(game) {
       const self = this;
 
       self.game = game;
@@ -11,7 +11,7 @@ define(["jquery", "../renderer/pointers/pointer"], function($, Pointer) {
       self.container = $("#bubbles");
     },
 
-    create: function(id, type) {
+    create(id, type) {
       const self = this;
 
       if (id in self.pointers) return;
@@ -25,7 +25,7 @@ define(["jquery", "../renderer/pointers/pointer"], function($, Pointer) {
       self.pointers[id] = new Pointer(id, element, type);
     },
 
-    resize: function() {
+    resize() {
       const self = this;
 
       _.each(self.pointers, function(pointer) {
@@ -50,7 +50,7 @@ define(["jquery", "../renderer/pointers/pointer"], function($, Pointer) {
       });
     },
 
-    setSize: function(element) {
+    setSize(element) {
       const self = this;
 
       self.updateScale();
@@ -65,7 +65,7 @@ define(["jquery", "../renderer/pointers/pointer"], function($, Pointer) {
       });
     },
 
-    clean: function() {
+    clean() {
       const self = this;
 
       _.each(self.pointers, function(pointer) {
@@ -75,14 +75,14 @@ define(["jquery", "../renderer/pointers/pointer"], function($, Pointer) {
       self.pointers = {};
     },
 
-    destroy: function(pointer) {
+    destroy(pointer) {
       const self = this;
 
       delete self.pointers[pointer.id];
       pointer.destroy();
     },
 
-    set: function(pointer, posX, posY) {
+    set(pointer, posX, posY) {
       const self = this;
 
       self.updateScale();
@@ -100,7 +100,7 @@ define(["jquery", "../renderer/pointers/pointer"], function($, Pointer) {
       pointer.element.css("top", y + "px");
     },
 
-    setToEntity: function(entity) {
+    setToEntity(entity) {
       const self = this;
       const pointer = self.get(entity.id);
 
@@ -109,7 +109,7 @@ define(["jquery", "../renderer/pointers/pointer"], function($, Pointer) {
       self.set(pointer, entity.x, entity.y);
     },
 
-    setToPosition: function(id, x, y) {
+    setToPosition(id, x, y) {
       const self = this;
       const pointer = self.get(id);
 
@@ -120,7 +120,7 @@ define(["jquery", "../renderer/pointers/pointer"], function($, Pointer) {
       self.set(pointer, x, y);
     },
 
-    setRelative: function(id, x, y) {
+    setRelative(id, x, y) {
       const self = this;
       const pointer = self.get(id);
 
@@ -145,7 +145,7 @@ define(["jquery", "../renderer/pointers/pointer"], function($, Pointer) {
       pointer.element.css("top", y * scale - offsetY + "px");
     },
 
-    update: function() {
+    update() {
       const self = this;
 
       _.each(self.pointers, function(pointer) {
@@ -167,7 +167,7 @@ define(["jquery", "../renderer/pointers/pointer"], function($, Pointer) {
       });
     },
 
-    get: function(id) {
+    get(id) {
       const self = this;
 
       if (id in self.pointers) return self.pointers[id];
@@ -175,19 +175,19 @@ define(["jquery", "../renderer/pointers/pointer"], function($, Pointer) {
       return null;
     },
 
-    updateScale: function() {
+    updateScale() {
       this.scale = this.getDrawingScale();
     },
 
-    updateCamera: function() {
+    updateCamera() {
       this.camera = this.game.renderer.camera;
     },
 
-    getScale: function() {
+    getScale() {
       return this.game.getScaleFactor();
     },
 
-    getDrawingScale: function() {
+    getDrawingScale() {
       return this.game.renderer.getDrawingScale();
     }
   });
