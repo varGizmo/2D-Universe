@@ -1,1 +1,3 @@
-client/lib
+*.min.*
+client/lib/
+client/js/lib/

@@ -4,8 +4,8 @@ define(["jquery", "../page"], function($, Page) {
   return Class.extend({
     // TODO - Hide crpyto mining option on mobiles and completely disable it.
 
-    init(game) {
-      const self = this;
+    init: function(game) {
+      var self = this;
 
       self.game = game;
       self.audio = game.audio;
@@ -34,8 +34,8 @@ define(["jquery", "../page"], function($, Page) {
       self.load();
     },
 
-    load() {
-      const self = this;
+    load: function() {
+      var self = this;
 
       if (self.loaded) return;
 
@@ -79,7 +79,7 @@ define(["jquery", "../page"], function($, Page) {
       });
 
       self.soundCheck.click(function() {
-        const isActive = self.soundCheck.hasClass("active");
+        var isActive = self.soundCheck.hasClass("active");
 
         self.setSound(!isActive);
 
@@ -96,7 +96,7 @@ define(["jquery", "../page"], function($, Page) {
       });
 
       self.cameraCheck.click(function() {
-        const active = self.cameraCheck.hasClass("active");
+        var active = self.cameraCheck.hasClass("active");
 
         if (active) self.renderer.camera.decenter();
         else self.renderer.camera.center();
@@ -107,7 +107,7 @@ define(["jquery", "../page"], function($, Page) {
       });
 
       self.debugCheck.click(function() {
-        const active = self.debugCheck.hasClass("active");
+        var active = self.debugCheck.hasClass("active");
 
         self.debugCheck.toggleClass("active");
 
@@ -117,7 +117,7 @@ define(["jquery", "../page"], function($, Page) {
       });
 
       self.centreCheck.click(function() {
-        const active = self.centreCheck.hasClass("active");
+        var active = self.centreCheck.hasClass("active");
 
         self.centreCheck.toggleClass("active");
 
@@ -127,7 +127,7 @@ define(["jquery", "../page"], function($, Page) {
       });
 
       self.nameCheck.click(function() {
-        const active = self.nameCheck.hasClass("active");
+        var active = self.nameCheck.hasClass("active");
 
         self.nameCheck.toggleClass("active");
 
@@ -137,7 +137,7 @@ define(["jquery", "../page"], function($, Page) {
       });
 
       self.levelCheck.click(function() {
-        const active = self.levelCheck.hasClass("active");
+        var active = self.levelCheck.hasClass("active");
 
         self.levelCheck.toggleClass("active");
 
@@ -170,114 +170,114 @@ define(["jquery", "../page"], function($, Page) {
       self.loaded = true;
     },
 
-    show() {
+    show: function() {
       this.body.fadeIn("slow");
     },
 
-    hide() {
+    hide: function() {
       this.body.fadeOut("fast");
     },
 
-    setMusicLevel(musicLevel) {
-      const self = this;
+    setMusicLevel: function(musicLevel) {
+      var self = this;
 
       self.storage.data.settings.music = musicLevel;
       self.storage.save();
     },
 
-    setSFXLevel(sfxLevel) {
-      const self = this;
+    setSFXLevel: function(sfxLevel) {
+      var self = this;
 
       self.storage.data.settings.sfx = sfxLevel;
       self.storage.save();
     },
 
-    setBrightness(brightness) {
-      const self = this;
+    setBrightness: function(brightness) {
+      var self = this;
 
       self.storage.data.settings.brightness = brightness;
       self.storage.save();
     },
 
-    setSound(state) {
-      const self = this;
+    setSound: function(state) {
+      var self = this;
 
       self.storage.data.settings.soundEnabled = state;
       self.storage.save();
     },
 
-    setCamera(state) {
-      const self = this;
+    setCamera: function(state) {
+      var self = this;
 
       self.storage.data.settings.centerCamera = state;
       self.storage.save();
     },
 
-    setDebug(state) {
-      const self = this;
+    setDebug: function(state) {
+      var self = this;
 
       self.storage.data.settings.debug = state;
       self.storage.save();
     },
 
-    setCentre(state) {
-      const self = this;
+    setCentre: function(state) {
+      var self = this;
 
       self.storage.data.settings.autoCentre = state;
       self.storage.save();
     },
 
-    setName(state) {
-      const self = this;
+    setName: function(state) {
+      var self = this;
 
       self.storage.data.settings.showNames = state;
       self.storage.save();
     },
 
-    setLevel(state) {
-      const self = this;
+    setLevel: function(state) {
+      var self = this;
 
       self.storage.data.settings.showLevels = state;
       self.storage.save();
     },
 
-    getMusicLevel() {
+    getMusicLevel: function() {
       return this.storage.data.settings.music;
     },
 
-    getSFXLevel() {
+    getSFXLevel: function() {
       return this.storage.data.settings.sfx;
     },
 
-    getBrightness() {
+    getBrightness: function() {
       return this.storage.data.settings.brightness;
     },
 
-    getSound() {
+    getSound: function() {
       return this.storage.data.settings.soundEnabled;
     },
 
-    getCamera() {
+    getCamera: function() {
       return this.storage.data.settings.centerCamera;
     },
 
-    getDebug() {
+    getDebug: function() {
       return this.storage.data.settings.debug;
     },
 
-    getCentreCap() {
+    getCentreCap: function() {
       return this.storage.data.settings.autoCentre;
     },
 
-    getName() {
+    getName: function() {
       return this.storage.data.settings.showNames;
     },
 
-    getLevel() {
+    getLevel: function() {
       return this.storage.data.settings.showLevels;
     },
 
-    isVisible() {
+    isVisible: function() {
       return this.body.css("display") === "block";
     }
   });

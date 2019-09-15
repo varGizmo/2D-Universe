@@ -467,7 +467,7 @@ class Player extends Character {
   teleport(x, y, isDoor, animate) {
     const self = this;
 
-    if (isDoor && !self.finishedTutorial()) {
+    if (isDoor) {
       if (self.doorCallback) self.doorCallback(x, y);
 
       return;
@@ -848,7 +848,7 @@ class Player extends Character {
      * other special events and determine a spawn point.
      */
 
-    return self.finishedTutorial() ? { x: 324, y: 86 } : { x: 17, y: 557 };
+    return { x: 324, y: 86 };
   }
 
   getHit(target) {
@@ -862,7 +862,7 @@ class Player extends Character {
     }
 
     switch (self.weapon.ability) {
-      case Modules.Enchantment.Critical: {
+      case Modules.Enchantment.Critical:
         /**
          * Still experimental, not sure how likely it is that you're
          * gonna do a critical strike. I just do not want it getting
@@ -873,7 +873,7 @@ class Player extends Character {
         const damage = defaultDamage * multiplier;
 
         return new Hit(Modules.Hits.Critical, damage);
-      }
+
       case Modules.Enchantment.Stun:
         return new Hit(Modules.Hits.Stun, defaultDamage);
 
@@ -1002,14 +1002,6 @@ class Player extends Character {
     );
   }
 
-  finishedTutorial() {
-    const self = this;
-
-    if (!self.quests || config.offlineMode) return true;
-
-    return self.quests.getQuest(0).isFinished();
-  }
-
   checkRegions() {
     const self = this;
 
@@ -1025,16 +1017,15 @@ class Player extends Character {
     }
   }
 
+  /**
+   * Server-sided callbacks towards movement should
+   * not be able to be overwritten. In the case that
+   * this is used (for Quests most likely) the server must
+   * check that no hacker removed the constraint in the client-side.
+   * If they are not within the bounds, apply the according punishment.
+   */
   movePlayer() {
     const self = this;
-
-    /**
-     * Server-sided callbacks towards movement should
-     * not be able to be overwritten. In the case that
-     * this is used (for Quests most likely) the server must
-     * check that no hacker removed the constraint in the client-side.
-     * If they are not within the bounds, apply the according punishment.
-     */
 
     self.send(new Messages.Movement(Packets.MovementOpcode.Started));
   }

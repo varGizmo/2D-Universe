@@ -169,13 +169,13 @@ define(["jquery"], function($) {
         self.game.input.moveCursor();
       });
 
-      self.canvas.click(function(event) {
-        if (!self.game || !self.game.started || event.button !== 0) return;
+      // self.canvas.click(function(event) {
+      //   if (!self.game || !self.game.started || event.button !== 0) return;
 
-        window.scrollTo(0, 1);
+      //   window.scrollTo(0, 1);
 
-        self.game.input.handle(Modules.InputType.LeftClick, event);
-      });
+      //   self.game.input.handle(Modules.InputType.LeftClick, event);
+      // });
 
       $("input[type=\"range\"]").on("input", function() {
         self.updateRange($(this));

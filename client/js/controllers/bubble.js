@@ -15,7 +15,7 @@ define(["jquery", "../renderer/bubbles/blob"], function($, Blob) {
       const self = this;
 
       if (self.bubbles[id]) {
-        self.bubbles[id].reset(time);
+        self.bubbles[id].reset(self.bubbles[id].time);
         $("#" + id + " p").html(message);
       } else {
         const element = $(
@@ -47,7 +47,7 @@ define(["jquery", "../renderer/bubbles/blob"], function($, Blob) {
       const width = parseInt(bubble.element.css("width")) + 24;
       const offset = width / 2 - tileSize / 2;
       const offsetY = 10;
-      let y;
+      let y = 0;
 
       y = (entity.y - self.game.getCamera().y) * scale - tileSize * 2 - offsetY;
 

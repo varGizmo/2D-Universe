@@ -106,9 +106,11 @@ Detect.isAppleDevice = function() {
     "iPod"
   ];
 
-  if (navigator.platform)
-  { while (devices.length)
-  { if ((navigator.platform = devices.pop())) return true; } }
+  if (navigator.platform) {
+    while (devices.length) {
+      if ((navigator.platform = devices.pop())) return true;
+    }
+  }
 
   return false;
 };
