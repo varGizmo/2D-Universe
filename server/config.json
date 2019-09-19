@@ -1,6 +1,6 @@
 {
   "name": "Gizmo",
-  "host": "167.71.98.17",
+  "host": "0.0.0.0",
   "port": 5000,
   "offlineMode": false,
   "devClient": true,
@@ -21,6 +21,6 @@
   "gver": 1,
   "updateTime": 200,
   "forceCollisions": false,
-  "administrators": ["Potato King"],
+  "administrators": [],
   "moderators": []
 }
