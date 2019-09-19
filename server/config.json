@@ -17,9 +17,9 @@
   "debugLevel": "info",
   "localDebug": false,
   "worlds": 1,
-  "maxPlayers": 200,
+  "maxPlayers": 10,
   "gver": 1,
-  "updateTime": 200,
+  "updateTime": 100,
   "forceCollisions": false,
   "administrators": ["Gizmo"],
   "moderators": []
