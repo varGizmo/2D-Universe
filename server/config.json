@@ -1,6 +1,6 @@
 {
   "name": "Gizmo",
-  "host": "0.0.0.0",
+  "host": "167.71.98.17",
   "port": 5000,
   "offlineMode": false,
   "devClient": true,
