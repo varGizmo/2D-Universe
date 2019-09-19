@@ -21,6 +21,6 @@
   "gver": 1,
   "updateTime": 100,
   "forceCollisions": false,
-  "administrators": ["Gizmo"],
+  "administrators": [gizmo,],
   "moderators": []
 }
