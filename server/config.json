@@ -4,7 +4,7 @@
   "port": 5000,
   "offlineMode": false,
   "devClient": true,
-  "development": false,
+  "development": true,
   "overrideAuth": false,
   "debug": false,
   "useAPI": false,
