@@ -9,7 +9,7 @@
   "debug": false,
   "useAPI": false,
   "database": "mongodb",
-  "mongoHost": "167.71.98.17",
+  "mongoHost": "0.0.0.0",
   "mongoPort": "27017",
   "mongoUser": "admin",
   "mongoPassword": "password",
