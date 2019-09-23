@@ -38,9 +38,8 @@ define(["../lib/astar"], function(AStar) {
 
       path = AStar(self.grid, start, end);
 
-      if (path.length === 0 && incomplete) {
-        path = self.findIncomplete(start, end);
-      }
+      if (path.length === 0 && incomplete)
+      { path = self.findIncomplete(start, end); }
 
       return path;
     },
@@ -48,7 +47,7 @@ define(["../lib/astar"], function(AStar) {
     findIncomplete(start, end) {
       const self = this;
       let incomplete = [];
-      let perfect = null;
+      let perfect;
       let x;
       let y;
 

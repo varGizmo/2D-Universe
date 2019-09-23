@@ -555,7 +555,7 @@ class Incoming {
         return;
       }
 
-      log.info(`${self.player.username} - ${text}`);
+      log.info(`${self.player.name} - ${text}`);
 
       self.world.push(Packets.PushOpcode.Region, {
         regionId: self.player.region,

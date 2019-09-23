@@ -19,16 +19,16 @@ class Introduction extends Quest {
   load(stage) {
     const self = this;
 
-    // if (!self.player.inTutorial()) {
-    //   self.setStage(9999);
-    //   self.update();
-    //   return;
-    // }
+    if (!self.player.inTutorial()) {
+      self.setStage(9999);
+      self.update();
+      return;
+    }
 
-    // if (!stage) self.update();
-    // else self.stage = stage;
+    if (!stage) self.update();
+    else self.stage = stage;
 
-    // self.loadCallbacks();
+    self.loadCallbacks();
   }
 
   loadCallbacks() {
@@ -127,7 +127,8 @@ class Introduction extends Quest {
   }
 
   toggleChat() {
-    this.player.canTalk = !this.player.canTalk;
+    // TODO: Player Chat Lock
+    // this.player.canTalk = !this.player.canTalk;
   }
 
   setStage(stage) {

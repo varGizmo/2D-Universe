@@ -44,8 +44,7 @@ Packets = {
   Minigame: 42,
   Region: 43,
   Overlay: 44,
-  Camera: 45,
-  Error: 46
+  Camera: 45
 };
 
 Packets.IntroOpcode = {

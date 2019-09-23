@@ -80,8 +80,6 @@ define([
 
       self.loadRenderer();
       self.loadControllers();
-
-      window.onerror = err => self.socket.send(Packets.Error, err);
     },
 
     start() {
@@ -347,13 +345,14 @@ define([
       this.input.handle(inputType, data);
     },
 
-    /**
-     * This function is responsible for handling sudden
-     * disconnects of a player whilst in the game, not
-     * menu-based errors.
-     */
     handleDisconnection(noError) {
       const self = this;
+
+      /**
+       * This function is responsible for handling sudden
+       * disconnects of a player whilst in the game, not
+       * menu-based errors.
+       */
 
       if (!self.started) return;
 

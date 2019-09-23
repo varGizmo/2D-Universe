@@ -11,9 +11,6 @@ class Connection {
     self.socket.on("message", function(message) {
       if (self.listenCallback) self.listenCallback(JSON.parse(message));
     });
-    self.socket.on("error", err => {
-      log.error(err);
-    });
 
     self.socket.on("disconnect", function() {
       log.info("Closed socket: " + self.socket.conn.remoteAddress);
